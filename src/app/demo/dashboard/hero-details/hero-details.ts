@@ -45,26 +45,35 @@ import { ToastModule } from "primeng/toast";
 })
 export class HeroDetails implements OnInit {
   private heroService = inject(HeroService);
+
   private fb = inject(FormBuilder);
+
   private messageService = inject(MessageService);
+
   private route = inject(ActivatedRoute);
+
   private router = inject(Router);
 
   text: string | undefined;
 
-  // Signals for reactive state
   mode = signal<"create" | "edit" | "view">("create");
+
   heroId = signal<number | null>(null);
+
   isLoading = signal(false);
 
   slider!: IData;
+
   heroForm!: FormGroup;
+
   baseUrl = baseUrl;
+
   selectedFile: File | null = null;
 
-  // Computed properties
   isEditMode = computed(() => this.mode() === "edit");
+
   isCreateMode = computed(() => this.mode() === "create");
+
   isViewMode = computed(() => this.mode() === "view");
 
   // Form validation including file check for create mode

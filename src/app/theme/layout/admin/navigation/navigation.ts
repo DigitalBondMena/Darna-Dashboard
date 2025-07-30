@@ -65,6 +65,14 @@ export const NavigationItems: NavigationItem[] = [
         icon: "pi pi-sparkles",
       },
       {
+        id: "testimonials",
+        title: "Testimonials",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/testimonials",
+        icon: "pi pi-comments",
+      },
+      {
         id: "partners",
         title: "Partners",
         type: "item",

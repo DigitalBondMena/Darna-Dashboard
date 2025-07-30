@@ -39,6 +39,8 @@
                   placeholder="Enter en slider description"
                   formControlName="en_description"
                   [readonly]="isViewMode()"
+                  [disabled]="isViewMode()"
+                  [ngClass]="{ 'editor-disabled': isViewMode() }"
                   [style]="{ height: '320px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
               </div>
               <!-- Alt Image Field -->
@@ -97,7 +99,11 @@
                   placeholder="Enter ar slider description"
                   formControlName="ar_description"
                   [readonly]="isViewMode()"
-                  [style]="{ height: '320px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                  [disabled]="isViewMode()"
+                  [ngClass]="{ 'editor-disabled': isViewMode() }"
+                  [style]="{ 
+                    height: '320px', 
+                  }" />
               </div>
               <!-- Alt Image Field -->
               <div class="field mb-3">

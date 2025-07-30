@@ -1,0 +1,7 @@
+.editor-disabled {
+  pointer-events: none;
+}
+::ng-deep .ql-disabled .ql-editor {
+  background-color: #cbd5e1 !important;
+  color: #475569;
+}
