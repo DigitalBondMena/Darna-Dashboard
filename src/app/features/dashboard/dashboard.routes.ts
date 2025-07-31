@@ -85,9 +85,9 @@ export const dashboardRoutes: Routes = [
   },
   {
     path: "testimonials",
-    loadComponent: () =>
-      import("@demo/dashboard/testimonials/testimonials").then(
-        (c) => c.Testimonials
+    loadChildren: () =>
+      import("@features/dashboard/testimonials/testimonials.route").then(
+        (c) => c.testimonialsRoutes
       ),
   },
   {
