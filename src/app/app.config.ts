@@ -1,4 +1,8 @@
-import { provideHttpClient } from "@angular/common/http";
+import {
+  provideHttpClient,
+  withFetch,
+  withInterceptors,
+} from "@angular/common/http";
 import { ApplicationConfig } from "@angular/core";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
 import { provideRouter } from "@angular/router";
@@ -17,6 +21,7 @@ import { GuestComponent } from "@theme/layout/guest/guest.component";
 import { MessageService } from "primeng/api";
 import { AuthGuard } from "./core/guards/auth.guard";
 import { GuestGuard } from "./core/guards/guest.guard";
+import { loaderInterceptor } from "./core/loader-interceptor";
 
 const routes: Routes = [
   {
@@ -49,7 +54,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(),
+    provideHttpClient(withFetch(), withInterceptors([loaderInterceptor])),
     MessageService,
     providePrimeNG({
       theme: {

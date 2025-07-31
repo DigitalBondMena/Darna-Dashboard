@@ -172,7 +172,7 @@
   dependencies:
     "@angular-eslint/bundled-angular-compiler" "20.1.1"
 
-"@angular/animations@^20.0.4", "@angular/animations@20.0.5":
+"@angular/animations@^20.0.4", "@angular/animations@>=19.0.0", "@angular/animations@20.0.5":
   version "20.0.5"
   resolved "https://registry.npmjs.org/@angular/animations/-/animations-20.0.5.tgz"
   integrity sha512-v8dzr2tnju7Sa7XUhMY6yTJpRV3isMqP3mnOjrul2kkEY870a1tZ7VI7xp0qTx36086/+nzXAvOvOItmRkUaaQ==
@@ -4733,6 +4733,13 @@ ngx-scrollbar@18.0.0:
   version "18.0.0"
   resolved "https://registry.npmjs.org/ngx-scrollbar/-/ngx-scrollbar-18.0.0.tgz"
   integrity sha512-+ykmY491x+nzXvnecJvZHvDz0YWuX1r7SYMxNG4RVHXm5Z68P/8kd/3ryLD6DXdNWmJawd4NGvqq2ZkUKb/g3A==
+  dependencies:
+    tslib "^2.3.0"
+
+ngx-spinner@^19.0.0:
+  version "19.0.0"
+  resolved "https://registry.npmjs.org/ngx-spinner/-/ngx-spinner-19.0.0.tgz"
+  integrity sha512-UqmYvLfPyA1AkLw3xGe7NscIiJVG7u9j7NMW10J38Kp8EXv8l/pQdLlqFJS5x70dbRkt90lvOIvEBZM8b/rN7g==
   dependencies:
     tslib "^2.3.0"
 

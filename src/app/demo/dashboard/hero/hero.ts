@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from "@angular/router";
 import { baseUrl } from "@app/core/env";
 import { IData } from "@app/features/dashboard/hero/models";
 import { HeroService } from "@app/features/dashboard/hero/services/hero";
+import { NgxSpinnerService } from "ngx-spinner";
 import { ButtonModule } from "primeng/button";
 import { SkeletonModule } from "primeng/skeleton";
 import { TableModule } from "primeng/table";
@@ -42,8 +43,11 @@ export class Hero implements OnInit {
     const id = this.route.snapshot.queryParamMap.get("id");
     return id;
   }
+  spinner = inject(NgxSpinnerService);
 
   ngOnInit() {
+    this.spinner.show();
+
     this.heroService.getSliders().subscribe((data) => {
       this.sliders = data.data;
     });
