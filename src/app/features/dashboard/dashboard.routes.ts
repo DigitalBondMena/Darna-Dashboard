@@ -70,23 +70,13 @@ export const dashboardRoutes: Routes = [
         (c) => c.partnersRoutes
       ),
   },
-  {
-    path: "services",
-    loadComponent: () =>
-      import("@demo/dashboard/service/service").then((c) => c.Service),
-  },
+
   {
     path: "projects",
     loadComponent: () =>
       import("@demo/dashboard/projects/projects").then((c) => c.Projects),
   },
-  {
-    path: "achievements",
-    loadComponent: () =>
-      import("@demo/dashboard/achievements/achievements").then(
-        (c) => c.Achievements
-      ),
-  },
+
   {
     path: "contact-us",
     loadComponent: () =>
@@ -126,6 +116,33 @@ export const dashboardRoutes: Routes = [
     loadChildren: () =>
       import("@app/features/dashboard/blogs/blog.route").then(
         (c) => c.blogRoutes
+      ),
+  },
+  {
+    path: "privacy-policy",
+    loadComponent: () =>
+      import("@demo/dashboard/privacy-policy/privacy-policy").then(
+        (c) => c.PrivacyPolicy
+      ),
+  },
+  {
+    path: "counters",
+    loadChildren: () =>
+      import("@app/features/dashboard/counter/counter.routes").then(
+        (c) => c.counterRoutes
+      ),
+  },
+  {
+    path: "seo",
+    loadChildren: () =>
+      import("@app/features/dashboard/seo/seo.route").then((c) => c.seoRoutes),
+  },
+
+  {
+    path: "careers-form",
+    loadChildren: () =>
+      import("@app/features/dashboard/careers-form/careeers.route").then(
+        (c) => c.careersRoute
       ),
   },
 ];

@@ -1,24 +1,24 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { baseUrl } from "@app/core/env";
-import { IBannerData } from "@app/features/dashboard/banners/model";
-import { BannersService } from "@app/features/dashboard/banners/service/banners";
+import { ISeoData } from "@app/features/dashboard/seo/model";
+import { SeoService } from "@app/features/dashboard/seo/service/seo";
 import { TableSharedModule } from "@app/theme/shared/module/shared/table-shared.module";
 
 @Component({
-  selector: "app-banners",
+  selector: "app-seo",
   imports: [TableSharedModule],
-  templateUrl: "./banners.html",
-  styleUrl: "./banners.scss",
+  templateUrl: "./seo.html",
+  styleUrl: "./seo.scss",
 })
-export class Banners implements OnInit {
+export class Seo implements OnInit {
   private route = inject(ActivatedRoute);
 
-  banners!: IBannerData[];
+  seo!: ISeoData[];
 
   baseUrl = baseUrl;
 
-  partnersService = inject(BannersService);
+  seoService = inject(SeoService);
 
   getMode() {
     const mode = this.route.snapshot.queryParamMap.get("mode");
@@ -31,8 +31,8 @@ export class Banners implements OnInit {
   }
 
   ngOnInit() {
-    this.partnersService.getBanners().subscribe((data) => {
-      this.banners = data.data;
+    this.seoService.getSeoList().subscribe((data) => {
+      this.seo = data.data;
     });
   }
 }

@@ -108,15 +108,15 @@
                   Meta Description
                   <span class="text-red-500">*</span>
                 </label>
-                <div class="card">
-                  <p-editor
-                    placeholder="Enter English meta description"
-                    formControlName="en_meta_text"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '150px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
-                </div>
+                <textarea
+                  pInputTextarea
+                  id="en_meta_text"
+                  formControlName="en_meta_text"
+                  placeholder="Enter English meta description"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
               </div>
 
               <!-- First Script Text Field (Textarea) -->
@@ -145,15 +145,16 @@
                   class="block text-900 font-medium mb-2">
                   Second Script Text
                 </label>
-                <div class="card">
-                  <p-editor
-                    placeholder="Enter English second script text"
-                    formControlName="en_second_script_text"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '150px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
-                </div>
+                <textarea
+                  pInputTextarea
+                  class="form-control"
+                  id="en_second_script_text"
+                  formControlName="en_second_script_text"
+                  placeholder="Enter English second script text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
               </div>
             </div>
 
@@ -260,15 +261,16 @@
                   Meta Description
                   <span class="text-red-500">*</span>
                 </label>
-                <div class="card">
-                  <p-editor
-                    placeholder="Enter Arabic meta description"
-                    formControlName="ar_meta_text"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '150px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
-                </div>
+                <textarea
+                  pInputTextarea
+                  class="form-control"
+                  id="ar_meta_text"
+                  formControlName="ar_meta_text"
+                  placeholder="Enter Arabic meta description"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
               </div>
 
               <!-- First Script Text Field (Textarea) -->
@@ -290,22 +292,22 @@
                 </textarea>
               </div>
 
-              <!-- Second Script Text Field -->
               <div class="field mb-3">
                 <label
                   for="ar_second_script_text"
                   class="block text-900 font-medium mb-2">
                   Second Script Text
                 </label>
-                <div class="card">
-                  <p-editor
-                    placeholder="Enter Arabic second script text"
-                    formControlName="ar_second_script_text"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '150px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
-                </div>
+                <textarea
+                  pInputTextarea
+                  class="form-control"
+                  id="ar_second_script_text"
+                  formControlName="ar_second_script_text"
+                  placeholder="Enter Arabic second script text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
               </div>
             </div>
 
@@ -358,26 +360,9 @@
                 <!-- Image validation message for create mode -->
                 <small
                   class="p-error block"
-                  *ngIf="isCreateMode() && !selectedFile">
+                  *ngIf="isCreateMode() && !selectedFile && blogForm.get('main_image')?.invalid">
                   Image is required for creating a new blog.
                 </small>
-              </div>
-
-              <!-- Current Image Display -->
-              {{blog?.main_image}}
-              <div class="col-12" *ngIf="blog?.main_image">
-                <div class="field">
-                  <label class="block text-900 font-medium mb-2"
-                    >{{ isViewMode() ? 'Image' : 'Current Image' }}</label
-                  >
-                  <div class="border-1 border-300 border-round p-3 text-center">
-                    <img
-                      [src]="baseUrl + blog.main_image"
-                      [alt]="blog.en_alt_image"
-                      class="w-full max-w-20rem h-auto border-round shadow-2"
-                      style="max-height: 300px; object-fit: cover" />
-                  </div>
-                </div>
               </div>
             </div>
 

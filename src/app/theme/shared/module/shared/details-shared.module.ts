@@ -5,6 +5,7 @@ import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { FileUploadModule } from "primeng/fileupload";
 import { InputTextModule } from "primeng/inputtext";
+import { TagModule } from "primeng/tag";
 import { ToastModule } from "primeng/toast";
 
 @NgModule({
@@ -15,6 +16,7 @@ import { ToastModule } from "primeng/toast";
     ButtonModule,
     InputTextModule,
     CardModule,
+    TagModule,
     ToastModule,
     FormsModule,
     ReactiveFormsModule,
@@ -25,6 +27,7 @@ import { ToastModule } from "primeng/toast";
     ButtonModule,
     InputTextModule,
     CardModule,
+    TagModule,
     ToastModule,
     FormsModule,
     ReactiveFormsModule,

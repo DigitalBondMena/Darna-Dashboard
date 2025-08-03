@@ -2,34 +2,34 @@
   <h2>Banners Management</h2>
 </div>
 
-<p-table [value]="partners" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table [value]="banners" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
-      <th>name</th>
+      <th>Page Name</th>
       <th>Image</th>
       <th>View</th>
       <th>Edit</th>
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-slider>
+  <ng-template pTemplate="body" let-banner>
     <tr>
-      <td>{{ slider.id }}</td>
-      <td>{{ slider.page_name }}</td>
+      <td>{{ banner.id }}</td>
+      <td>{{ banner.page_name }}</td>
       <td>
         <img
-          [src]="baseUrl + slider.main_image"
+          [src]="baseUrl + banner.main_image"
           alt="slider"
           [style]="{ width: '50px', height: '50px', borderRadius: '50%' }" />
       </td>
       <td>
-        <a [routerLink]="['view', slider.id]">
+        <a [routerLink]="['view', banner.id]">
           <i class="pi pi-eye" style="color: #673ab7"></i>
         </a>
       </td>
       <td>
-        <a [routerLink]="['edit', slider.id]">
+        <a [routerLink]="['edit', banner.id]">
           <i class="pi pi-pencil" style="color: #673ab7"></i>
         </a>
       </td>

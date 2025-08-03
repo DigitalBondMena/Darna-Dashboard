@@ -64,11 +64,11 @@ export class BannerId implements OnInit {
   pageTitle = computed(() => {
     switch (this.mode()) {
       case "edit":
-        return "Edit Slider Mode";
+        return "Edit Banner Mode";
       case "view":
-        return "View Slider Mode";
+        return "View Banner Mode";
       default:
-        return "Slider Form";
+        return "Banner Form";
     }
   });
 
@@ -102,7 +102,7 @@ export class BannerId implements OnInit {
       const id = params["id"];
       if (id) {
         this.heroId.set(+id);
-        this.loadSliderData(+id);
+        this.loadBannerData(+id);
       }
     });
   }
@@ -116,7 +116,7 @@ export class BannerId implements OnInit {
     });
   }
 
-  loadSliderData(id?: number) {
+  loadBannerData(id?: number) {
     const bannerId = id || this.heroId() || 1;
 
     this.bannerService.getBanner(bannerId).subscribe({
@@ -130,11 +130,11 @@ export class BannerId implements OnInit {
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error("Error loading slider data:", error);
+        console.error("Error loading Banner data:", error);
         this.messageService.add({
           severity: "error",
           summary: "Error",
-          detail: "Failed to load slider data",
+          detail: "Failed to load Banner data",
         });
         this.isLoading.set(false);
       },
@@ -181,10 +181,10 @@ export class BannerId implements OnInit {
     if (this.bannerForm.invalid || this.isViewMode()) return;
 
     this.isLoading.set(true);
-    this.updateSliderHero();
+    this.updateBannerHero();
   }
 
-  updateSliderHero() {
+  updateBannerHero() {
     if (this.bannerForm.valid) {
       this.isLoading.set(true);
       const formData = this.bannerForm.value;
@@ -199,16 +199,16 @@ export class BannerId implements OnInit {
             this.messageService.add({
               severity: "success",
               summary: "Success",
-              detail: "Slider updated successfully",
+              detail: "Banner updated successfully",
             });
-            this.loadSliderData(); // Reload to get updated image
+            this.loadBannerData(); // Reload to get updated image
           },
           error: (error) => {
-            console.error("Error updating slider:", error);
+            console.error("Error updating Banner:", error);
             this.messageService.add({
               severity: "error",
               summary: "Error",
-              detail: "Failed to update slider",
+              detail: "Failed to update Banner",
             });
             this.isLoading.set(false);
           },
@@ -226,7 +226,7 @@ export class BannerId implements OnInit {
     this.router.navigate(["/dashboard/banners"]);
   }
 
-  onEditSlider() {
+  onEditBanner() {
     if (this.heroId()) {
       this.router.navigate(["../../edit", this.heroId()], {
         relativeTo: this.route,

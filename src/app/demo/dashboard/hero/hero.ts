@@ -59,7 +59,17 @@ export class Hero implements OnInit {
     return false;
   }
 
+  onToggleChange(slider: IData) {
+    console.log("Current slider status:", slider.active_status);
+    if (Number(slider.active_status) === 1) {
+      this.onDelete(slider.id);
+    } else {
+      this.onActive(slider.id);
+    }
+  }
+
   onDelete(id: number) {
+    console.log("deleted", id);
     this.heroService.disableSlider(id).subscribe(() => {
       this.heroService.getSliders().subscribe((data) => {
         this.sliders = data.data;
@@ -67,6 +77,8 @@ export class Hero implements OnInit {
     });
   }
   onActive(id: number) {
+    console.log("active", id);
+
     this.heroService.activeSlider(id).subscribe(() => {
       this.heroService.getSliders().subscribe((data) => {
         this.sliders = data.data;

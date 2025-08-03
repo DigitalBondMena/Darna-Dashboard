@@ -12,18 +12,17 @@ import { baseUrl } from "@app/core/env";
 import { DetailsSharedModule } from "@app/theme/shared/module/shared/details-shared.module";
 import { MessageService } from "primeng/api";
 import { Editor } from "primeng/editor";
-import { TextareaModule } from "primeng/textarea";
-import { IBlogData } from "../model/blog";
-import { BlogService } from "../service/blog";
+import { ICounterData } from "../models";
+import { CounterService } from "../service/counter";
 
 @Component({
-  selector: "app-blog-id",
-  imports: [DetailsSharedModule, Editor, TextareaModule],
-  templateUrl: "./blog-id.html",
-  styleUrl: "./blog-id.scss",
+  selector: "app-counter-id",
+  imports: [DetailsSharedModule, Editor],
+  templateUrl: "./counter-id.html",
+  styleUrl: "./counter-id.scss",
 })
-export class BlogId implements OnInit {
-  private blogService = inject(BlogService);
+export class Counter implements OnInit {
+  private counterService = inject(CounterService);
 
   private fb = inject(FormBuilder);
 
@@ -35,13 +34,13 @@ export class BlogId implements OnInit {
 
   mode = signal<"create" | "edit" | "view">("create");
 
-  blogId = signal<number | null>(null);
+  counterId = signal<number | null>(null);
 
   isLoading = signal(false);
 
-  blog!: IBlogData;
+  counter!: ICounterData;
 
-  blogForm!: FormGroup;
+  counterForm!: FormGroup;
 
   baseUrl = baseUrl;
 
@@ -55,9 +54,9 @@ export class BlogId implements OnInit {
 
   // Form validation including file check for create mode
   isFormValid = computed(() => {
-    if (!this.blogForm) return false;
+    if (!this.counterForm) return false;
 
-    const formValid = this.blogForm.valid;
+    const formValid = this.counterForm.valid;
 
     // In create mode, also require image file
     if (this.isCreateMode()) {
@@ -83,11 +82,11 @@ export class BlogId implements OnInit {
   constructor() {
     // Effect to handle form enable/disable based on mode
     effect(() => {
-      if (this.blogForm) {
+      if (this.counterForm) {
         if (this.isViewMode()) {
-          this.blogForm.disable();
+          this.counterForm.disable();
         } else {
-          this.blogForm.enable();
+          this.counterForm.enable();
         }
       }
     });
@@ -109,54 +108,36 @@ export class BlogId implements OnInit {
     this.route.params.subscribe((params) => {
       const id = params["id"];
       if (id) {
-        this.blogId.set(+id);
-        this.loadBlogData(+id);
+        this.counterId.set(+id);
+        this.loadCounterData(+id);
       }
     });
   }
 
   initForm() {
-    this.blogForm = this.fb.group({
-      en_blog_title: ["", [Validators.required]],
-      ar_blog_title: ["", [Validators.required]],
-      en_blog_text: ["", [Validators.required]],
-      ar_blog_text: ["", [Validators.required]],
-      en_alt_image: ["", [Validators.required]],
-      ar_alt_image: ["", [Validators.required]],
-      en_meta_title: ["", [Validators.required]],
-      ar_meta_title: ["", [Validators.required]],
-      en_meta_text: ["", [Validators.required]],
-      ar_meta_text: ["", [Validators.required]],
-      en_first_script_text: ["", [Validators.required]],
-      ar_first_script_text: ["", [Validators.required]],
-      en_second_script_text: ["", [Validators.required]],
-      ar_second_script_text: ["", [Validators.required]],
+    this.counterForm = this.fb.group({
+      en_counter_title: ["", [Validators.required, Validators.minLength(3)]],
+      ar_counter_title: ["", [Validators.required, Validators.minLength(3)]],
+      counter_number: ["", [Validators.required, Validators.min(1)]],
+      en_alt_image: ["", [Validators.required, Validators.minLength(3)]],
+      ar_alt_image: ["", [Validators.required, Validators.minLength(3)]],
       // Note: main_image is handled separately as a file
     });
   }
 
-  loadBlogData(id?: number) {
-    const blogId = id || this.blogId() || 1;
+  loadCounterData(id?: number) {
+    const counterId = id || this.counterId() || 1;
 
-    this.blogService.getBlog(blogId).subscribe({
+    this.counterService.getCounter(counterId).subscribe({
       next: (data) => {
-        this.blog = data.data;
-        this.blogForm.patchValue({
-          en_blog_title: this.blog.en_blog_title,
-          ar_blog_title: this.blog.ar_blog_title,
-          en_blog_text: this.blog.en_blog_text,
-          ar_blog_text: this.blog.ar_blog_text,
-          main_image: this.blog.main_image,
-          en_alt_image: this.blog.en_alt_image,
-          ar_alt_image: this.blog.ar_alt_image,
-          en_meta_title: this.blog.en_meta_title,
-          ar_meta_title: this.blog.ar_meta_title,
-          en_meta_text: this.blog.en_meta_text,
-          ar_meta_text: this.blog.ar_meta_text,
-          en_first_script_text: this.blog.en_first_script_text,
-          ar_first_script_text: this.blog.ar_first_script_text,
-          en_second_script_text: this.blog.en_second_script_text,
-          ar_second_script_text: this.blog.ar_second_script_text,
+        this.counter = data.data;
+        this.counterForm.patchValue({
+          en_counter_title: this.counter.en_counter_title,
+          ar_counter_title: this.counter.ar_counter_title,
+          counter_number: this.counter.counter_number,
+          main_image: this.counter.main_image,
+          en_alt_image: this.counter.en_alt_image,
+          ar_alt_image: this.counter.ar_alt_image,
         });
         this.isLoading.set(false);
       },
@@ -209,9 +190,6 @@ export class BlogId implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.blogForm.value);
-    console.log(this.blogForm.controls);
-
     // Use the computed isFormValid for proper validation
     if (!this.isFormValid() || this.isViewMode()) {
       this.messageService.add({
@@ -226,16 +204,16 @@ export class BlogId implements OnInit {
     }
 
     this.isLoading.set(true);
-    const formData = this.blogForm.value;
+    const formData = this.counterForm.value;
 
     if (this.isCreateMode()) {
-      this.createBlog(formData);
+      this.createCounter(formData);
     } else if (this.isEditMode()) {
-      this.updateBlog();
+      this.updateCounter();
     }
   }
 
-  private createBlog(formData: Partial<IBlogData>) {
+  private createCounter(formData: Partial<ICounterData>) {
     // Validate that image is selected for create mode
     if (!this.selectedFile) {
       this.messageService.add({
@@ -247,41 +225,41 @@ export class BlogId implements OnInit {
       return;
     }
 
-    this.blogService
-      .addUpdateBlog(formData as IBlogData, this.selectedFile)
+    this.counterService
+      .addUpdateCounter(formData as ICounterData, this.selectedFile)
       .subscribe({
         next: (data) => {
           console.log("Create successful:", data);
           this.messageService.add({
             severity: "success",
             summary: "Success",
-            detail: "Blog created successfully",
+            detail: "Counter created successfully",
           });
-          this.router.navigate(["/dashboard/blogs"]);
+          this.router.navigate(["/dashboard/counters"]);
         },
         error: (error) => {
-          console.error("Error creating blog:", error);
+          console.error("Error creating counter:", error);
           this.messageService.add({
             severity: "error",
             summary: "Error",
-            detail: "Failed to create blog",
+            detail: "Failed to create counter",
           });
           this.isLoading.set(false);
         },
       });
   }
 
-  updateBlog() {
+  updateCounter() {
     this.isLoading.set(true);
-    const formData = this.blogForm.value;
+    const formData = this.counterForm.value;
     console.log(formData);
 
     // Pass the selected file if user uploaded a new one
-    this.blogService
-      .addUpdateBlog(
-        formData as IBlogData,
+    this.counterService
+      .addUpdateCounter(
+        formData as ICounterData,
         this.selectedFile || undefined,
-        this.blog.id
+        this.counter.id
       )
       .subscribe({
         next: (data) => {
@@ -289,17 +267,17 @@ export class BlogId implements OnInit {
           this.messageService.add({
             severity: "success",
             summary: "Success",
-            detail: "Blog updated successfully",
+            detail: "Counter updated successfully",
           });
-          this.loadBlogData(); // Reload to get updated data
+          this.loadCounterData(); // Reload to get updated data
           this.isLoading.set(false);
         },
         error: (error) => {
-          console.error("Error updating blog:", error);
+          console.error("Error updating counter:", error);
           this.messageService.add({
             severity: "error",
             summary: "Error",
-            detail: "Failed to update blog",
+            detail: "Failed to update counter",
           });
           this.isLoading.set(false);
         },
@@ -307,12 +285,12 @@ export class BlogId implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(["/dashboard/blogs"]);
+    this.router.navigate(["/dashboard/counters"]);
   }
 
-  onEditBlog() {
-    if (this.blogId()) {
-      this.router.navigate(["../../edit", this.blogId()], {
+  onEditCounter() {
+    if (this.counterId()) {
+      this.router.navigate(["../../edit", this.counterId()], {
         relativeTo: this.route,
       });
     }
