@@ -100,6 +100,14 @@ export const NavigationItems: NavigationItem[] = [
         url: "dashboard/blogs",
         icon: "pi pi-globe",
       },
+      {
+        id: "projects",
+        title: "Projects",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/projects",
+        icon: "ti ti-building",
+      },
     ],
   },
 

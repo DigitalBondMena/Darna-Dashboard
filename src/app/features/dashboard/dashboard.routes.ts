@@ -145,4 +145,12 @@ export const dashboardRoutes: Routes = [
         (c) => c.careersRoute
       ),
   },
+
+  {
+    path: "projects",
+    loadChildren: () =>
+      import("@app/features/dashboard/projects/project.routes").then(
+        (c) => c.projectsRoutes
+      ),
+  },
 ];

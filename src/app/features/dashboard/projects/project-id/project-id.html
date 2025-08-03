@@ -1,0 +1,665 @@
+<div class="grid">
+  <div class="col-12">
+    <p-card [header]="pageTitle()" styleClass="shadow-2">
+      <div class="p-fluid">
+        <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+          <!-- Form Content -->
+          <div class="grid mt-4">
+            <!-- English Content (Left Side) -->
+            <div class="col-12 md:col-6">
+              <h2 class="text-2xl font-bold mb-4">English Content</h2>
+
+              <!-- Project Name Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_project_name"
+                  class="block text-900 font-medium mb-2">
+                  Project Name
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="en_project_name"
+                  formControlName="en_project_name"
+                  placeholder="Enter English project name"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('en_project_name')?.invalid && projectForm.get('en_project_name')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('en_project_name')?.invalid && projectForm.get('en_project_name')?.touched && !isViewMode()">
+                  Project name is required.
+                </small>
+              </div>
+
+              <!-- Project Title Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_project_title"
+                  class="block text-900 font-medium mb-2">
+                  Project Title
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="en_project_title"
+                  formControlName="en_project_title"
+                  placeholder="Enter English project title"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('en_project_title')?.invalid && projectForm.get('en_project_title')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('en_project_title')?.invalid && projectForm.get('en_project_title')?.touched && !isViewMode()">
+                  Project title is required.
+                </small>
+              </div>
+
+              <!-- Project Description Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_project_description"
+                  class="block text-900 font-medium mb-2">
+                  Project Description
+                  <span class="text-red-500">*</span>
+                </label>
+                <div class="card">
+                  <p-editor
+                    placeholder="Enter English project description"
+                    formControlName="en_project_description"
+                    [readonly]="isViewMode()"
+                    [disabled]="isViewMode()"
+                    [ngClass]="{ 'editor-disabled': isViewMode() }"
+                    [style]="{ height: '300px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                </div>
+              </div>
+
+              <!-- Small Text Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_small_text"
+                  class="block text-900 font-medium mb-2">
+                  Small Text
+                  <span class="text-red-500">*</span>
+                </label>
+                <textarea
+                  pTextarea
+                  id="en_small_text"
+                  formControlName="en_small_text"
+                  placeholder="Enter English small text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
+              </div>
+
+              <!-- Alt Main Image Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_alt_main_image"
+                  class="block text-900 font-medium mb-2">
+                  Alt Main Image Text
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="en_alt_main_image"
+                  formControlName="en_alt_main_image"
+                  placeholder="Enter English alt main image text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('en_alt_main_image')?.invalid && projectForm.get('en_alt_main_image')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('en_alt_main_image')?.invalid && projectForm.get('en_alt_main_image')?.touched && !isViewMode()">
+                  Alt main image text is required.
+                </small>
+              </div>
+
+              <!-- Alt Banner Image Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_alt_banner_image"
+                  class="block text-900 font-medium mb-2">
+                  Alt Banner Image Text
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="en_alt_banner_image"
+                  formControlName="en_alt_banner_image"
+                  placeholder="Enter English alt banner image text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('en_alt_banner_image')?.invalid && projectForm.get('en_alt_banner_image')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('en_alt_banner_image')?.invalid && projectForm.get('en_alt_banner_image')?.touched && !isViewMode()">
+                  Alt banner image text is required.
+                </small>
+              </div>
+
+              <!-- Meta Title Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_meta_title"
+                  class="block text-900 font-medium mb-2">
+                  Meta Title
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="en_meta_title"
+                  formControlName="en_meta_title"
+                  placeholder="Enter English meta title"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('en_meta_title')?.invalid && projectForm.get('en_meta_title')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('en_meta_title')?.invalid && projectForm.get('en_meta_title')?.touched && !isViewMode()">
+                  Meta title is required.
+                </small>
+              </div>
+
+              <!-- Meta Description Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_meta_description"
+                  class="block text-900 font-medium mb-2">
+                  Meta Description
+                  <span class="text-red-500">*</span>
+                </label>
+                <textarea
+                  pTextarea
+                  id="en_meta_description"
+                  formControlName="en_meta_description"
+                  placeholder="Enter English meta description"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
+              </div>
+
+              <!-- Script Text Field -->
+              <div class="field mb-3">
+                <label
+                  for="en_script_text"
+                  class="block text-900 font-medium mb-2">
+                  Script Text
+                </label>
+                <textarea
+                  pTextarea
+                  id="en_script_text"
+                  formControlName="en_script_text"
+                  placeholder="Enter English script text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
+              </div>
+            </div>
+
+            <!-- Arabic Content (Right Side) -->
+            <div class="col-12 md:col-6">
+              <h2 class="text-2xl font-bold mb-4">Arabic Content</h2>
+
+              <!-- Project Name Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_project_name"
+                  class="block text-900 font-medium mb-2">
+                  Project Name
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="ar_project_name"
+                  formControlName="ar_project_name"
+                  placeholder="Enter Arabic project name"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('ar_project_name')?.invalid && projectForm.get('ar_project_name')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('ar_project_name')?.invalid && projectForm.get('ar_project_name')?.touched && !isViewMode()">
+                  Project name is required.
+                </small>
+              </div>
+
+              <!-- Project Title Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_project_title"
+                  class="block text-900 font-medium mb-2">
+                  Project Title
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="ar_project_title"
+                  formControlName="ar_project_title"
+                  placeholder="Enter Arabic project title"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('ar_project_title')?.invalid && projectForm.get('ar_project_title')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('ar_project_title')?.invalid && projectForm.get('ar_project_title')?.touched && !isViewMode()">
+                  Project title is required.
+                </small>
+              </div>
+
+              <!-- Project Description Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_project_description"
+                  class="block text-900 font-medium mb-2">
+                  Project Description
+                  <span class="text-red-500">*</span>
+                </label>
+                <div class="card">
+                  <p-editor
+                    placeholder="Enter Arabic project description"
+                    formControlName="ar_project_description"
+                    [readonly]="isViewMode()"
+                    [disabled]="isViewMode()"
+                    [ngClass]="{ 'editor-disabled': isViewMode() }"
+                    [style]="{ height: '300px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white'}" />
+                </div>
+              </div>
+
+              <!-- Small Text Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_small_text"
+                  class="block text-900 font-medium mb-2">
+                  Small Text
+                  <span class="text-red-500">*</span>
+                </label>
+                <textarea
+                  pTextarea
+                  id="ar_small_text"
+                  formControlName="ar_small_text"
+                  placeholder="Enter Arabic small text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
+              </div>
+
+              <!-- Alt Main Image Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_alt_main_image"
+                  class="block text-900 font-medium mb-2">
+                  Alt Main Image Text
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="ar_alt_main_image"
+                  formControlName="ar_alt_main_image"
+                  placeholder="Enter Arabic alt main image text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('ar_alt_main_image')?.invalid && projectForm.get('ar_alt_main_image')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('ar_alt_main_image')?.invalid && projectForm.get('ar_alt_main_image')?.touched && !isViewMode()">
+                  Alt main image text is required.
+                </small>
+              </div>
+
+              <!-- Alt Banner Image Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_alt_banner_image"
+                  class="block text-900 font-medium mb-2">
+                  Alt Banner Image Text
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="ar_alt_banner_image"
+                  formControlName="ar_alt_banner_image"
+                  placeholder="Enter Arabic alt banner image text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('ar_alt_banner_image')?.invalid && projectForm.get('ar_alt_banner_image')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('ar_alt_banner_image')?.invalid && projectForm.get('ar_alt_banner_image')?.touched && !isViewMode()">
+                  Alt banner image text is required.
+                </small>
+              </div>
+
+              <!-- Meta Title Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_meta_title"
+                  class="block text-900 font-medium mb-2">
+                  Meta Title
+                  <span class="text-red-500">*</span>
+                </label>
+                <input
+                  pInputText
+                  id="ar_meta_title"
+                  formControlName="ar_meta_title"
+                  placeholder="Enter Arabic meta title"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="projectForm.get('ar_meta_title')?.invalid && projectForm.get('ar_meta_title')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="projectForm.get('ar_meta_title')?.invalid && projectForm.get('ar_meta_title')?.touched && !isViewMode()">
+                  Meta title is required.
+                </small>
+              </div>
+
+              <!-- Meta Description Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_meta_description"
+                  class="block text-900 font-medium mb-2">
+                  Meta Description
+                  <span class="text-red-500">*</span>
+                </label>
+                <textarea
+                  pTextarea
+                  id="ar_meta_description"
+                  formControlName="ar_meta_description"
+                  placeholder="Enter Arabic meta description"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
+              </div>
+
+              <!-- Script Text Field -->
+              <div class="field mb-3">
+                <label
+                  for="ar_script_text"
+                  class="block text-900 font-medium mb-2">
+                  Script Text
+                </label>
+                <textarea
+                  pTextarea
+                  id="ar_script_text"
+                  formControlName="ar_script_text"
+                  placeholder="Enter Arabic script text"
+                  [readonly]="isViewMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                  style="width: 100%">
+                </textarea>
+              </div>
+            </div>
+
+            <!-- Current Images Display -->
+            <div class="col-12" *ngIf="project?.main_image">
+              <h2 class="text-2xl font-bold mb-4">Current Images</h2>
+              <div class="grid">
+                <div class="col-12 md:col-6" *ngIf="project?.main_image">
+                  <div class="field">
+                    <label class="block text-900 font-medium mb-2"
+                      >Main Image</label
+                    >
+                    <div
+                      class="border-1 border-300 border-round p-3 text-center">
+                      <img
+                        [src]="baseUrl + project.main_image"
+                        [alt]="project.en_alt_main_image"
+                        class="border-round shadow-2"
+                        style="
+                          height: 320px !important;
+                          width: 320px !important;
+                          object-fit: cover;
+                        " />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12 md:col-6" *ngIf="project?.banner_image">
+                  <div class="field">
+                    <label class="block text-900 font-medium mb-2"
+                      >Banner Image</label
+                    >
+                    <div
+                      class="border-1 border-300 border-round p-3 text-center">
+                      <img
+                        [src]="baseUrl + project.banner_image"
+                        [alt]="project.en_alt_banner_image"
+                        class="border-round shadow-2"
+                        style="
+                          height: 320px !important;
+                          width: 320px !important;
+                          object-fit: cover;
+                        " />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Image Upload Fields - Hidden in View Mode -->
+            <div class="grid col-12" *ngIf="!isViewMode()">
+              <div class="col-12 md:col-6">
+                <div class="field">
+                  <label class="block text-900 font-medium mb-2">
+                    Upload Main Image
+                    <span class="text-red-500" *ngIf="isCreateMode()">*</span>
+                  </label>
+                  <p-fileupload
+                    name="main_image"
+                    (onSelect)="onMainImageSelect($event)"
+                    [multiple]="false"
+                    accept="image/*"
+                    maxFileSize="5000000"
+                    mode="advanced"
+                    [auto]="false"
+                    chooseLabel="Choose Main Image"
+                    uploadLabel=" "
+                    cancelLabel="Cancel">
+                    <ng-template #empty>
+                      <div class="text-center p-4">
+                        <i class="pi pi-cloud-upload text-4xl text-300"></i>
+                        <p class="mt-2 mb-0">
+                          Drag and drop main image here or click to select
+                        </p>
+                      </div>
+                    </ng-template>
+                  </p-fileupload>
+                </div>
+              </div>
+
+              <div class="col-12 md:col-6">
+                <div class="field">
+                  <label class="block text-900 font-medium mb-2">
+                    Upload Banner Image
+                  </label>
+                  <p-fileupload
+                    name="banner_image"
+                    (onSelect)="onBannerImageSelect($event)"
+                    [multiple]="false"
+                    accept="image/*"
+                    maxFileSize="5000000"
+                    mode="advanced"
+                    [auto]="false"
+                    chooseLabel="Choose Banner Image"
+                    uploadLabel=" "
+                    cancelLabel="Cancel">
+                    <ng-template #empty>
+                      <div class="text-center p-4">
+                        <i class="pi pi-cloud-upload text-4xl text-300"></i>
+                        <p class="mt-2 mb-0">
+                          Drag and drop banner image here or click to select
+                        </p>
+                      </div>
+                    </ng-template>
+                  </p-fileupload>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Fields (Full Width) -->
+            <div class="col-12">
+              <h2 class="text-2xl font-bold mb-4">Additional Information</h2>
+
+              <div class="grid">
+                <!-- Main File Link -->
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="main_file_link"
+                      class="block text-900 font-medium mb-2">
+                      Main File Link
+                    </label>
+                    <input
+                      pInputText
+                      id="main_file_link"
+                      formControlName="main_file_link"
+                      placeholder="Enter main file link"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                      style="width: 100%" />
+                  </div>
+                </div>
+
+                <!-- Google Map Link -->
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="google_map_link"
+                      class="block text-900 font-medium mb-2">
+                      Google Map Link
+                    </label>
+                    <input
+                      pInputText
+                      id="google_map_link"
+                      formControlName="google_map_link"
+                      placeholder="Enter Google map link"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                      style="width: 100%" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form Info Fields -->
+              <div class="grid">
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="en_form_first_input_info"
+                      class="block text-900 font-medium mb-2">
+                      English Form First Input Info
+                    </label>
+                    <textarea
+                      pTextarea
+                      id="en_form_first_input_info"
+                      formControlName="en_form_first_input_info"
+                      placeholder="Enter English form first input info"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                      style="width: 100%">
+                    </textarea>
+                  </div>
+                </div>
+
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="ar_form_first_input_info"
+                      class="block text-900 font-medium mb-2">
+                      Arabic Form First Input Info
+                    </label>
+                    <textarea
+                      pTextarea
+                      id="ar_form_first_input_info"
+                      formControlName="ar_form_first_input_info"
+                      placeholder="Enter Arabic form first input info"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                      style="width: 100%">
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="col-12">
+              <div class="flex justify-content-end gap-2 pt-3">
+                <!-- Create Mode Buttons -->
+                <ng-container *ngIf="isCreateMode()">
+                  <p-button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    severity="secondary"
+                    type="button"
+                    (click)="onCancel()">
+                  </p-button>
+                  <p-button
+                    label="Create Project"
+                    icon="pi pi-plus"
+                    severity="primary"
+                    type="submit"
+                    [loading]="isLoading()">
+                  </p-button>
+                </ng-container>
+
+                <!-- Edit Mode Buttons -->
+                <ng-container *ngIf="isEditMode()">
+                  <p-button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    severity="secondary"
+                    type="button"
+                    (click)="onCancel()">
+                  </p-button>
+                  <p-button
+                    label="Update Project"
+                    icon="pi pi-check"
+                    severity="primary"
+                    type="submit"
+                    [disabled]="projectForm.invalid || isLoading()"
+                    [loading]="isLoading()">
+                  </p-button>
+                </ng-container>
+
+                <!-- View Mode Buttons -->
+                <ng-container *ngIf="isViewMode()">
+                  <p-button
+                    label="Back"
+                    icon="pi pi-arrow-left"
+                    severity="secondary"
+                    type="button"
+                    (click)="onCancel()">
+                  </p-button>
+                  <p-button
+                    label="Edit"
+                    icon="pi pi-pencil"
+                    severity="primary"
+                    type="button"
+                    (click)="onEditProject()">
+                  </p-button>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>
