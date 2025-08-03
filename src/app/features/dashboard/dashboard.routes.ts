@@ -141,7 +141,7 @@ export const dashboardRoutes: Routes = [
   {
     path: "careers-form",
     loadChildren: () =>
-      import("@app/features/dashboard/careers-form-id/careeers.route").then(
+      import("@app/features/dashboard/careers-form/careeers.route").then(
         (c) => c.careersRoute
       ),
   },

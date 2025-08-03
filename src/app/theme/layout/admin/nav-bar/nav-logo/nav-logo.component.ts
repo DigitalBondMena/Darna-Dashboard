@@ -1,17 +1,24 @@
 // Angular import
-import { Component, Input, output, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import {
+  Component,
+  HostListener,
+  inject,
+  Input,
+  OnInit,
+  output,
+} from "@angular/core";
+import { Router } from "@angular/router";
 
 // project import
-import { SharedModule } from 'src/app/theme/shared/shared.module';
+import { SharedModule } from "src/app/theme/shared/shared.module";
 
 @Component({
-  selector: 'app-nav-logo',
+  selector: "app-nav-logo",
   imports: [SharedModule],
-  templateUrl: './nav-logo.component.html',
-  styleUrl: './nav-logo.component.scss'
+  templateUrl: "./nav-logo.component.html",
+  styleUrl: "./nav-logo.component.scss",
 })
-export class NavLogoComponent {
+export class NavLogoComponent implements OnInit {
   router = inject(Router);
 
   // public props
@@ -25,6 +32,21 @@ export class NavLogoComponent {
     this.windowWidth = window.innerWidth;
   }
 
+  ngOnInit() {
+    this.updateWindowWidth();
+  }
+
+  // Listen for window resize events
+  @HostListener("window:resize")
+  onResize() {
+    this.updateWindowWidth();
+  }
+
+  // Update window width
+  private updateWindowWidth() {
+    this.windowWidth = window.innerWidth;
+  }
+
   // public method
   navCollapse() {
     if (this.windowWidth >= 1025) {
@@ -34,6 +56,6 @@ export class NavLogoComponent {
   }
 
   returnToHome() {
-    this.router.navigate(['/default']);
+    this.router.navigate(["/default"]);
   }
 }
