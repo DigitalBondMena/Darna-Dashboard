@@ -171,14 +171,14 @@ export const NavigationItems: NavigationItem[] = [
         url: "dashboard/banners",
         icon: "pi pi-image",
       },
-      {
-        id: "seo",
-        title: "Seo",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/seo",
-        icon: "ti ti-search",
-      },
+      // {
+      //   id: "seo",
+      //   title: "Seo",
+      //   type: "item",
+      //   classes: "nav-item",
+      //   url: "dashboard/seo",
+      //   icon: "ti ti-search",
+      // },
     ],
   },
 
