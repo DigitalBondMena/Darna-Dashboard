@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
-import { ICareersFormData } from "@app/features/dashboard/careers-form/model";
-import { CareersFormService } from "@app/features/dashboard/careers-form/service/careers-form";
+import { ICareersFormData } from "@app/features/dashboard/careers-form-id/model";
+import { CareersFormService } from "@app/features/dashboard/careers-form-id/service/careers-form";
 import { TableSharedModule } from "@app/theme/shared/module/shared/table-shared.module";
 
 @Component({
