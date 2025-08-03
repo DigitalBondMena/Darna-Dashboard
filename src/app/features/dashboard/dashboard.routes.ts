@@ -42,11 +42,19 @@ export const dashboardRoutes: Routes = [
       },
     ],
   },
+  /* Tables */
+  {
+    path: "about-page",
+    loadComponent: () =>
+      import("@demo/dashboard/about-page/about-page").then((c) => c.AboutPage),
+  },
+  /* Tables */
   {
     path: "about-us",
     loadComponent: () =>
       import("@demo/dashboard/about-us/about-us").then((c) => c.AboutUs),
   },
+  /* Tables */
   {
     path: "features",
     loadChildren: () =>
@@ -54,6 +62,7 @@ export const dashboardRoutes: Routes = [
         (c) => c.featuresRoutes
       ),
   },
+  /* Tables */
   {
     path: "partners",
     loadChildren: () =>
@@ -94,5 +103,29 @@ export const dashboardRoutes: Routes = [
     path: "projects",
     loadComponent: () =>
       import("@demo/dashboard/projects/projects").then((c) => c.Projects),
+  },
+
+  {
+    path: "banners",
+    loadChildren: () =>
+      import("@app/features/dashboard/banners/banners.routes").then(
+        (c) => c.bannersRoutes
+      ),
+  },
+
+  {
+    path: "careers",
+    loadChildren: () =>
+      import("@app/features/dashboard/careers/careers.routes").then(
+        (c) => c.careersRoutes
+      ),
+  },
+
+  {
+    path: "blogs",
+    loadChildren: () =>
+      import("@app/features/dashboard/blogs/blog.route").then(
+        (c) => c.blogRoutes
+      ),
   },
 ];

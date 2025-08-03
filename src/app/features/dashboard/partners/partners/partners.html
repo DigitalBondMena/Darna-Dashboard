@@ -12,7 +12,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
-      <th>Title</th>
+      <th>name</th>
       <th>Image</th>
       <th>View</th>
       <th>Edit</th>
@@ -23,7 +23,7 @@
   <ng-template pTemplate="body" let-slider>
     <tr>
       <td>{{ slider.id }}</td>
-      <td>{{ slider.en_title }}</td>
+      <td>{{ slider.en_client_name }}</td>
       <td>
         <img
           [src]="baseUrl + slider.main_image"

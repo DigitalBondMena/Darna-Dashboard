@@ -21,6 +21,7 @@ import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { EditorModule } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
+import { InputTextModule } from "primeng/inputtext";
 import { ToastModule } from "primeng/toast";
 import { IDataTestimonials } from "../models/testimonials";
 import { TestimonialsService } from "../services/testimonials";
@@ -37,13 +38,14 @@ import { TestimonialsService } from "../services/testimonials";
     EditorModule,
     FileUploadModule,
     RouterLink,
+    InputTextModule,
   ],
   providers: [MessageService],
   templateUrl: "./testimonials-id.html",
   styleUrl: "./testimonials-id.scss",
 })
 export class TestimonialsId implements OnInit {
-  private featureService = inject(TestimonialsService);
+  private testimonialservice = inject(TestimonialsService);
   private fb = inject(FormBuilder);
   private messageService = inject(MessageService);
   private route = inject(ActivatedRoute);
@@ -51,12 +53,12 @@ export class TestimonialsId implements OnInit {
 
   // Signals for reactive state
   mode = signal<"create" | "edit" | "view">("create");
-  featureId = signal<number | null>(null);
+  testimonialId = signal<number | null>(null);
   isLoading = signal(false);
 
   testmonials!: IDataTestimonials;
 
-  featureForm!: FormGroup;
+  testmonialForm!: FormGroup;
 
   baseUrl = baseUrl;
 
@@ -69,7 +71,7 @@ export class TestimonialsId implements OnInit {
   isFormValid = computed(() => {
     if (!this.testmonials) return false;
 
-    const formValid = this.featureForm.valid;
+    const formValid = this.testmonialForm.valid;
 
     // In create mode, also require image file
     if (this.isCreateMode()) {
@@ -83,13 +85,13 @@ export class TestimonialsId implements OnInit {
   pageTitle = computed(() => {
     switch (this.mode()) {
       case "create":
-        return "Create New feature";
+        return "Create New testmonial";
       case "edit":
-        return "Edit feature Mode";
+        return "Edit testmonial Mode";
       case "view":
-        return "View feature Mode";
+        return "View testmonial Mode";
       default:
-        return "feature Form";
+        return "testmonial Form";
     }
   });
 
@@ -98,9 +100,9 @@ export class TestimonialsId implements OnInit {
     effect(() => {
       if (this.testmonials) {
         if (this.isViewMode()) {
-          this.featureForm.disable();
+          this.testmonialForm.disable();
         } else {
-          this.featureForm.enable();
+          this.testmonialForm.enable();
         }
       }
     });
@@ -122,14 +124,14 @@ export class TestimonialsId implements OnInit {
     this.route.params.subscribe((params) => {
       const id = params["id"];
       if (id) {
-        this.featureId.set(+id);
+        this.testimonialId.set(+id);
         this.loadSliderData(+id);
       }
     });
   }
 
   initForm() {
-    this.featureForm = this.fb.group({
+    this.testmonialForm = this.fb.group({
       en_name: ["", [Validators.required, Validators.minLength(3)]],
       ar_name: ["", [Validators.required, Validators.minLength(3)]],
       en_job: ["", [Validators.required, Validators.minLength(3)]],
@@ -140,12 +142,12 @@ export class TestimonialsId implements OnInit {
   }
 
   loadSliderData(id?: number) {
-    const sliderId = id || this.featureId() || 1;
+    const sliderId = id || this.testimonialId() || 1;
 
-    this.featureService.getTestimonialById(sliderId).subscribe({
+    this.testimonialservice.getTestimonialById(sliderId).subscribe({
       next: (data) => {
         this.testmonials = data.data;
-        this.featureForm.patchValue({
+        this.testmonialForm.patchValue({
           en_name: data.data.en_name,
           ar_name: data.data.ar_name,
           en_job: data.data.en_job,
@@ -168,57 +170,55 @@ export class TestimonialsId implements OnInit {
   }
 
   onSubmit() {
-    if (this.featureForm.invalid || this.isViewMode()) return;
+    if (this.testmonialForm.invalid || this.isViewMode()) return;
 
     this.isLoading.set(true);
-    const formData = this.featureForm.value;
+    const formData = this.testmonialForm.value;
 
     if (this.isCreateMode()) {
       this.createTestimonial(formData);
     } else if (this.isEditMode()) {
-      this.updateSliderHero();
+      this.updateTestimonial();
     }
   }
 
   private createTestimonial(formData: IDataTestimonials) {
-    this.featureService
-      .addUpdateTestimonials(formData, this.testmonials.id)
-      .subscribe({
-        next: (data) => {
-          console.log("Create successful:", data);
-          this.messageService.add({
-            severity: "success",
-            summary: "Success",
-            detail: "Hero created successfully",
-          });
-          this.router.navigate(["/dashboard/features"]);
-        },
-        error: (error) => {
-          console.error("Error creating features:", error);
-          this.messageService.add({
-            severity: "error",
-            summary: "Error",
-            detail: "Failed to create features",
-          });
-          this.isLoading.set(false);
-        },
-      });
+    this.testimonialservice.addUpdateTestimonials(formData).subscribe({
+      next: (data) => {
+        console.log("Create successful:", data);
+        this.messageService.add({
+          severity: "success",
+          summary: "Success",
+          detail: "Hero created successfully",
+        });
+        this.router.navigate(["/dashboard/testimonials"]);
+      },
+      error: (error) => {
+        console.error("Error creating testimonials:", error);
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Failed to create testimonials",
+        });
+        this.isLoading.set(false);
+      },
+    });
   }
 
-  updateSliderHero() {
-    if (this.featureForm.valid) {
+  updateTestimonial() {
+    if (this.testmonialForm.valid) {
       this.isLoading.set(true);
-      const formData = this.featureForm.value;
+      const formData = this.testmonialForm.value;
 
       // Pass the selected file if user uploaded a new one
-      this.featureService
+      this.testimonialservice
         .addUpdateTestimonials(formData, this.testmonials.id)
         .subscribe({
           next: () => {
             this.messageService.add({
               severity: "success",
               summary: "Success",
-              detail: "feature updated successfully",
+              detail: "testmonial updated successfully",
             });
             this.isLoading.set(false);
           },
@@ -241,12 +241,12 @@ export class TestimonialsId implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(["/dashboard/features"]);
+    this.router.navigate(["/dashboard/testimonials"]);
   }
 
   onEditSlider() {
-    if (this.featureId()) {
-      this.router.navigate(["../../edit", this.featureId()], {
+    if (this.testimonialId()) {
+      this.router.navigate(["../../edit", this.testimonialId()], {
         relativeTo: this.route,
       });
     }

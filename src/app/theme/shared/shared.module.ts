@@ -1,16 +1,21 @@
 // Angular Imports
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 // project import
-import { CardComponent } from './components/card/card.component';
+import { CardComponent } from "./components/card/card.component";
 
 // third party
-import { NgScrollbarModule } from 'ngx-scrollbar';
+import { NgScrollbarModule } from "ngx-scrollbar";
 
 // bootstrap import
-import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbCollapseModule,
+  NgbDropdownModule,
+  NgbModule,
+  NgbNavModule,
+} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
@@ -22,7 +27,7 @@ import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@
     NgbNavModule,
     NgbModule,
     NgbCollapseModule,
-    NgScrollbarModule
+    NgScrollbarModule,
   ],
   exports: [
     CommonModule,
@@ -33,8 +38,8 @@ import { NgbDropdownModule, NgbNavModule, NgbModule, NgbCollapseModule } from '@
     NgbDropdownModule,
     NgbNavModule,
     NgbCollapseModule,
-    NgScrollbarModule
+    NgScrollbarModule,
   ],
-  declarations: []
+  declarations: [],
 })
 export class SharedModule {}

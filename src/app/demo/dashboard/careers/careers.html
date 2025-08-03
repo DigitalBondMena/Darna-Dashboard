@@ -1,45 +1,50 @@
 <div class="flex justify-content-between items-center mb-4 w-full">
-  <h2>Testimonials Management</h2>
+  <h2>Careers Management</h2>
   <p-button
-    label="Create New Testimonial"
+    label="Create New Career"
     icon="pi pi-plus"
     [routerLink]="['create']"
     severity="primary">
   </p-button>
 </div>
 
-<p-table [value]="testimonials" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table [value]="careers" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
       <th>Name</th>
-      <th>Job</th>
+      <th>Title</th>
+      <th>Type</th>
+      <th>Location</th>
+      <th>Category</th>
       <th>View</th>
       <th>Edit</th>
       <th>Status</th>
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-testimonial>
+  <ng-template pTemplate="body" let-career>
     <tr>
-      <td>{{ testimonial.id }}</td>
-      <td>{{ testimonial.en_name }}</td>
-      <td>{{ testimonial.en_job }}</td>
-
+      <td>{{ career.id }}</td>
+      <td>{{ career.en_name }}</td>
+      <td>{{ career.en_title }}</td>
+      <td>{{ career.en_type }}</td>
+      <td>{{ career.en_location }}</td>
+      <td>{{ career.en_category_name }}</td>
       <td>
-        <a [routerLink]="['view', testimonial.id]">
+        <a [routerLink]="['view', career.en_slug]">
           <i class="pi pi-eye" style="color: #673ab7"></i>
         </a>
       </td>
       <td>
-        <a [routerLink]="['edit', testimonial.id]">
+        <a [routerLink]="['edit', career.en_slug]">
           <i class="pi pi-pencil" style="color: #673ab7"></i>
         </a>
       </td>
       <td>
         <p-toggleswitch
-          [ngModel]="returnStatus(testimonial.active_status)"
-          (ngModelChange)="onActive(testimonial.id)" />
+          [ngModel]="returnStatus(career.active_status)"
+          (ngModelChange)="onActive(career.en_slug)" />
       </td>
     </tr>
   </ng-template>

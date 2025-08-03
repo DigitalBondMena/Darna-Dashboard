@@ -1,45 +1,37 @@
 <div class="flex justify-content-between items-center mb-4 w-full">
-  <h2>Testimonials Management</h2>
-  <p-button
-    label="Create New Testimonial"
-    icon="pi pi-plus"
-    [routerLink]="['create']"
-    severity="primary">
-  </p-button>
+  <h2>Banners Management</h2>
 </div>
 
-<p-table [value]="testimonials" [tableStyle]="{ 'min-width': '50rem' }">
+<p-table [value]="partners" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
       <th>ID</th>
-      <th>Name</th>
-      <th>Job</th>
+      <th>name</th>
+      <th>Image</th>
       <th>View</th>
       <th>Edit</th>
-      <th>Status</th>
     </tr>
   </ng-template>
 
-  <ng-template pTemplate="body" let-testimonial>
+  <ng-template pTemplate="body" let-slider>
     <tr>
-      <td>{{ testimonial.id }}</td>
-      <td>{{ testimonial.en_name }}</td>
-      <td>{{ testimonial.en_job }}</td>
-
+      <td>{{ slider.id }}</td>
+      <td>{{ slider.page_name }}</td>
       <td>
-        <a [routerLink]="['view', testimonial.id]">
+        <img
+          [src]="baseUrl + slider.main_image"
+          alt="slider"
+          [style]="{ width: '50px', height: '50px', borderRadius: '50%' }" />
+      </td>
+      <td>
+        <a [routerLink]="['view', slider.id]">
           <i class="pi pi-eye" style="color: #673ab7"></i>
         </a>
       </td>
       <td>
-        <a [routerLink]="['edit', testimonial.id]">
+        <a [routerLink]="['edit', slider.id]">
           <i class="pi pi-pencil" style="color: #673ab7"></i>
         </a>
-      </td>
-      <td>
-        <p-toggleswitch
-          [ngModel]="returnStatus(testimonial.active_status)"
-          (ngModelChange)="onActive(testimonial.id)" />
       </td>
     </tr>
   </ng-template>

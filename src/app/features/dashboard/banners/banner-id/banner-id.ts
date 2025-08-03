@@ -9,20 +9,19 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
-import { IData } from "@app/features/dashboard/hero/models";
 import { DetailsSharedModule } from "@app/theme/shared/module/shared/details-shared.module";
 import { MessageService } from "primeng/api";
-import { IPartnerData } from "../models/partners";
-import { PartnersService } from "../services/partners";
+import { IBannerData } from "../model";
+import { BannersService } from "../service/banners";
 
 @Component({
-  selector: "app-partners-id",
+  selector: "app-banner-id",
   imports: [DetailsSharedModule],
-  templateUrl: "./partners-id.html",
-  styleUrl: "./partners-id.scss",
+  templateUrl: "./banner-id.html",
+  styleUrl: "./banner-id.scss",
 })
-export class PartnersId implements OnInit {
-  private partnersService = inject(PartnersService);
+export class BannerId implements OnInit {
+  private bannerService = inject(BannersService);
 
   private fb = inject(FormBuilder);
 
@@ -32,36 +31,31 @@ export class PartnersId implements OnInit {
 
   private router = inject(Router);
 
-  // Signals for reactive state
-  mode = signal<"create" | "edit" | "view">("create");
+  text: string | undefined;
 
-  partnerId = signal<number | null>(null);
+  mode = signal<"edit" | "view">("edit");
+
+  heroId = signal<number | null>(null);
 
   isLoading = signal(false);
 
-  partner!: IPartnerData;
+  banner!: IBannerData;
 
-  partnerForm!: FormGroup;
+  bannerForm!: FormGroup;
 
   baseUrl = baseUrl;
 
   selectedFile: File | null = null;
 
-  // Computed properties
   isEditMode = computed(() => this.mode() === "edit");
-  isCreateMode = computed(() => this.mode() === "create");
+
   isViewMode = computed(() => this.mode() === "view");
 
   // Form validation including file check for create mode
   isFormValid = computed(() => {
-    if (!this.partnerForm) return false;
+    if (!this.bannerForm) return false;
 
-    const formValid = this.partnerForm.valid;
-
-    // In create mode, also require image file
-    if (this.isCreateMode()) {
-      return formValid && !!this.selectedFile;
-    }
+    const formValid = this.bannerForm.valid;
 
     // In edit/view mode, form validation is enough
     return formValid;
@@ -69,8 +63,6 @@ export class PartnersId implements OnInit {
 
   pageTitle = computed(() => {
     switch (this.mode()) {
-      case "create":
-        return "Create New Slider";
       case "edit":
         return "Edit Slider Mode";
       case "view":
@@ -83,11 +75,11 @@ export class PartnersId implements OnInit {
   constructor() {
     // Effect to handle form enable/disable based on mode
     effect(() => {
-      if (this.partnerForm) {
+      if (this.bannerForm) {
         if (this.isViewMode()) {
-          this.partnerForm.disable();
+          this.bannerForm.disable();
         } else {
-          this.partnerForm.enable();
+          this.bannerForm.enable();
         }
       }
     });
@@ -109,44 +101,40 @@ export class PartnersId implements OnInit {
     this.route.params.subscribe((params) => {
       const id = params["id"];
       if (id) {
-        this.partnerId.set(+id);
+        this.heroId.set(+id);
         this.loadSliderData(+id);
       }
     });
   }
 
   initForm() {
-    this.partnerForm = this.fb.group({
+    this.bannerForm = this.fb.group({
+      page_name: ["", [Validators.required, Validators.minLength(3)]],
       en_alt_image: ["", [Validators.required]],
       ar_alt_image: ["", [Validators.required]],
-      ar_client_name: ["", [Validators.required, Validators.minLength(3)]],
-      en_client_name: ["", [Validators.required, Validators.minLength(3)]],
-      active_status: ["1", Validators.required],
       // Note: main_image is handled separately as a file
     });
   }
 
   loadSliderData(id?: number) {
-    const partnerId = id || this.partnerId() || 1;
+    const bannerId = id || this.heroId() || 1;
 
-    this.partnersService.getPartner(partnerId).subscribe({
+    this.bannerService.getBanner(bannerId).subscribe({
       next: (data) => {
-        this.partner = data.data;
-        this.partnerForm.patchValue({
-          en_alt_image: this.partner.en_alt_image,
-          ar_alt_image: this.partner.ar_alt_image,
-          en_client_name: this.partner.en_client_name,
-          ar_client_name: this.partner.ar_client_name,
-          active_status: this.partner.active_status,
+        this.banner = data.data;
+        this.bannerForm.patchValue({
+          page_name: data.data.page_name,
+          en_alt_image: data.data.en_alt_image,
+          ar_alt_image: data.data.ar_alt_image,
         });
         this.isLoading.set(false);
       },
       error: (error) => {
-        console.error("Error loading partner data:", error);
+        console.error("Error loading slider data:", error);
         this.messageService.add({
           severity: "error",
           summary: "Error",
-          detail: "Failed to load partner data",
+          detail: "Failed to load slider data",
         });
         this.isLoading.set(false);
       },
@@ -190,67 +178,21 @@ export class PartnersId implements OnInit {
   }
 
   onSubmit() {
-    if (this.partnerForm.invalid || this.isViewMode()) return;
+    if (this.bannerForm.invalid || this.isViewMode()) return;
 
     this.isLoading.set(true);
-    const formData = this.partnerForm.value;
-
-    if (this.isCreateMode()) {
-      this.createHero(formData);
-    } else if (this.isEditMode()) {
-      this.updateSliderHero();
-    }
-  }
-
-  private createHero(formData: Partial<IData>) {
-    // Validate that image is selected for create mode
-    if (!this.selectedFile) {
-      this.messageService.add({
-        severity: "warn",
-        summary: "Warning",
-        detail: "Please select an image file",
-      });
-      this.isLoading.set(false);
-      return;
-    }
-
-    this.partnersService
-      .addPartner(formData as IPartnerData, this.selectedFile)
-      .subscribe({
-        next: (data) => {
-          console.log("Create successful:", data);
-          this.messageService.add({
-            severity: "success",
-            summary: "Success",
-            detail: "Hero created successfully",
-          });
-          this.router.navigate(["/dashboard/hero"]);
-        },
-        error: (error) => {
-          console.error("Error creating hero:", error);
-          this.messageService.add({
-            severity: "error",
-            summary: "Error",
-            detail: "Failed to create hero",
-          });
-          this.isLoading.set(false);
-        },
-      });
+    this.updateSliderHero();
   }
 
   updateSliderHero() {
-    if (this.partnerForm.valid) {
+    if (this.bannerForm.valid) {
       this.isLoading.set(true);
-      const formData = this.partnerForm.value;
+      const formData = this.bannerForm.value;
       console.log(formData);
 
       // Pass the selected file if user uploaded a new one
-      this.partnersService
-        .updatePartner(
-          this.partner.id,
-          formData,
-          this.selectedFile || undefined
-        )
+      this.bannerService
+        .updateBanner(this.banner.id, formData, this.selectedFile || undefined)
         .subscribe({
           next: (data) => {
             console.log("Update successful:", data);
@@ -262,11 +204,11 @@ export class PartnersId implements OnInit {
             this.loadSliderData(); // Reload to get updated image
           },
           error: (error) => {
-            console.error("Error updating partner:", error);
+            console.error("Error updating slider:", error);
             this.messageService.add({
               severity: "error",
               summary: "Error",
-              detail: "Failed to update partner",
+              detail: "Failed to update slider",
             });
             this.isLoading.set(false);
           },
@@ -281,12 +223,12 @@ export class PartnersId implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(["/dashboard/partners"]);
+    this.router.navigate(["/dashboard/banners"]);
   }
 
   onEditSlider() {
-    if (this.partnerId()) {
-      this.router.navigate(["../../edit", this.partnerId()], {
+    if (this.heroId()) {
+      this.router.navigate(["../../edit", this.heroId()], {
         relativeTo: this.route,
       });
     }

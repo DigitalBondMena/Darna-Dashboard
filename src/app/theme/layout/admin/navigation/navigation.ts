@@ -36,7 +36,7 @@ export const NavigationItems: NavigationItem[] = [
 
   {
     id: "pages",
-    title: "sections",
+    title: "Home",
     type: "group",
     icon: "icon-navigation",
     children: [
@@ -81,6 +81,114 @@ export const NavigationItems: NavigationItem[] = [
         icon: "ti ti-users",
       },
       {
+        id: "testimonials",
+        title: "Testimonials",
+        type: "item",
+        classes: "nav-item",
+      },
+    ],
+  },
+
+  // {
+  //   id: "projects",
+  //   title: "projects",
+  //   type: "group",
+  //   icon: "icon-navigation",
+  //   children: [
+  //     {
+  //       id: "projects",
+  //       title: "Projects",
+  //       type: "item",
+  //       classes: "nav-item",
+  //       url: "dashboard/projects  ",
+  //       icon: "ti ti-building",
+  //     },
+  //   ],
+  // },
+
+  // {
+  //   id: "achievements",
+  //   title: "achievements",
+  //   type: "group",
+  //   icon: "icon-navigation",
+  //   children: [
+  //     {
+  //       id: "achievements",
+  //       title: "Achievements",
+  //       type: "item",
+  //       classes: "nav-item",
+  //       url: "dashboard/achievements",
+  //       icon: "ti ti-award",
+  //     },
+  //   ],
+  // },
+
+  {
+    id: "blogs",
+    title: "blogs",
+    type: "group",
+    icon: "icon-navigation",
+    children: [
+      {
+        id: "blogs",
+        title: "Blogs",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/blogs",
+        icon: "pi pi-globe",
+      },
+    ],
+  },
+
+  {
+    id: "careers",
+    title: "careers",
+    type: "group",
+    icon: "icon-navigation",
+    children: [
+      {
+        id: "careers",
+        title: "Careers",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/careers",
+        icon: "ti ti-user",
+      },
+    ],
+  },
+
+  {
+    id: "shared",
+    title: "Shared",
+    type: "group",
+    icon: "icon-navigation",
+    children: [
+      {
+        id: "banner",
+        title: "Banners",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/banners",
+        icon: "pi pi-image",
+      },
+      {
+        id: "seo",
+        title: "Seo",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/seo",
+        icon: "ti ti-search",
+      },
+    ],
+  },
+
+  {
+    id: "aboutInfo",
+    title: "about information",
+    type: "group",
+    icon: "icon-navigation",
+    children: [
+      {
         id: "contact-us",
         title: "Contact Us",
         type: "item",
@@ -89,34 +197,12 @@ export const NavigationItems: NavigationItem[] = [
         icon: "ti ti-mail",
       },
       {
-        id: "services",
-        title: "Services",
+        id: "about-page",
+        title: "About",
         type: "item",
         classes: "nav-item",
-        url: "dashboard/services",
-        icon: "ti ti-briefcase",
-      },
-      {
-        id: "projects",
-        title: "Projects",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/projects  ",
-        icon: "ti ti-building",
-      },
-      {
-        id: "achievements",
-        title: "Achievements",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/achievements",
-        icon: "ti ti-award",
-      },
-      {
-        id: "testimonials",
-        title: "Testimonials",
-        type: "item",
-        classes: "nav-item",
+        url: "dashboard/about-page",
+        icon: "ti ti-user",
       },
     ],
   },

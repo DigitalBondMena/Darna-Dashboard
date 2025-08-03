@@ -1,14 +1,23 @@
 import { Component, inject, OnInit } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { ActivatedRoute, RouterLink, RouterModule } from "@angular/router";
 import { baseUrl } from "@app/core/env";
 import { IDataTestimonials } from "@app/features/dashboard/testimonials/models/testimonials";
 import { ButtonModule } from "primeng/button";
 import { TableModule } from "primeng/table";
+import { ToggleSwitch } from "primeng/toggleswitch";
 import { TestimonialsService } from "./../../../features/dashboard/testimonials/services/testimonials";
 
 @Component({
   selector: "app-testimonials",
-  imports: [TableModule, ButtonModule, RouterLink, RouterModule],
+  imports: [
+    TableModule,
+    ButtonModule,
+    RouterLink,
+    RouterModule,
+    ToggleSwitch,
+    FormsModule,
+  ],
   templateUrl: "./testimonials.html",
   styleUrl: "./testimonials.scss",
 })
@@ -43,5 +52,12 @@ export class Testimonials implements OnInit {
       return true;
     }
     return false;
+  }
+  onActive(id: number) {
+    this.featureService.activeTestimonials(id).subscribe(() => {
+      this.featureService.getTestimonials().subscribe((data) => {
+        this.testimonials = data.data;
+      });
+    });
   }
 }
