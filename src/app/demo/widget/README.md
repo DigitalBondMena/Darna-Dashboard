@@ -44,4 +44,4 @@ This page (folder) is a sneak peek into the premium features available in <b>ver
 
 ## Get Started with the Pro Version!
 
-👉 [Explore the Pro version now](https://codedthemes.com/item/berry-angular-admin-dashboard-template/) - and supercharge your development experience!
+👉 [Explore the Pro version now](https://digitalbondmena.com/item/berry-angular-admin-dashboard-template/) - and supercharge your development experience!
