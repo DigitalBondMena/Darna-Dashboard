@@ -64,7 +64,7 @@
               </div>
             </div>
 
-            <div class="col-12 md:col-6">
+            <div class="col-12 md:col-6 right-side">
               <h4 class="font-bold mb-4">Arabic content</h4>
               <!-- Title Field -->
               <div class="field mb-3">
@@ -95,6 +95,7 @@
                 <p-editor
                   placeholder="Enter ar slider description"
                   formControlName="ar_main_text"
+                  [styleClass]="'rtl-editor'"
                   [style]="{ height: '320px', backgroundColor: 'white' }" />
               </div>
               <!-- Alt Image Field -->
@@ -189,6 +190,7 @@
                 <p-editor
                   placeholder="Enter en mission"
                   formControlName="en_mission_text"
+                  [styleClass]="'rtl-editor'"
                   [style]="{ height: '320px', backgroundColor: 'white' }" />
               </div>
             </div>
@@ -205,6 +207,7 @@
                 <p-editor
                   placeholder="Enter ar mission"
                   formControlName="ar_mission_text"
+                  [styleClass]="'rtl-editor'"
                   [style]="{ height: '320px', backgroundColor: 'white' }" />
               </div>
             </div>

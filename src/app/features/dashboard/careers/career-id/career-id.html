@@ -316,7 +316,7 @@
             </div>
 
             <!-- Arabic Content (Right Side) -->
-            <div class="col-12 md:col-6">
+            <div class="col-12 md:col-6 right-side">
               <h2 class="text-2xl font-bold mb-4">Arabic Content</h2>
 
               <!-- Name Field -->
@@ -443,6 +443,7 @@
                 </label>
                 <div class="card">
                   <p-editor
+                    [styleClass]="'rtl-editor'"
                     placeholder="Enter Arabic description"
                     formControlName="ar_description"
                     [readonly]="isViewMode()"
@@ -486,6 +487,7 @@
                 </label>
                 <div class="card">
                   <p-editor
+                    [styleClass]="'rtl-editor'"
                     placeholder="Enter Arabic requirements description"
                     formControlName="ar_description_requirements"
                     [readonly]="isViewMode()"
@@ -529,6 +531,7 @@
                 </label>
                 <div class="card">
                   <p-editor
+                    [styleClass]="'rtl-editor'"
                     placeholder="Enter Arabic responsibilities description"
                     formControlName="ar_description_responsibilities"
                     [readonly]="isViewMode()"
@@ -572,6 +575,7 @@
                 </label>
                 <div class="card">
                   <p-editor
+                    [styleClass]="'rtl-editor'"
                     placeholder="Enter Arabic skills description"
                     formControlName="ar_description_skills"
                     [readonly]="isViewMode()"
@@ -615,6 +619,7 @@
                 </label>
                 <div class="card">
                   <p-editor
+                    [styleClass]="'rtl-editor'"
                     placeholder="Enter Arabic meta description"
                     formControlName="ar_meta_description"
                     [readonly]="isViewMode()"

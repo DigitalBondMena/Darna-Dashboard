@@ -11,3 +11,7 @@
 ::ng-deep .editor-disabled .p-editor-toolbar {
   display: none;
 }
+
+.rtl-editor ::ng-deep .ql-editor {
+  text-align: right !important    ;
+}

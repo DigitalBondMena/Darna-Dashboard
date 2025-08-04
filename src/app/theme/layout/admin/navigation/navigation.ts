@@ -30,7 +30,6 @@ export const NavigationItems: NavigationItem[] = [
         classes: "nav-item",
         url: "dashboard",
         icon: "ti ti-dashboard",
-        breadcrumbs: false,
       },
     ],
   },

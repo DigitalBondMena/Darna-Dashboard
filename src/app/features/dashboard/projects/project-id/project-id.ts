@@ -683,6 +683,7 @@ export class ProjectId implements OnInit {
             summary: "Error",
             detail: "Failed to update gallery image",
           });
+          this.isGalleryLoading.set(false);
         },
         complete: () => {
           this.isGalleryLoading.set(false);
@@ -722,6 +723,7 @@ export class ProjectId implements OnInit {
               summary: "Error",
               detail: `Failed to ${action} gallery image`,
             });
+            this.isGalleryLoading.set(false);
           },
           complete: () => {
             this.isGalleryLoading.set(false);
@@ -737,6 +739,7 @@ export class ProjectId implements OnInit {
   }
 
   closeEditGalleryDialog() {
+    console.log("click");
     this.showEditGalleryDialog.set(false);
     this.editingGalleryImage.set(null);
     this.selectedEditImage = null;

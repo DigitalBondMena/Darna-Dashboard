@@ -160,8 +160,6 @@ export class ContactUs implements OnInit {
       snapchat_link: [
         "",
         [
-          Validators.required,
-          Validators.minLength(3),
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
           ),
@@ -170,8 +168,6 @@ export class ContactUs implements OnInit {
       telegram_link: [
         "",
         [
-          Validators.required,
-          Validators.minLength(3),
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
           ),
@@ -180,8 +176,6 @@ export class ContactUs implements OnInit {
       tiktok_link: [
         "",
         [
-          Validators.required,
-          Validators.minLength(3),
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
           ),
@@ -198,23 +192,33 @@ export class ContactUs implements OnInit {
     this.isLoading.set(true);
     this.contactUsService
       .updateContactUs(this.contactForm.value as IDataContactUs)
-      .subscribe((next: any) => {
-        this.isLoading.set(false);
-        if (next.success) {
-          this.messageService.add({
-            severity: "success",
-            summary: "Success",
-            detail: "About Us updated successfully",
-          });
-          this.getContactUs();
-        } else {
+      .subscribe({
+        next: (next: any) => {
+          this.isLoading.set(false);
+          if (next.success) {
+            this.messageService.add({
+              severity: "success",
+              summary: "Success",
+              detail: "About Us updated successfully",
+            });
+            this.getContactUs();
+          } else {
+            this.isLoading.set(false);
+            this.messageService.add({
+              severity: "error",
+              summary: "Error",
+              detail: "About Us updated failed",
+            });
+          }
+        },
+        error: (error) => {
           this.isLoading.set(false);
           this.messageService.add({
             severity: "error",
             summary: "Error",
             detail: "About Us updated failed",
           });
-        }
+        },
       });
   }
 }

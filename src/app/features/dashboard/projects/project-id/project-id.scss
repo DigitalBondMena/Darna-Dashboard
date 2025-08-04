@@ -14,3 +14,6 @@
 ::ng-deep .ql-editor .ql-direction-rtl {
   text-align: right !important    ;
 }
+::ng-deep .p-dialog-header-actions p-button {
+  display: none !important;
+}

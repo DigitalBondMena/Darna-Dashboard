@@ -71,7 +71,7 @@
               </div>
             </div>
             <!-- right side : ar  -->
-            <div class="col-12 md:col-6">
+            <div class="col-12 md:col-6 right-side">
               <h4 class="font-bold mb-4">Arabic content</h4>
               <!-- address Field -->
               <div class="field mb-3">
@@ -123,6 +123,7 @@
                 </label>
                 <div class="card">
                   <p-editor
+                    [styleClass]="'rtl-editor'"
                     placeholder="Enter en footer text"
                     formControlName="ar_footer_text"
                     [style]="{ height: '320px', backgroundColor: 'white' }" />
@@ -283,7 +284,7 @@
                 <small
                   class="p-error block"
                   *ngIf="contactForm.get('snapchat_link')?.invalid && contactForm.get('snapchat_link')?.touched">
-                  Valid Snapchat URL is required.
+                  Valid Snapchat URL is invalid.
                 </small>
               </div>
 
@@ -307,7 +308,7 @@
                 <small
                   class="p-error block"
                   *ngIf="contactForm.get('telegram_link')?.invalid && contactForm.get('telegram_link')?.touched">
-                  Valid Telegram URL is required.
+                  Valid Telegram URL is invalid.
                 </small>
               </div>
 
@@ -331,7 +332,7 @@
                 <small
                   class="p-error block"
                   *ngIf="contactForm.get('tiktok_link')?.invalid && contactForm.get('tiktok_link')?.touched">
-                  Valid TikTok URL is required.
+                  TikTok URL is invalid.
                 </small>
               </div>
             </div>

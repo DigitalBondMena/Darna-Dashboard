@@ -16,7 +16,11 @@ import { NavigationItem } from "../../navigation";
 export class NavItemComponent {
   // public props
   @Input() item!: NavigationItem;
-
+  ngOnChanges(): void {
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+    console.log(this.item);
+  }
   // public method
   closeOtherMenu(event: MouseEvent) {
     const ele = event.target as HTMLElement;

@@ -42,7 +42,7 @@
               </div>
             </div>
 
-            <div class="col-12 md:col-6">
+            <div class="col-12 md:col-6 right-side">
               <h2 class="text-2xl font-bold mb-4">Arabic content</h2>
               <!-- Title Field -->
               <div class="field mb-3">
@@ -71,6 +71,7 @@
               </label>
               <div class="card">
                 <p-editor
+                  [styleClass]="'rtl-editor'"
                   placeholder="Enter ar slider description"
                   formControlName="ar_description"
                   [style]="{ height: '320px', backgroundColor: 'white' }" />
