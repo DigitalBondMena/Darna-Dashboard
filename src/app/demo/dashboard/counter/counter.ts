@@ -18,8 +18,8 @@ export class Counter implements OnInit {
   private route = inject(ActivatedRoute);
   private messageService = inject(MessageService);
 
-  counters!: ICounterData[];
-  allCounters!: ICounterData[]; // Store original data
+  counters: ICounterData[] = []; // Initialize as empty array
+  allCounters: ICounterData[] = []; // Initialize as empty array
 
   baseUrl = baseUrl;
   counterService = inject(CounterService);
@@ -49,9 +49,8 @@ export class Counter implements OnInit {
 
   ngOnInit() {
     this.counterService.getCounters().subscribe((data) => {
-      this.allCounters = data.data; // Store original data
+      this.allCounters = data.data;
       this.counters = data.data;
-      console.log(this.counters[0]);
     });
   }
 
@@ -167,15 +166,6 @@ export class Counter implements OnInit {
     if (counter) {
       this.onToggleChange(counter);
     }
-  }
-
-  // Refresh data and reapply filter
-  private refreshData() {
-    this.counterService.getCounters().subscribe((data) => {
-      this.allCounters = data.data;
-      // Reapply current filter
-      this.onStatusFilter(this.selectedStatusFilter);
-    });
   }
 
   onDelete(id: number) {
