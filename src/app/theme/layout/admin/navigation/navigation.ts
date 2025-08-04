@@ -231,4 +231,20 @@ export const NavigationItems: NavigationItem[] = [
       },
     ],
   },
+  {
+    id: "settings",
+    title: "Settings",
+    type: "group",
+    icon: "icon-navigation",
+    children: [
+      {
+        id: "logout",
+        title: "Logout",
+        type: "item",
+        classes: "nav-item",
+        icon: "pi pi-sign-out",
+        url: "",
+      },
+    ],
+  },
 ];
