@@ -65,9 +65,19 @@
         </a>
       </td>
       <td>
-        <p-toggleswitch
-          [ngModel]="returnStatus(blog.active_status)"
-          (ngModelChange)="onActive(blog.id)" />
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch
+            [ngModel]="returnStatus(blog.active_status)"
+            (ngModelChange)="onToggleChange(blog)"
+            [disabled]="isToggleLoading(blog.id)" />
+
+          <!-- Loading indicator -->
+          <i
+            *ngIf="isToggleLoading(blog.id)"
+            class="pi pi-spin pi-spinner"
+            style="color: #673ab7; font-size: 0.8rem">
+          </i>
+        </div>
       </td>
     </tr>
   </ng-template>

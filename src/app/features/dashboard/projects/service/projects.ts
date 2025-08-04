@@ -5,6 +5,7 @@ import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import {
   IProject,
+  IProjectChoicesInput,
   IProjectDetails,
   IProjectGallery,
   IProjectGalleryResponse,
@@ -54,6 +55,7 @@ export class ProjectsService {
     projectId?: number,
     bannerImageFile?: File
   ) {
+    console.log(data);
     const formData = new FormData();
 
     formData.append("en_alt_main_image", data.en_alt_main_image);
@@ -187,4 +189,55 @@ export class ProjectsService {
   }
 
   /* End Endpoints For Project Gallery */
+
+  getProjectChoicesInputById(
+    endpoint: string,
+    id: number
+  ): Observable<IProjectChoicesInput> {
+    return this.http.get<IProjectChoicesInput>(
+      `${baseUrl}api/${endpoint}/${id}`
+    );
+  }
+
+  addProjectChoicesInput(
+    endpoint: string,
+    data: IProjectChoicesInput
+  ): Observable<IProjectChoicesInput> {
+    return this.http.post<IProjectChoicesInput>(
+      `${baseUrl}api/${endpoint}`,
+      data
+    );
+  }
+
+  updateProjectChoicesInput(
+    endpoint: string,
+    id: number,
+    data: IProjectChoicesInput
+  ): Observable<IProjectChoicesInput> {
+    return this.http.post<IProjectChoicesInput>(
+      `${baseUrl}api/${endpoint}/${id}`,
+      data
+    );
+  }
+
+  deleteProjectChoicesInput(
+    endpoint: string,
+    id: number
+  ): Observable<IProjectChoicesInput> {
+    return this.http.post<IProjectChoicesInput>(
+      `${baseUrl}api/${endpoint}/${id}/delete`,
+      {}
+    );
+  }
+
+  activeProjectChoicesInput(
+    endpoint: string,
+    id: number
+  ): Observable<IProjectChoicesInput> {
+    return this.http.post<IProjectChoicesInput>(
+      `${baseUrl}api/${endpoint}/${id}/recover`,
+      {}
+    );
+  }
+  /* Start Endpoints For Project choices Input */
 }

@@ -11,15 +11,46 @@
 <p-table [value]="careers" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Title</th>
-      <th>Type</th>
-      <th>Location</th>
-      <th>Category</th>
+      <th pSortableColumn="id">
+        ID
+        <p-sortIcon field="id"></p-sortIcon>
+      </th>
+      <th pSortableColumn="en_name">
+        Name
+        <p-sortIcon field="en_name"></p-sortIcon>
+      </th>
+      <th pSortableColumn="en_title">
+        Title
+        <p-sortIcon field="en_title"></p-sortIcon>
+      </th>
+      <th pSortableColumn="en_type">
+        Type
+        <p-sortIcon field="en_type"></p-sortIcon>
+      </th>
+      <th pSortableColumn="en_location">
+        Location
+        <p-sortIcon field="en_location"></p-sortIcon>
+      </th>
+      <th pSortableColumn="en_category_name">
+        Category
+        <p-sortIcon field="en_category_name"></p-sortIcon>
+      </th>
       <th>View</th>
       <th>Edit</th>
-      <th>Status</th>
+      <th style="max-width: 50px" pSortableColumn="active_status">
+        <div class="flex flex-column gap-2">
+          <span>Status</span>
+          <p-select
+            [options]="statusOptions"
+            [(ngModel)]="selectedStatusFilter"
+            (ngModelChange)="onStatusFilter($event)"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            appendTo="body"
+            placeholder="Filter by Status" />
+        </div>
+      </th>
     </tr>
   </ng-template>
 
@@ -42,9 +73,19 @@
         </a>
       </td>
       <td>
-        <p-toggleswitch
-          [ngModel]="returnStatus(career.active_status)"
-          (ngModelChange)="onActive(career.en_slug)" />
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch
+            [ngModel]="returnStatus(career.active_status)"
+            (ngModelChange)="onToggleChange(career)"
+            [disabled]="isToggleLoading(career.en_slug)" />
+
+          <!-- Loading indicator -->
+          <i
+            *ngIf="isToggleLoading(career.en_slug)"
+            class="pi pi-spin pi-spinner"
+            style="color: #673ab7; font-size: 0.8rem">
+          </i>
+        </div>
       </td>
     </tr>
   </ng-template>

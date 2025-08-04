@@ -3,7 +3,7 @@ import { RouterOutlet } from "@angular/router";
 
 import { NotificationsComponent } from "@shared/components/notifications/notifications.component";
 import { NgxSpinnerModule } from "ngx-spinner";
-import { SpinnerComponent } from "./theme/shared/components/spinner/spinner.component";
+import { ToastModule } from "primeng/toast";
 
 @Component({
   selector: "app-root",
@@ -11,7 +11,7 @@ import { SpinnerComponent } from "./theme/shared/components/spinner/spinner.comp
   styleUrls: ["./app.component.scss"],
   imports: [
     RouterOutlet,
-    SpinnerComponent,
+    ToastModule,
     NotificationsComponent,
     NgxSpinnerModule,
   ],

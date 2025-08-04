@@ -4,7 +4,9 @@ import { baseUrl } from "@app/core/env";
 import { IBlogData } from "@app/features/dashboard/blogs/model/blog";
 import { BlogService } from "@app/features/dashboard/blogs/service/blog";
 import { TableSharedModule } from "@app/theme/shared/module/shared/table-shared.module";
+import { MessageService } from "primeng/api";
 import { SelectModule } from "primeng/select";
+import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-blogs",
@@ -14,15 +16,17 @@ import { SelectModule } from "primeng/select";
 })
 export class Blogs implements OnInit {
   private route = inject(ActivatedRoute);
+  private messageService = inject(MessageService);
 
   blogs!: IBlogData[];
   allBlogs!: IBlogData[]; // Store original data
 
   baseUrl = baseUrl;
-
   blogService = inject(BlogService);
-
   checked: boolean = false;
+
+  // Add loading state for each toggle
+  loadingToggles = new Set<number>();
 
   // Status options for dropdown
   statusOptions = [
@@ -58,6 +62,83 @@ export class Blogs implements OnInit {
     return false;
   }
 
+  // Check if a specific toggle is loading
+  isToggleLoading(blogId: number): boolean {
+    return this.loadingToggles.has(blogId);
+  }
+
+  onToggleChange(blog: IBlogData) {
+    // Prevent multiple clicks while loading
+    if (this.isToggleLoading(blog.id)) {
+      return;
+    }
+
+    // Add loading state
+    this.loadingToggles.add(blog.id);
+
+    // Optimistically update the UI
+    const originalStatus = blog.active_status;
+    const newStatus = Number(blog.active_status) === 1 ? "0" : "1";
+    blog.active_status = newStatus;
+
+    // Update in both arrays
+    const allBlogIndex = this.allBlogs.findIndex((b) => b.id === blog.id);
+    if (allBlogIndex !== -1) {
+      this.allBlogs[allBlogIndex].active_status = newStatus;
+    }
+
+    const apiCall =
+      Number(originalStatus) === 1
+        ? this.blogService.disableBlog(blog.id)
+        : this.blogService.activeBlog(blog.id);
+
+    apiCall
+      .pipe(
+        finalize(() => {
+          // Remove loading state when done
+          this.loadingToggles.delete(blog.id);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          // Update with server response if available
+          if (response.data && response.data.length > 0) {
+            const updatedBlog = response.data.find((b) => b.id === blog.id);
+            if (updatedBlog) {
+              blog.active_status = updatedBlog.active_status;
+              // Update in allBlogs as well
+              if (allBlogIndex !== -1) {
+                this.allBlogs[allBlogIndex].active_status =
+                  updatedBlog.active_status;
+              }
+            }
+          }
+
+          // Show success notification
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: `Blog ${Number(newStatus) === 1 ? "activated" : "deactivated"} successfully`,
+          });
+        },
+        error: (error) => {
+          // Revert optimistic update on error
+          blog.active_status = originalStatus;
+          if (allBlogIndex !== -1) {
+            this.allBlogs[allBlogIndex].active_status = originalStatus;
+          }
+          console.error("Toggle failed:", error);
+
+          // Show error notification
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to update blog status",
+          });
+        },
+      });
+  }
+
   // Get status option for dropdown display
   getStatusOption(status: number): number {
     return status;
@@ -77,17 +158,10 @@ export class Blogs implements OnInit {
   }
 
   // Handle status change from dropdown
-  onStatusChange(blogId: number, newStatus: number) {
-    if (newStatus === 1) {
-      // Activate blog
-      this.blogService.activeBlog(blogId).subscribe(() => {
-        this.refreshData();
-      });
-    } else {
-      // Deactivate blog
-      this.blogService.disableBlog(blogId).subscribe(() => {
-        this.refreshData();
-      });
+  onStatusChange(blogId: number) {
+    const blog = this.allBlogs.find((b) => b.id === blogId);
+    if (blog) {
+      this.onToggleChange(blog);
     }
   }
 
@@ -101,18 +175,16 @@ export class Blogs implements OnInit {
   }
 
   onDelete(id: number) {
-    this.blogService.disableBlog(id).subscribe(() => {
-      this.refreshData();
-    });
+    const blog = this.allBlogs.find((b) => b.id === id);
+    if (blog) {
+      this.onToggleChange(blog);
+    }
   }
 
-  onActive(slug: string) {
-    // Find the blog by slug to get the ID
-    const blog = this.allBlogs.find((b) => b.en_slug === slug);
+  onActive(id: number) {
+    const blog = this.allBlogs.find((b) => b.id === id);
     if (blog) {
-      this.blogService.activeBlog(blog.id).subscribe(() => {
-        this.refreshData();
-      });
+      this.onToggleChange(blog);
     }
   }
 }

@@ -1,7 +1,7 @@
 <div class="flex justify-content-between items-center mb-4 w-full">
-  <h2>Blogs Management</h2>
+  <h2>Projects Management</h2>
   <p-button
-    label="Create New Blog"
+    label="Create New Project"
     icon="pi pi-plus"
     [routerLink]="['create']"
     severity="primary">
@@ -15,14 +15,14 @@
         ID
         <p-sortIcon field="id"></p-sortIcon>
       </th>
-      <th pSortableColumn="en_blog_title">
+      <th pSortableColumn="en_project_name">
         Title
-        <p-sortIcon field="en_blog_title"></p-sortIcon>
+        <p-sortIcon field="en_project_name"></p-sortIcon>
       </th>
       <th>Image</th>
-      <th pSortableColumn="blog_date">
-        Date
-        <p-sortIcon field="blog_date"></p-sortIcon>
+      <th pSortableColumn="en_project_name">
+        Name
+        <p-sortIcon field="en_project_name"></p-sortIcon>
       </th>
       <th>View</th>
       <th>Edit</th>
@@ -65,9 +65,19 @@
         </a>
       </td>
       <td>
-        <p-toggleswitch
-          [ngModel]="returnStatus(project.active_status)"
-          (ngModelChange)="onActive(project.id)" />
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch
+            [ngModel]="returnStatus(project.active_status)"
+            (ngModelChange)="onToggleChange(project)"
+            [disabled]="isToggleLoading(project.id)" />
+
+          <!-- Loading indicator -->
+          <i
+            *ngIf="isToggleLoading(project.id)"
+            class="pi pi-spin pi-spinner"
+            style="color: #673ab7; font-size: 0.8rem">
+          </i>
+        </div>
       </td>
     </tr>
   </ng-template>

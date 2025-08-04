@@ -68,9 +68,19 @@
         </a>
       </td>
       <td>
-        <p-toggleswitch
-          [ngModel]="returnStatus(counter.active_status)"
-          (ngModelChange)="onActive(counter.id)" />
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch
+            [ngModel]="returnStatus(counter.active_status)"
+            (ngModelChange)="onToggleChange(counter)"
+            [disabled]="isToggleLoading(counter.id)" />
+
+          <!-- Loading indicator -->
+          <i
+            *ngIf="isToggleLoading(counter.id)"
+            class="pi pi-spin pi-spinner"
+            style="color: #673ab7; font-size: 0.8rem">
+          </i>
+        </div>
       </td>
     </tr>
   </ng-template>

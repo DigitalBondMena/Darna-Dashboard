@@ -1,21 +1,57 @@
 <div class="flex justify-content-between items-center mb-4 w-full">
-  <h2>Careers Management</h2>
+  <h2>Careers Applications</h2>
 </div>
 
 <p-table [value]="careerForm" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Email</th>
-      <th>Phone</th>
-      <th>Address</th>
-      <th>Experience</th>
-      <th>Current Salary</th>
-      <th>Expected Salary</th>
-      <th>view</th>
-
-      <th>Is Read</th>
+      <th pSortableColumn="id">
+        ID
+        <p-sortIcon field="id"></p-sortIcon>
+      </th>
+      <th pSortableColumn="name">
+        Name
+        <p-sortIcon field="name"></p-sortIcon>
+      </th>
+      <th pSortableColumn="email">
+        Email
+        <p-sortIcon field="email"></p-sortIcon>
+      </th>
+      <th pSortableColumn="phone">
+        Phone
+        <p-sortIcon field="phone"></p-sortIcon>
+      </th>
+      <th pSortableColumn="address">
+        Address
+        <p-sortIcon field="address"></p-sortIcon>
+      </th>
+      <th pSortableColumn="experience">
+        Experience
+        <p-sortIcon field="experience"></p-sortIcon>
+      </th>
+      <th pSortableColumn="current_salary">
+        Current Salary
+        <p-sortIcon field="current_salary"></p-sortIcon>
+      </th>
+      <th pSortableColumn="expected_salary">
+        Expected Salary
+        <p-sortIcon field="expected_salary"></p-sortIcon>
+      </th>
+      <th>View</th>
+      <th style="max-width: 50px" pSortableColumn="is_read">
+        <div class="flex flex-column gap-2">
+          <span>Is Read</span>
+          <p-select
+            [options]="readStatusOptions"
+            [(ngModel)]="selectedReadFilter"
+            (ngModelChange)="onReadFilter($event)"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            appendTo="body"
+            placeholder="Filter by Status" />
+        </div>
+      </th>
     </tr>
   </ng-template>
 
@@ -35,9 +71,19 @@
         </a>
       </td>
       <td>
-        <p-toggleswitch
-          [ngModel]="returnStatus(career.is_read)"
-          (ngModelChange)="onRead(career.id)" />
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch
+            [ngModel]="returnStatus(career.is_read)"
+            (ngModelChange)="onToggleChange(career)"
+            [disabled]="isToggleLoading(career.id)" />
+
+          <!-- Loading indicator -->
+          <i
+            *ngIf="isToggleLoading(career.id)"
+            class="pi pi-spin pi-spinner"
+            style="color: #673ab7; font-size: 0.8rem">
+          </i>
+        </div>
       </td>
     </tr>
   </ng-template>

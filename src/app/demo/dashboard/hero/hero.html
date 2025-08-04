@@ -11,12 +11,31 @@
 <p-table [value]="sliders" [tableStyle]="{ 'min-width': '50rem' }">
   <ng-template pTemplate="header">
     <tr>
-      <th>ID</th>
-      <th>Title</th>
+      <th pSortableColumn="id">
+        ID
+        <p-sortIcon field="id"></p-sortIcon>
+      </th>
+      <th pSortableColumn="en_title">
+        Title
+        <p-sortIcon field="en_title"></p-sortIcon>
+      </th>
       <th>Image</th>
       <th>View</th>
       <th>Edit</th>
-      <th>Status</th>
+      <th style="max-width: 50px" pSortableColumn="active_status">
+        <div class="flex flex-column gap-2">
+          <span>Status</span>
+          <p-select
+            [options]="statusOptions"
+            [(ngModel)]="selectedStatusFilter"
+            (ngModelChange)="onStatusFilter($event)"
+            optionLabel="label"
+            optionValue="value"
+            [showClear]="true"
+            appendTo="body"
+            placeholder="Filter by Status" />
+        </div>
+      </th>
     </tr>
   </ng-template>
 
@@ -41,9 +60,19 @@
         </a>
       </td>
       <td>
-        <p-toggleswitch
-          [ngModel]="returnStatus(slider.active_status)"
-          (ngModelChange)="onToggleChange(slider)" />
+        <div class="flex align-items-center gap-2">
+          <p-toggleswitch
+            [ngModel]="returnStatus(slider.active_status)"
+            (ngModelChange)="onToggleChange(slider)"
+            [disabled]="isToggleLoading(slider.id)" />
+
+          <!-- Loading indicator -->
+          <i
+            *ngIf="isToggleLoading(slider.id)"
+            class="pi pi-spin pi-spinner"
+            style="color: #673ab7; font-size: 0.8rem">
+          </i>
+        </div>
       </td>
     </tr>
   </ng-template>

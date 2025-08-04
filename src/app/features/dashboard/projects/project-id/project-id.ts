@@ -177,10 +177,10 @@ export class ProjectId implements OnInit {
       ar_project_description: ["", [Validators.required]],
       en_small_text: ["", [Validators.required]],
       ar_small_text: ["", [Validators.required]],
-      en_alt_main_image: ["", [Validators.required]],
-      ar_alt_main_image: ["", [Validators.required]],
-      en_alt_banner_image: ["", [Validators.required]],
-      ar_alt_banner_image: ["", [Validators.required]],
+      en_alt_main_image: [""],
+      ar_alt_main_image: [""],
+      en_alt_banner_image: [""],
+      ar_alt_banner_image: [""],
       main_file_link: [""],
       google_map_link: [""],
       en_form_first_input_info: [""],
@@ -193,10 +193,10 @@ export class ProjectId implements OnInit {
       ar_description_form: [""],
       en_script_text: [""],
       ar_script_text: [""],
-      en_meta_title: ["", [Validators.required]],
-      ar_meta_title: ["", [Validators.required]],
-      en_meta_description: ["", [Validators.required]],
-      ar_meta_description: ["", [Validators.required]],
+      en_meta_title: [""],
+      ar_meta_title: [""],
+      en_meta_description: [""],
+      ar_meta_description: [""],
     });
   }
 
@@ -206,6 +206,7 @@ export class ProjectId implements OnInit {
     this.projectService.getProject(projectId).subscribe({
       next: (data) => {
         this.project = data.data;
+        console.log(this.project);
         this.projectForm.patchValue({
           en_project_name: this.project.en_project_name,
           ar_project_name: this.project.ar_project_name,
@@ -219,7 +220,7 @@ export class ProjectId implements OnInit {
           ar_alt_main_image: this.project.ar_alt_main_image,
           en_alt_banner_image: this.project.en_alt_banner_image,
           ar_alt_banner_image: this.project.ar_alt_banner_image,
-          main_file_link: this.project.main_file_link,
+          main_file_link: this.project?.main_file_link,
           google_map_link: this.project.google_map_link,
           en_form_first_input_info: this.project.en_form_first_input_info,
           ar_form_first_input_info: this.project.ar_form_first_input_info,
@@ -659,6 +660,7 @@ export class ProjectId implements OnInit {
       // No new image, just keep existing data
       updatedData = editingImage;
     }
+    console.log(updatedData);
 
     this.projectService
       .updateProjectGallery(editingImage.id, updatedData)

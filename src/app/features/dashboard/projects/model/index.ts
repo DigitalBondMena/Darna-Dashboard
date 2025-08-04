@@ -39,7 +39,9 @@ export interface IProjectResponse {
   ar_meta_description: string;
   en_slug: string;
   ar_slug: string;
-  active_status: number;
+  active_status: string;
+  project_form_second: IProjectChoicesInput[];
+  project_form_first: IProjectChoicesInput[];
 }
 
 export interface IProjectGalleryResponse {
@@ -52,4 +54,15 @@ export interface IProjectGallery {
   main_image: string;
   active_status: string;
   project_id: number;
+}
+
+export interface IProjectChoicesInput {
+  data: IProjectChoicesInputData[];
+}
+export interface IProjectChoicesInputData {
+  id: number;
+  project_id: string;
+  en_input_info: string;
+  ar_input_info: string;
+  active_status: string;
 }

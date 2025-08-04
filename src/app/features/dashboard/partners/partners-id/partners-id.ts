@@ -224,14 +224,14 @@ export class PartnersId implements OnInit {
             summary: "Success",
             detail: "Hero created successfully",
           });
-          this.router.navigate(["/dashboard/hero"]);
+          this.router.navigate(["/dashboard/partner"]);
         },
         error: (error) => {
-          console.error("Error creating hero:", error);
+          console.error("Error creating partner:", error);
           this.messageService.add({
             severity: "error",
             summary: "Error",
-            detail: "Failed to create hero",
+            detail: "Failed to create partner",
           });
           this.isLoading.set(false);
         },
