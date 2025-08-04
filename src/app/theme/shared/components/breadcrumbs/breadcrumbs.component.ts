@@ -1,12 +1,15 @@
 // Angular Import
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject } from "@angular/core";
 
-import { NavigationEnd, Router, RouterModule, Event } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Title } from "@angular/platform-browser";
+import { Event, NavigationEnd, Router, RouterModule } from "@angular/router";
 
 // project import
-import { NavigationItem, NavigationItems } from 'src/app/theme/layout/admin/navigation/navigation';
-import { SharedModule } from '../../shared.module';
+import {
+  NavigationItem,
+  NavigationItems,
+} from "src/app/theme/layout/admin/navigation/navigation";
+import { SharedModule } from "../../shared.module";
 
 interface titleType {
   // eslint-disable-next-line
@@ -17,10 +20,10 @@ interface titleType {
 }
 
 @Component({
-  selector: 'app-breadcrumb',
+  selector: "app-breadcrumb",
   imports: [RouterModule, SharedModule],
-  templateUrl: './breadcrumbs.component.html',
-  styleUrls: ['./breadcrumbs.component.scss']
+  templateUrl: "./breadcrumbs.component.html",
+  styleUrls: ["./breadcrumbs.component.scss"],
 })
 export class BreadcrumbComponent {
   private route = inject(Router);
@@ -36,7 +39,7 @@ export class BreadcrumbComponent {
   // constructor
   constructor() {
     this.navigations = NavigationItems;
-    this.type = 'icon';
+    this.type = "icon";
     this.setBreadcrumb();
   }
 
@@ -45,35 +48,52 @@ export class BreadcrumbComponent {
     this.route.events.subscribe((router: Event) => {
       if (router instanceof NavigationEnd) {
         const activeLink = router.url;
-        const breadcrumbList = this.filterNavigation(this.navigations, activeLink);
-        const title = breadcrumbList[breadcrumbList.length - 1]?.title || 'Welcome';
+        const breadcrumbList = this.filterNavigation(
+          this.navigations,
+          activeLink
+        );
+        const title =
+          breadcrumbList[breadcrumbList.length - 1]?.title || "Dashboard";
         this.navigationList = breadcrumbList.splice(-2);
-        this.titleService.setTitle(title + ' | Berry Angular Admin Template');
+        this.titleService.setTitle(title + " | Darna Dashboard");
       }
     });
   }
 
-  filterNavigation(navItems: NavigationItem[], activeLink: string): titleType[] {
+  filterNavigation(
+    navItems: NavigationItem[],
+    activeLink: string
+  ): titleType[] {
     for (const navItem of navItems) {
-      if (navItem.type === 'item' && 'url' in navItem && navItem.url === activeLink) {
+      if (
+        navItem.type === "item" &&
+        "url" in navItem &&
+        navItem.url === activeLink
+      ) {
         return [
           {
-            url: 'url' in navItem ? navItem.url : false,
+            url: "url" in navItem ? navItem.url : false,
             title: navItem.title,
-            breadcrumbs: 'breadcrumbs' in navItem ? navItem.breadcrumbs : true,
-            type: navItem.type
-          }
+            breadcrumbs: "breadcrumbs" in navItem ? navItem.breadcrumbs : true,
+            type: navItem.type,
+          },
         ];
       }
-      if ((navItem.type === 'group' || navItem.type === 'collapse') && 'children' in navItem) {
-        const breadcrumbList = this.filterNavigation(navItem.children!, activeLink);
+      if (
+        (navItem.type === "group" || navItem.type === "collapse") &&
+        "children" in navItem
+      ) {
+        const breadcrumbList = this.filterNavigation(
+          navItem.children!,
+          activeLink
+        );
 
         if (breadcrumbList.length > 0) {
           breadcrumbList.unshift({
-            url: 'url' in navItem ? navItem.url : false,
+            url: "url" in navItem ? navItem.url : false,
             title: navItem.title,
-            breadcrumbs: 'breadcrumbs' in navItem ? navItem.breadcrumbs : true,
-            type: navItem.type
+            breadcrumbs: "breadcrumbs" in navItem ? navItem.breadcrumbs : true,
+            type: navItem.type,
           });
           return breadcrumbList;
         }
