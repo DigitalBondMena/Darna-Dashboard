@@ -15,18 +15,36 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
-import { MessageService } from "primeng/api";
+import { ConfirmationService, MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
+import { ConfirmDialogModule } from "primeng/confirmdialog";
+import { DataViewModule } from "primeng/dataview";
+import { DialogModule } from "primeng/dialog";
 import { EditorModule } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
+import { ImageModule } from "primeng/image";
 import { InputTextModule } from "primeng/inputtext";
+import { TagModule } from "primeng/tag";
 import { TextareaModule } from "primeng/textarea";
 import { ToastModule } from "primeng/toast";
+import { TooltipModule } from "primeng/tooltip";
 
 import { baseUrl } from "@app/core/env";
-import { IProjectResponse } from "../model";
+import { IProjectGallery, IProjectResponse } from "../model";
 import { ProjectsService } from "../service/projects";
+
+interface FileUploadEvent {
+  files?: File[];
+  currentFiles?: File[];
+  target?: {
+    files: FileList;
+  };
+}
+
+type GalleryUploadData = Omit<IProjectGallery, "main_image"> & {
+  main_image: File;
+};
 
 @Component({
   selector: "app-project-id",
@@ -40,15 +58,22 @@ import { ProjectsService } from "../service/projects";
     FileUploadModule,
     EditorModule,
     ToastModule,
+    DataViewModule,
+    DialogModule,
+    ImageModule,
+    TagModule,
+    ConfirmDialogModule,
+    TooltipModule,
   ],
   templateUrl: "./project-id.html",
   styleUrl: "./project-id.scss",
-  providers: [MessageService],
+  providers: [MessageService, ConfirmationService],
 })
 export class ProjectId implements OnInit {
   private projectService = inject(ProjectsService);
   private fb = inject(FormBuilder);
   private messageService = inject(MessageService);
+  private confirmationService = inject(ConfirmationService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
@@ -61,6 +86,19 @@ export class ProjectId implements OnInit {
 
   selectedMainImage: File | null = null;
   selectedBannerImage: File | null = null;
+
+  // Gallery management signals
+  galleryImages = signal<IProjectGallery[]>([]);
+  selectedGalleryFiles = signal<File[]>([]);
+  isGalleryLoading = signal(false);
+  showGalleryUpload = signal(false);
+  showEditGalleryDialog = signal(false);
+  editingGalleryImage = signal<IProjectGallery | null>(null);
+  selectedEditImage: File | null = null;
+  galleryForm!: FormGroup;
+
+  // Image styling
+  imageStyle = { "object-fit": "cover", "border-radius": "8px" };
 
   isEditMode = computed(() => this.mode() === "edit");
   isCreateMode = computed(() => this.mode() === "create");
@@ -108,6 +146,7 @@ export class ProjectId implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.initGalleryForm();
     this.setupRouteHandling();
   }
 
@@ -197,6 +236,9 @@ export class ProjectId implements OnInit {
           en_meta_description: this.project.en_meta_description,
           ar_meta_description: this.project.ar_meta_description,
         });
+
+        // Load gallery images after project is loaded
+        this.loadGalleryImages();
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -211,9 +253,20 @@ export class ProjectId implements OnInit {
     });
   }
 
-  onMainImageSelect(event: { files?: File[]; currentFiles?: File[] }) {
-    const files = event.files || event.currentFiles;
-    if (files && files.length > 0) {
+  onMainImageSelect(event: FileUploadEvent) {
+    let files: File[] = [];
+
+    if (event.files && Array.isArray(event.files)) {
+      files = event.files;
+    } else if (event.currentFiles && Array.isArray(event.currentFiles)) {
+      files = event.currentFiles;
+    } else if (event.target && event.target.files) {
+      files = Array.from(event.target.files);
+    } else {
+      return;
+    }
+
+    if (files.length > 0) {
       const file = files[0];
 
       if (!file.type.startsWith("image/")) {
@@ -243,9 +296,20 @@ export class ProjectId implements OnInit {
     }
   }
 
-  onBannerImageSelect(event: { files?: File[]; currentFiles?: File[] }) {
-    const files = event.files || event.currentFiles;
-    if (files && files.length > 0) {
+  onBannerImageSelect(event: FileUploadEvent) {
+    let files: File[] = [];
+
+    if (event.files && Array.isArray(event.files)) {
+      files = event.files;
+    } else if (event.currentFiles && Array.isArray(event.currentFiles)) {
+      files = event.currentFiles;
+    } else if (event.target && event.target.files) {
+      files = Array.from(event.target.files);
+    } else {
+      return;
+    }
+
+    if (files.length > 0) {
       const file = files[0];
 
       if (!file.type.startsWith("image/")) {
@@ -310,7 +374,12 @@ export class ProjectId implements OnInit {
     }
 
     this.projectService
-      .addUpdateProject(formData as IProjectResponse, this.selectedMainImage)
+      .addUpdateProject(
+        formData as IProjectResponse,
+        this.selectedMainImage,
+        undefined, // No project ID for creation
+        this.selectedBannerImage || undefined
+      )
       .subscribe({
         next: (data) => {
           console.log("Create successful:", data);
@@ -320,6 +389,7 @@ export class ProjectId implements OnInit {
             detail: "Project created successfully",
           });
           this.router.navigate(["/dashboard/projects"]);
+          this.isLoading.set(false);
         },
         error: (error) => {
           console.error("Error creating project:", error);
@@ -341,7 +411,8 @@ export class ProjectId implements OnInit {
       .addUpdateProject(
         formData as IProjectResponse,
         this.selectedMainImage || undefined,
-        this.project.id
+        this.project.id,
+        this.selectedBannerImage || undefined
       )
       .subscribe({
         next: (data) => {
@@ -376,5 +447,297 @@ export class ProjectId implements OnInit {
         relativeTo: this.route,
       });
     }
+  }
+
+  // Gallery Management Methods
+  initGalleryForm() {
+    this.galleryForm = this.fb.group({
+      // Removed alt text fields since they're not needed
+    });
+  }
+
+  loadGalleryImages() {
+    const id = this.projectId();
+    if (!id) return;
+
+    this.isGalleryLoading.set(true);
+
+    this.projectService.getProjectGalleryImages(id).subscribe({
+      next: (images) => {
+        this.galleryImages.set(images);
+        this.isGalleryLoading.set(false);
+      },
+      error: (error) => {
+        console.error("Error loading gallery images:", error);
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Failed to load gallery images",
+        });
+        this.galleryImages.set([]);
+        this.isGalleryLoading.set(false);
+      },
+    });
+  }
+
+  onGalleryFilesSelect(event: FileUploadEvent) {
+    // Handle different event structures from PrimeNG FileUpload
+    let files: File[] = [];
+
+    if (event.files && Array.isArray(event.files)) {
+      files = event.files;
+    } else if (event.currentFiles && Array.isArray(event.currentFiles)) {
+      files = event.currentFiles;
+    } else if (event.target && event.target.files) {
+      // Handle native file input
+      files = Array.from(event.target.files);
+    } else {
+      return;
+    }
+
+    // Validate files
+    const validFiles = files.filter((file) => {
+      if (!file.type.startsWith("image/")) {
+        this.messageService.add({
+          severity: "error",
+          summary: "Invalid File",
+          detail: `${file.name} is not an image file`,
+        });
+        return false;
+      }
+
+      if (file.size > 5000000) {
+        this.messageService.add({
+          severity: "error",
+          summary: "File Too Large",
+          detail: `${file.name} is larger than 5MB`,
+        });
+        return false;
+      }
+
+      return true;
+    });
+
+    this.selectedGalleryFiles.set(validFiles);
+
+    if (validFiles.length > 0) {
+      this.messageService.add({
+        severity: "success",
+        summary: "Files Selected",
+        detail: `${validFiles.length} image(s) selected successfully`,
+      });
+    }
+  }
+
+  uploadGalleryImages() {
+    const files = this.selectedGalleryFiles();
+    const projectId = this.projectId();
+
+    if (!files.length || !projectId) {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: "Please select files to upload",
+      });
+      return;
+    }
+
+    this.isGalleryLoading.set(true);
+
+    // Upload each file separately
+    const uploadPromises = files.map((file) => {
+      const galleryData: GalleryUploadData = {
+        id: 0,
+        en_alt_name: this.project.en_alt_main_image,
+        ar_alt_name: this.project.ar_alt_main_image,
+        main_image: file, // Pass the File object directly
+        active_status: "1",
+        project_id: projectId,
+      };
+
+      return this.projectService
+        .addProjectGallery(galleryData as unknown as IProjectGallery)
+        .toPromise();
+    });
+
+    Promise.all(uploadPromises)
+      .then((responses) => {
+        this.messageService.add({
+          severity: "success",
+          summary: "Success",
+          detail: `${responses.length} image(s) uploaded successfully`,
+        });
+        this.selectedGalleryFiles.set([]);
+        this.showGalleryUpload.set(false);
+        this.loadGalleryImages();
+      })
+      .catch((error) => {
+        console.error("Error uploading gallery images:", error);
+        this.messageService.add({
+          severity: "error",
+          summary: "Error",
+          detail: "Failed to upload some images",
+        });
+        this.isGalleryLoading.set(false);
+      })
+      .finally(() => {
+        this.isGalleryLoading.set(false);
+      });
+  }
+
+  editGalleryImage(image: IProjectGallery) {
+    this.editingGalleryImage.set(image);
+    this.selectedEditImage = null;
+    this.showEditGalleryDialog.set(true);
+  }
+
+  onEditImageSelect(event: FileUploadEvent) {
+    let files: File[] = [];
+
+    if (event.files && Array.isArray(event.files)) {
+      files = event.files;
+    } else if (event.currentFiles && Array.isArray(event.currentFiles)) {
+      files = event.currentFiles;
+    } else if (event.target && event.target.files) {
+      files = Array.from(event.target.files);
+    } else {
+      return;
+    }
+
+    if (files.length > 0) {
+      const file = files[0];
+
+      if (!file.type.startsWith("image/")) {
+        this.messageService.add({
+          severity: "error",
+          summary: "Invalid File",
+          detail: "Please select an image file",
+        });
+        return;
+      }
+
+      if (file.size > 5000000) {
+        this.messageService.add({
+          severity: "error",
+          summary: "File Too Large",
+          detail: "Please select an image smaller than 5MB",
+        });
+        return;
+      }
+
+      this.selectedEditImage = file;
+      this.messageService.add({
+        severity: "success",
+        summary: "File Selected",
+        detail: `New image "${file.name}" selected successfully`,
+      });
+    }
+  }
+
+  updateGalleryImage() {
+    const editingImage = this.editingGalleryImage();
+    if (!editingImage) {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: "No image selected for editing",
+      });
+      return;
+    }
+
+    this.isGalleryLoading.set(true);
+
+    let updatedData: IProjectGallery;
+
+    if (this.selectedEditImage) {
+      // Update with new image
+      updatedData = {
+        ...editingImage,
+        main_image: this.selectedEditImage as unknown as string,
+      };
+    } else {
+      // No new image, just keep existing data
+      updatedData = editingImage;
+    }
+
+    this.projectService
+      .updateProjectGallery(editingImage.id, updatedData)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Gallery image updated successfully",
+          });
+          this.showEditGalleryDialog.set(false);
+          this.editingGalleryImage.set(null);
+          this.selectedEditImage = null;
+          this.loadGalleryImages();
+        },
+        error: (error) => {
+          console.error("Error updating gallery image:", error);
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to update gallery image",
+          });
+        },
+        complete: () => {
+          this.isGalleryLoading.set(false);
+        },
+      });
+  }
+
+  toggleGalleryImageStatus(image: IProjectGallery) {
+    const action = image.active_status === "1" ? "disable" : "activate";
+    const actionMethod =
+      image.active_status === "1"
+        ? this.projectService.deleteImageGallery(image.id)
+        : this.projectService.activeImageGallery(image.id);
+
+    this.confirmationService.confirm({
+      message: `Are you sure you want to ${action} this gallery image?`,
+      header: `${action.charAt(0).toUpperCase() + action.slice(1)} Confirmation`,
+      icon: "pi pi-exclamation-triangle",
+      acceptButtonStyleClass:
+        action === "disable" ? "p-button-danger" : "p-button-success",
+      accept: () => {
+        this.isGalleryLoading.set(true);
+
+        actionMethod.subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: "success",
+              summary: "Success",
+              detail: `Gallery image ${action}d successfully`,
+            });
+            this.loadGalleryImages();
+          },
+          error: (error) => {
+            console.error(`Error ${action}ing gallery image:`, error);
+            this.messageService.add({
+              severity: "error",
+              summary: "Error",
+              detail: `Failed to ${action} gallery image`,
+            });
+          },
+          complete: () => {
+            this.isGalleryLoading.set(false);
+          },
+        });
+      },
+    });
+  }
+
+  closeGalleryUpload() {
+    this.showGalleryUpload.set(false);
+    this.selectedGalleryFiles.set([]);
+  }
+
+  closeEditGalleryDialog() {
+    this.showEditGalleryDialog.set(false);
+    this.editingGalleryImage.set(null);
+    this.selectedEditImage = null;
+    this.galleryForm.reset();
   }
 }

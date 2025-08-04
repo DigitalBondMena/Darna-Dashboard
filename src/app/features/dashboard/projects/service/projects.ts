@@ -2,7 +2,14 @@ import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { baseUrl } from "@app/core/env";
 import { Observable } from "rxjs";
-import { IProject, IProjectDetails, IProjectResponse } from "../model";
+import { map } from "rxjs/operators";
+import {
+  IProject,
+  IProjectDetails,
+  IProjectGallery,
+  IProjectGalleryResponse,
+  IProjectResponse,
+} from "../model";
 
 @Injectable({
   providedIn: "root",
@@ -10,6 +17,7 @@ import { IProject, IProjectDetails, IProjectResponse } from "../model";
 export class ProjectsService {
   http = inject(HttpClient);
 
+  /* Start Endpoints For Projects */
   disableProject(id: number): Observable<IProject> {
     return this.http.post<IProject>(`${baseUrl}api/projects/${id}/delete`, {});
   }
@@ -40,16 +48,18 @@ export class ProjectsService {
     return this.http.post<IProjectDetails>(`${baseUrl}api/projects`, data);
   }
 
-  addUpdateProject(data: IProjectResponse, file?: File, id?: number) {
+  addUpdateProject(
+    data: IProjectResponse,
+    mainImageFile?: File,
+    projectId?: number,
+    bannerImageFile?: File
+  ) {
     const formData = new FormData();
-    console.log(data);
-    console.log(file);
+
     formData.append("en_alt_main_image", data.en_alt_main_image);
     formData.append("ar_alt_main_image", data.ar_alt_main_image);
-    formData.append("main_image", data.main_image);
     formData.append("en_alt_banner_image", data.en_alt_banner_image);
     formData.append("ar_alt_banner_image", data.ar_alt_banner_image);
-    formData.append("banner_image", data.banner_image);
     formData.append("main_file_link", data.main_file_link);
     formData.append("google_map_link", data.google_map_link);
     formData.append("en_form_first_input_info", data.en_form_first_input_info);
@@ -81,28 +91,100 @@ export class ProjectsService {
     formData.append("en_meta_description", data.en_meta_description);
     formData.append("ar_meta_description", data.ar_meta_description);
 
-    // Handle image file - this is why you need the check
-    if (file) {
-      // New file uploaded - use it
-      formData.append("main_image", file);
+    // Handle main image file
+    if (mainImageFile) {
+      // New main image file uploaded - use it
+      formData.append("main_image", mainImageFile);
     } else if (data.main_image) {
       // No new file, but there's existing image data - preserve it
       formData.append("main_image", data.main_image);
     }
 
-    // Use FormData for HTTP requests (not the separate methods)
-    if (id) {
-      // Update existing blog
+    // Handle banner image file
+    if (bannerImageFile) {
+      // New banner image file uploaded - use it
+      formData.append("banner_image", bannerImageFile);
+    } else if (data.banner_image) {
+      // No new file, but there's existing image data - preserve it
+      formData.append("banner_image", data.banner_image);
+    }
+
+    // Use FormData for HTTP requests
+    if (projectId) {
+      // Update existing project
       return this.http.post<IProjectResponse>(
-        `${baseUrl}api/projects/${id}`,
+        `${baseUrl}api/projects/${projectId}`,
         formData
       );
     } else {
-      // Create new blog
+      // Create new project
       return this.http.post<IProjectResponse>(
         `${baseUrl}api/projects`,
         formData
       );
     }
   }
+
+  /* Start Endpoints For Project Gallery */
+
+  addProjectGallery(
+    data: IProjectGallery
+  ): Observable<IProjectGalleryResponse> {
+    console.log(data);
+    const formData = new FormData();
+    formData.append("en_alt_name", data.en_alt_name);
+    formData.append("ar_alt_name", data.ar_alt_name);
+    formData.append("main_image", data.main_image);
+    formData.append("project_id", data.project_id.toString());
+    return this.http.post<IProjectGalleryResponse>(
+      `${baseUrl}api/project-image`,
+      formData
+    );
+  }
+
+  updateProjectGallery(
+    id: number,
+    data: IProjectGallery
+  ): Observable<IProjectGalleryResponse> {
+    const formData = new FormData();
+    formData.append("en_alt_name", data.en_alt_name);
+    formData.append("ar_alt_name", data.ar_alt_name);
+    formData.append("main_image", data.main_image);
+    formData.append("project_id", data.project_id.toString());
+    return this.http.post<IProjectGalleryResponse>(
+      `${baseUrl}api/project-image/${id}`,
+      formData
+    );
+  }
+
+  deleteImageGallery(id: number): Observable<IProjectGalleryResponse> {
+    return this.http.post<IProjectGalleryResponse>(
+      `${baseUrl}api/project-image/${id}/delete`,
+      {}
+    );
+  }
+
+  activeImageGallery(id: number): Observable<IProjectGalleryResponse> {
+    return this.http.post<IProjectGalleryResponse>(
+      `${baseUrl}api/project-image/${id}/recover`,
+      {}
+    );
+  }
+
+  getImageGalleryById(id: number): Observable<IProjectGalleryResponse> {
+    return this.http.get<IProjectGalleryResponse>(
+      `${baseUrl}api/project-image/${id}`,
+      {}
+    );
+  }
+
+  getProjectGalleryImages(id: number): Observable<IProjectGallery[]> {
+    return this.http
+      .get<{
+        data: IProjectGallery[];
+      }>(`${baseUrl}api/project-image/${id}/index`)
+      .pipe(map((response) => response.data));
+  }
+
+  /* End Endpoints For Project Gallery */
 }

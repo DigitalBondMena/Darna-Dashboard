@@ -41,3 +41,15 @@ export interface IProjectResponse {
   ar_slug: string;
   active_status: number;
 }
+
+export interface IProjectGalleryResponse {
+  data: IProjectGallery[];
+}
+export interface IProjectGallery {
+  id: number;
+  en_alt_name: string;
+  ar_alt_name: string;
+  main_image: string;
+  active_status: string;
+  project_id: number;
+}

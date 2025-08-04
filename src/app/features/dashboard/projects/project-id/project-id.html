@@ -595,6 +595,261 @@
               </div>
             </div>
 
+            <!-- Project Gallery -->
+            <div class="col-12" *ngIf="!isCreateMode()">
+              <p-card header="Manage Gallery Images" styleClass="shadow-2 mt-4">
+                <div class="p-fluid">
+                  <!-- Gallery Upload Section -->
+                  <div class="field mb-4" *ngIf="!isViewMode()">
+                    <div
+                      class="flex justify-content-between align-items-center mb-3">
+                      <h3 class="text-xl font-semibold"></h3>
+                      <p-button
+                        label="Add New Images"
+                        icon="pi pi-plus"
+                        severity="primary"
+                        (click)="showGalleryUpload.set(true)"
+                        [disabled]="isGalleryLoading()">
+                      </p-button>
+                    </div>
+                  </div>
+
+                  <!-- Gallery Images Display -->
+                  <div class="field" *ngIf="galleryImages().length > 0">
+                    <h4 class="text-lg font-medium mb-3">
+                      Gallery Images ({{ galleryImages().length }} items)
+                    </h4>
+
+                    <!-- Simple Grid Layout -->
+                    <div class="grid">
+                      <div
+                        class="col-12 md:col-6 lg:col-4 xl:col-3"
+                        *ngFor="let image of galleryImages()">
+                        <div
+                          class="border-1 border-300 border-round p-3 h-full">
+                          <!-- Image Display -->
+                          <div class="text-center mb-3">
+                            <p-image
+                              [src]="baseUrl + image.main_image"
+                              [alt]="image.en_alt_name"
+                              width="100%"
+                              height="100%"
+                              [preview]="true"
+                              [imageStyle]="imageStyle">
+                            </p-image>
+                          </div>
+
+                          <!-- Status Tag -->
+                          <div class="mb-3 text-center">
+                            <p-tag
+                              [value]="image.active_status === '1' ? 'Active' : 'Disabled'"
+                              [severity]="image.active_status === '1' ? 'primary' : 'danger'">
+                            </p-tag>
+                          </div>
+
+                          <!-- Action Buttons -->
+                          <div
+                            class="flex gap-2 justify-content-center"
+                            *ngIf="!isViewMode()">
+                            <p-button
+                              icon="pi pi-pencil"
+                              severity="secondary"
+                              size="small"
+                              pTooltip="Edit Image"
+                              (click)="editGalleryImage(image)"
+                              [disabled]="isGalleryLoading()">
+                            </p-button>
+                            <p-button
+                              [icon]="image.active_status === '1' ? 'pi pi-ban' : 'pi pi-check'"
+                              [severity]="image.active_status === '1' ? 'danger' : 'success'"
+                              size="small"
+                              [pTooltip]="image.active_status === '1' ? 'Disable' : 'Activate'"
+                              (click)="toggleGalleryImageStatus(image)"
+                              [disabled]="isGalleryLoading()">
+                            </p-button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Empty Gallery Message -->
+                  <div
+                    class="text-center p-6"
+                    *ngIf="galleryImages().length === 0 && !isGalleryLoading()">
+                    <i class="pi pi-images text-4xl text-300 mb-3"></i>
+                    <p class="text-500 text-lg">No gallery images found</p>
+                    <p class="text-500" *ngIf="!isViewMode()">
+                      Click "Add New Images" to upload gallery images
+                    </p>
+                  </div>
+
+                  <!-- Loading State -->
+                  <div class="text-center p-6" *ngIf="isGalleryLoading()">
+                    <i
+                      class="pi pi-spin pi-spinner text-4xl text-primary mb-3"></i>
+                    <p class="text-primary text-lg">
+                      Loading gallery images...
+                    </p>
+                  </div>
+                </div>
+              </p-card>
+            </div>
+
+            <!-- Gallery Upload Dialog -->
+            <p-dialog
+              header="Upload Gallery Images"
+              [visible]="showGalleryUpload()"
+              [modal]="true"
+              [closable]="true"
+              [draggable]="false"
+              [resizable]="false"
+              styleClass="p-fluid"
+              [style]="{ width: '50vw', minWidth: '300px' }"
+              (onHide)="closeGalleryUpload()">
+              <div class="field mb-4">
+                <label class="block text-900 font-medium mb-2">
+                  Select Multiple Images
+                </label>
+                <p-fileupload
+                  name="gallery[]"
+                  (onSelect)="onGalleryFilesSelect($event)"
+                  [multiple]="true"
+                  accept="image/*"
+                  maxFileSize="5000000"
+                  mode="advanced"
+                  [auto]="false"
+                  chooseLabel="Choose Images"
+                  uploadLabel=" "
+                  cancelLabel="Clear">
+                  <ng-template #empty>
+                    <div class="text-center p-4">
+                      <i class="pi pi-cloud-upload text-4xl text-300"></i>
+                      <p class="mt-2 mb-0">
+                        Drag and drop images here or click to select
+                      </p>
+                      <p class="text-500 text-sm mt-1">
+                        You can select multiple images at once
+                      </p>
+                    </div>
+                  </ng-template>
+                </p-fileupload>
+              </div>
+
+              <div class="field" *ngIf="selectedGalleryFiles().length > 0">
+                <p class="text-600 mb-2">
+                  Selected Files ({{ selectedGalleryFiles().length }}):
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <p-tag
+                    *ngFor="let file of selectedGalleryFiles()"
+                    [value]="file.name"
+                    severity="info">
+                  </p-tag>
+                </div>
+              </div>
+
+              <ng-template #footer>
+                <div class="flex justify-content-end gap-2">
+                  <p-button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    severity="secondary"
+                    (click)="closeGalleryUpload()"
+                    [disabled]="isGalleryLoading()">
+                  </p-button>
+                  <p-button
+                    label="Upload Images"
+                    icon="pi pi-upload"
+                    severity="primary"
+                    (click)="uploadGalleryImages()"
+                    [disabled]="selectedGalleryFiles().length === 0"
+                    [loading]="isGalleryLoading()">
+                  </p-button>
+                </div>
+              </ng-template>
+            </p-dialog>
+
+            <!-- Edit Gallery Image Dialog -->
+            <p-dialog
+              header="Edit Gallery Image"
+              [visible]="showEditGalleryDialog()"
+              [modal]="true"
+              [closable]="true"
+              [draggable]="false"
+              [resizable]="false"
+              styleClass="p-fluid"
+              [style]="{ width: '40vw', minWidth: '300px' }"
+              (onHide)="closeEditGalleryDialog()">
+              <div *ngIf="editingGalleryImage()">
+                <!-- Current Image Preview -->
+                <div class="field mb-4">
+                  <label class="block text-900 font-medium mb-2"
+                    >Current Image</label
+                  >
+                  <div class="text-center">
+                    <p-image
+                      [src]="baseUrl + editingGalleryImage()!.main_image"
+                      [alt]="editingGalleryImage()!.en_alt_name"
+                      width="200"
+                      height="150"
+                      [preview]="true"
+                      [imageStyle]="imageStyle">
+                    </p-image>
+                  </div>
+                </div>
+
+                <!-- Upload New Image -->
+                <div class="field mb-4">
+                  <label class="block text-900 font-medium mb-2">
+                    Replace Image (Optional)
+                  </label>
+                  <p-fileupload
+                    name="edit_image"
+                    (onSelect)="onEditImageSelect($event)"
+                    [multiple]="false"
+                    accept="image/*"
+                    maxFileSize="5000000"
+                    mode="advanced"
+                    [auto]="false"
+                    chooseLabel="Choose New Image"
+                    uploadLabel=" "
+                    cancelLabel="Clear">
+                    <ng-template #empty>
+                      <div class="text-center p-4">
+                        <i class="pi pi-cloud-upload text-4xl text-300"></i>
+                        <p class="mt-2 mb-0">
+                          Select a new image to replace the current one
+                        </p>
+                        <p class="text-500 text-sm mt-1">
+                          Leave empty to keep current image
+                        </p>
+                      </div>
+                    </ng-template>
+                  </p-fileupload>
+                </div>
+              </div>
+
+              <ng-template #footer>
+                <div class="flex justify-content-end gap-2">
+                  <p-button
+                    label="Cancel"
+                    icon="pi pi-times"
+                    severity="secondary"
+                    (click)="closeEditGalleryDialog()"
+                    [disabled]="isGalleryLoading()">
+                  </p-button>
+                  <p-button
+                    label="Update"
+                    icon="pi pi-check"
+                    severity="primary"
+                    (click)="updateGalleryImage()"
+                    [loading]="isGalleryLoading()">
+                  </p-button>
+                </div>
+              </ng-template>
+            </p-dialog>
+
             <!-- Action Buttons -->
             <div class="col-12">
               <div class="flex justify-content-end gap-2 pt-3">
@@ -663,3 +918,6 @@
 
 <!-- Toast Messages -->
 <p-toast></p-toast>
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog></p-confirmDialog>

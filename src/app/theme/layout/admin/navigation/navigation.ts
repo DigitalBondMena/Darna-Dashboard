@@ -16,7 +16,7 @@ export interface NavigationItem {
 }
 
 export const NavigationItems: NavigationItem[] = [
-  // 1. DASHBOARD - Always first for overview
+  // 1. DASHBOARD - Analytics & Overview
   {
     id: "dashboard",
     title: "Dashboard",
@@ -24,8 +24,8 @@ export const NavigationItems: NavigationItem[] = [
     icon: "icon-navigation",
     children: [
       {
-        id: "default",
-        title: "Dashboard",
+        id: "analytics",
+        title: "Analytics & Overview",
         type: "item",
         classes: "nav-item",
         url: "dashboard",
@@ -35,83 +35,126 @@ export const NavigationItems: NavigationItem[] = [
     ],
   },
 
-  // 2. CONTENT MANAGEMENT - Core website content sections
+  // 2. WEBSITE MANAGEMENT - Main website content sections
   {
-    id: "website-content",
-    title: "Website Content",
+    id: "website-management",
+    title: "Website Management",
     type: "group",
     icon: "icon-navigation",
     children: [
       {
-        id: "hero",
-        title: "Hero Section",
-        type: "item",
+        id: "homepage",
+        title: "Homepage",
+        type: "collapse",
         classes: "nav-item",
-        url: "dashboard/hero",
         icon: "ti ti-home",
+        children: [
+          {
+            id: "hero-section",
+            title: "Hero Section",
+            type: "item",
+            classes: "nav-item",
+            url: "dashboard/hero",
+            icon: "ti ti-layout-dashboard",
+          },
+          {
+            id: "features-section",
+            title: "Features Section",
+            type: "item",
+            classes: "nav-item",
+            url: "dashboard/features",
+            icon: "pi pi-sparkles",
+          },
+          {
+            id: "testimonials-section",
+            title: "Testimonials",
+            type: "item",
+            classes: "nav-item",
+            url: "dashboard/testimonials",
+            icon: "pi pi-comments",
+          },
+          {
+            id: "partners-section",
+            title: "Partners Section",
+            type: "item",
+            classes: "nav-item",
+            url: "dashboard/partners",
+            icon: "ti ti-users",
+          },
+        ],
       },
       {
-        id: "about-us",
-        title: "About Us",
+        id: "about-section",
+        title: "About Us Section",
         type: "item",
         classes: "nav-item",
         url: "dashboard/about-us",
-        icon: "ti ti-user",
-      },
-      {
-        id: "features",
-        title: "Features",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/features",
-        icon: "pi pi-sparkles",
-      },
-      {
-        id: "testimonials",
-        title: "Testimonials",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/testimonials",
-        icon: "pi pi-comments",
-      },
-      {
-        id: "partners",
-        title: "Partners",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/partners",
-        icon: "ti ti-users",
+        icon: "ti ti-info-circle",
       },
     ],
   },
 
-  // 3. CONTENT CREATION - Blog and dynamic content
+  // 3. CONTENT MANAGEMENT - Dynamic content creation
   {
-    id: "content-creation",
-    title: "Content Creation",
+    id: "content-management",
+    title: "Content Management",
     type: "group",
     icon: "icon-navigation",
     children: [
       {
-        id: "blogs",
-        title: "Blogs",
+        id: "blog-management",
+        title: "Blog Posts",
         type: "item",
         classes: "nav-item",
         url: "dashboard/blogs",
         icon: "pi pi-globe",
       },
       {
-        id: "projects",
-        title: "Projects",
+        id: "project-management",
+        title: "Project Portfolio",
         type: "item",
         classes: "nav-item",
         url: "dashboard/projects",
         icon: "ti ti-building",
       },
+      {
+        id: "banner-management",
+        title: "Banners & Promotions",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/banners",
+        icon: "pi pi-image",
+      },
     ],
   },
 
-  // 4. HR & RECRUITMENT
+  // 4. COMMUNICATIONS - All forms and contact methods
+  {
+    id: "communications",
+    title: "Communications",
+    type: "group",
+    icon: "icon-navigation",
+    children: [
+      {
+        id: "contact-info",
+        title: "Contact Information",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/contact-us",
+        icon: "ti ti-address-book",
+      },
+      {
+        id: "contact-submissions",
+        title: "Contact Form ",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/contact-us-form",
+        icon: "ti ti-inbox",
+      },
+    ],
+  },
+
+  // 5. HUMAN RESOURCES - Recruitment and careers
   {
     id: "human-resources",
     title: "Human Resources",
@@ -119,49 +162,41 @@ export const NavigationItems: NavigationItem[] = [
     icon: "icon-navigation",
     children: [
       {
-        id: "careers",
-        title: "Careers",
+        id: "job-postings",
+        title: "Job Postings",
         type: "item",
         classes: "nav-item",
         url: "dashboard/careers",
-        icon: "ti ti-briefcase",
+        icon: "ti ti-clipboard-list",
       },
       {
-        id: "careers-form",
-        title: "Careers Form",
+        id: "job-applications",
+        title: "Job Applications",
         type: "item",
         classes: "nav-item",
         url: "dashboard/careers-form",
-        icon: "ti ti-user",
+        icon: "ti ti-file-cv",
       },
     ],
   },
 
-  // 5. SITE INFORMATION - Static pages and policies
+  // 6. COMPANY PAGES - Static informational pages
   {
-    id: "site-information",
-    title: "Site Information",
+    id: "company-pages",
+    title: "Company Pages",
     type: "group",
     icon: "icon-navigation",
     children: [
       {
-        id: "about-page",
-        title: "About Page",
+        id: "about-page-full",
+        title: "About Page (Full)",
         type: "item",
         classes: "nav-item",
         url: "dashboard/about-page",
-        icon: "ti ti-info-circle",
+        icon: "ti ti-building-store",
       },
       {
-        id: "contact-us",
-        title: "Contact Us",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/contact-us",
-        icon: "ti ti-mail",
-      },
-      {
-        id: "privacy-policy",
+        id: "privacy-policy-page",
         title: "Privacy Policy",
         type: "item",
         classes: "nav-item",
@@ -171,55 +206,29 @@ export const NavigationItems: NavigationItem[] = [
     ],
   },
 
-  // 6. TOOLS & UTILITIES - Banners, counters, and other tools
+  // 7. WEBSITE TOOLS - SEO, Analytics, and utilities
   {
-    id: "tools-utilities",
-    title: "Tools & Utilities",
+    id: "website-tools",
+    title: "Website Tools",
     type: "group",
     icon: "icon-navigation",
     children: [
       {
-        id: "banners",
-        title: "Banners",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/banners",
-        icon: "pi pi-image",
-      },
-      {
-        id: "counter",
-        title: "Counter",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/counters",
-        icon: "pi pi-hashtag",
-      },
-      {
-        id: "seo",
-        title: "SEO",
+        id: "seo-management",
+        title: "SEO Management",
         type: "item",
         classes: "nav-item",
         url: "dashboard/seo",
         icon: "pi pi-search",
       },
+      {
+        id: "counter-widgets",
+        title: "Counter Widgets",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/counters",
+        icon: "pi pi-hashtag",
+      },
     ],
   },
-
-  // COMMENTED SECTIONS - Uncomment when needed
-  // {
-  //   id: "projects",
-  //   title: "Projects",
-  //   type: "group",
-  //   icon: "icon-navigation",
-  //   children: [
-  //     {
-  //       id: "projects",
-  //       title: "Projects",
-  //       type: "item",
-  //       classes: "nav-item",
-  //       url: "dashboard/projects",
-  //       icon: "ti ti-building",
-  //     },
-  //   ],
-  // },
 ];
