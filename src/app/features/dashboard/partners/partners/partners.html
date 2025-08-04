@@ -67,11 +67,12 @@
             [disabled]="isToggleLoading(slider.id)" />
 
           <!-- Loading indicator -->
+          @if (isToggleLoading(slider.id)) {
           <i
-            *ngIf="isToggleLoading(slider.id)"
             class="pi pi-spin pi-spinner"
             style="color: #673ab7; font-size: 0.8rem">
           </i>
+          }
         </div>
       </td>
     </tr>
