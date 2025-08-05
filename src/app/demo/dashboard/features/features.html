@@ -15,7 +15,6 @@
     <tr>
       <th>ID</th>
       <th>Title</th>
-      <th>Text</th>
       <th>View</th>
       <th>Edit</th>
     </tr>
@@ -25,7 +24,6 @@
     <tr>
       <td>{{ feature.id }}</td>
       <td>{{ feature.en_feature_title }}</td>
-      <td [innerHTML]="feature.en_feature_text"></td>
 
       <td>
         <a [routerLink]="['view', feature.id]">
