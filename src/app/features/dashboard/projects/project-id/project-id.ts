@@ -15,13 +15,13 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 
+import { NgxJoditComponent } from "ngx-jodit";
 import { ConfirmationService, MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { ConfirmDialogModule } from "primeng/confirmdialog";
 import { DataViewModule } from "primeng/dataview";
 import { DialogModule } from "primeng/dialog";
-import { EditorModule } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
 import { ImageModule } from "primeng/image";
 import { InputTextModule } from "primeng/inputtext";
@@ -63,7 +63,7 @@ type EndpointType = "project-form-first" | "project-form-second";
     InputTextModule,
     TextareaModule,
     FileUploadModule,
-    EditorModule,
+    NgxJoditComponent,
     ToastModule,
     DataViewModule,
     DialogModule,

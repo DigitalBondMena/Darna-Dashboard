@@ -80,23 +80,24 @@ export class PrivacyPolicy implements OnInit {
     this.isLoading.set(true);
     this.privacyPolicyService
       .updatePrivacyPolicy(this.privacyPolicyForm.value as IPrivacyPolicy)
-      .subscribe((next: any) => {
-        this.isLoading.set(false);
-        if (next.success) {
+      .subscribe({
+        next: () => {
+          this.isLoading.set(false);
           this.messageService.add({
             severity: "success",
             summary: "Success",
             detail: "Privacy Policy updated successfully",
           });
           this.getPrivacyPolicy();
-        } else {
+        },
+        error: () => {
           this.isLoading.set(false);
           this.messageService.add({
             severity: "error",
             summary: "Error",
             detail: "Privacy Policy updated failed",
           });
-        }
+        },
       });
   }
 }

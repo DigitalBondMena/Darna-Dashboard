@@ -124,6 +124,14 @@ export const NavigationItems: NavigationItem[] = [
         url: "dashboard/banners",
         icon: "pi pi-image",
       },
+      {
+        id: "job-postings",
+        title: "Job Postings",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/careers",
+        icon: "ti ti-clipboard-list",
+      },
     ],
   },
 
@@ -142,32 +150,16 @@ export const NavigationItems: NavigationItem[] = [
         url: "dashboard/contact-us",
         icon: "ti ti-address-book",
       },
-      {
-        id: "contact-submissions",
-        title: "Contact Form ",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/contact-us-form",
-        icon: "ti ti-inbox",
-      },
     ],
   },
 
   // 5. HUMAN RESOURCES - Recruitment and careers
   {
     id: "human-resources",
-    title: "Human Resources",
+    title: "Forms",
     type: "group",
     icon: "icon-navigation",
     children: [
-      {
-        id: "job-postings",
-        title: "Job Postings",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard/careers",
-        icon: "ti ti-clipboard-list",
-      },
       {
         id: "job-applications",
         title: "Job Applications",
@@ -183,6 +175,14 @@ export const NavigationItems: NavigationItem[] = [
         classes: "nav-item",
         url: "dashboard/project-form",
         icon: "ti ti-file-cv",
+      },
+      {
+        id: "contact-submissions",
+        title: "Contact Form ",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/contact-us-form",
+        icon: "ti ti-inbox",
       },
     ],
   },

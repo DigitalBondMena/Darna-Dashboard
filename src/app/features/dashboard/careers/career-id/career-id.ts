@@ -127,52 +127,22 @@ export class CareerId implements OnInit {
       ar_category_name: ["", [Validators.required, Validators.minLength(3)]],
       en_description: ["", [Validators.required, Validators.minLength(3)]],
       ar_description: ["", [Validators.required, Validators.minLength(3)]],
-      en_title_requirements: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      ar_title_requirements: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      en_description_requirements: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      ar_description_requirements: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      en_title_responsibilities: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      ar_title_responsibilities: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      en_description_responsibilities: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      ar_description_responsibilities: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      en_title_skills: ["", [Validators.required, Validators.minLength(3)]],
-      ar_title_skills: ["", [Validators.required, Validators.minLength(3)]],
-      en_description_skills: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      ar_description_skills: [
-        "",
-        [Validators.required, Validators.minLength(3)],
-      ],
-      en_meta_title: ["", [Validators.required, Validators.minLength(3)]],
-      ar_meta_title: ["", [Validators.required, Validators.minLength(3)]],
-      en_meta_description: ["", [Validators.required, Validators.minLength(3)]],
-      ar_meta_description: ["", [Validators.required, Validators.minLength(3)]],
+      en_title_requirements: ["", []],
+      ar_title_requirements: ["", []],
+      en_description_requirements: ["", []],
+      ar_description_requirements: ["", []],
+      en_title_responsibilities: ["", []],
+      ar_title_responsibilities: ["", []],
+      en_description_responsibilities: ["", []],
+      ar_description_responsibilities: ["", []],
+      en_title_skills: ["", []],
+      ar_title_skills: ["", []],
+      en_description_skills: ["", []],
+      ar_description_skills: ["", []],
+      en_meta_title: ["", []],
+      ar_meta_title: ["", []],
+      en_meta_description: ["", []],
+      ar_meta_description: ["", []],
     });
   }
 

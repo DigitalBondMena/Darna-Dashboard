@@ -66,13 +66,14 @@
                   <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
+                  <ngx-jodit
                     placeholder="Enter English project description"
                     formControlName="en_project_description"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '300px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'ltr'
+                    }" />
                 </div>
               </div>
 
@@ -266,14 +267,14 @@
                   <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
+                  <ngx-jodit
                     placeholder="Enter Arabic project description"
                     formControlName="ar_project_description"
-                    [readonly]="isViewMode()"
-                    [styleClass]="'rtl-editor'"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '300px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white'}" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'rtl'
+                    }" />
                 </div>
               </div>
 

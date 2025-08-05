@@ -44,7 +44,8 @@
             "styles": [
               "src/styles.scss",
               "node_modules/primeflex/primeflex.css",
-              "node_modules/ngx-spinner/animations/square-loader.css"
+              "node_modules/ngx-spinner/animations/square-loader.css",
+              "node_modules/jodit/es2021/jodit.min.css"
             ],
             "scripts": []
           },

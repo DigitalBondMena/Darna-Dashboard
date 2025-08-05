@@ -27,7 +27,7 @@
       </th>
 
       <th pSortableColumn="current_salary">
-        Current Salary
+        Date
         <p-sortIcon field="current_salary"></p-sortIcon>
       </th>
       <th pSortableColumn="expected_salary">
@@ -59,7 +59,7 @@
       <td>{{ career.email }}</td>
       <td>{{ career.phone }}</td>
       <td>{{ career.address }}</td>
-      <td>{{ career.current_salary }}</td>
+      <td>{{ career.career_date }}</td>
       <td>{{ career.expected_salary }}</td>
       <td>
         <a [routerLink]="['view', career.id]">
