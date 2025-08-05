@@ -30,7 +30,7 @@ export class CareersFormId implements OnInit {
   private router = inject(Router);
 
   // Signals for reactive state
-  mode = signal<"edit" | "view">("view");
+  mode = signal<"view">("view");
   careerFormId = signal<number | null>(null);
   isLoading = signal(false);
 
@@ -40,13 +40,10 @@ export class CareersFormId implements OnInit {
   baseUrl = baseUrl;
 
   // Computed properties
-  isEditMode = computed(() => this.mode() === "edit");
   isViewMode = computed(() => this.mode() === "view");
 
   pageTitle = computed(() => {
     switch (this.mode()) {
-      case "edit":
-        return "Edit Career Application";
       case "view":
         return "View Career Application";
       default:
@@ -143,7 +140,7 @@ export class CareersFormId implements OnInit {
   }
 
   onSubmit() {
-    if (this.careerFormForm.valid && this.isEditMode() && this.careerFormId()) {
+    if (this.careerFormForm.valid && this.careerFormId()) {
       this.isLoading.set(true);
       const formData = this.careerFormForm.value;
 

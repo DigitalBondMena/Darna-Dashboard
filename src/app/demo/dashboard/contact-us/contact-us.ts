@@ -90,7 +90,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       whatsapp_phone: [
-        "",
+        null,
         [
           Validators.required,
           Validators.minLength(3),
@@ -98,7 +98,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       main_email: [
-        "",
+        null,
         [
           Validators.required,
           Validators.minLength(3),
@@ -108,7 +108,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       facebook_link: [
-        "",
+        null,
         [
           Validators.required,
           Validators.minLength(3),
@@ -118,7 +118,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       instagram_link: [
-        "",
+        null,
         [
           Validators.required,
           Validators.minLength(3),
@@ -128,7 +128,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       linkedin_link: [
-        "",
+        null,
         [
           Validators.required,
           Validators.minLength(3),
@@ -138,7 +138,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       twitter_link: [
-        "",
+        null,
         [
           Validators.required,
           Validators.minLength(3),
@@ -148,7 +148,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       youtube_link: [
-        "",
+        null,
         [
           Validators.required,
           Validators.minLength(3),
@@ -158,7 +158,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       snapchat_link: [
-        "",
+        null,
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -166,7 +166,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       telegram_link: [
-        "",
+        null,
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -174,7 +174,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       tiktok_link: [
-        "",
+        null,
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/

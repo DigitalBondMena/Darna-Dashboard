@@ -40,8 +40,8 @@ export interface IProjectResponse {
   en_slug: string;
   ar_slug: string;
   active_status: string;
-  project_form_second: IProjectChoicesInput[];
-  project_form_first: IProjectChoicesInput[];
+  project_form_second: IProjectChoicesInputData[];
+  project_form_first: IProjectChoicesInputData[];
 }
 
 export interface IProjectGalleryResponse {

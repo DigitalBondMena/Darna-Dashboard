@@ -176,6 +176,14 @@ export const NavigationItems: NavigationItem[] = [
         url: "dashboard/careers-form",
         icon: "ti ti-file-cv",
       },
+      {
+        id: "project-form",
+        title: "Project Form",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/project-form",
+        icon: "ti ti-file-cv",
+      },
     ],
   },
 

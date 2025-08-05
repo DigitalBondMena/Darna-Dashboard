@@ -6,12 +6,13 @@ import { map } from "rxjs/operators";
 import {
   IProject,
   IProjectChoicesInput,
+  IProjectChoicesInputData,
   IProjectDetails,
   IProjectGallery,
   IProjectGalleryResponse,
   IProjectResponse,
 } from "../model";
-
+type endpoint = "project-form-second" | "project-form-first";
 @Injectable({
   providedIn: "root",
 })
@@ -191,7 +192,7 @@ export class ProjectsService {
   /* End Endpoints For Project Gallery */
 
   getProjectChoicesInputById(
-    endpoint: string,
+    endpoint: endpoint,
     id: number
   ): Observable<IProjectChoicesInput> {
     return this.http.get<IProjectChoicesInput>(
@@ -200,9 +201,13 @@ export class ProjectsService {
   }
 
   addProjectChoicesInput(
-    endpoint: string,
-    data: IProjectChoicesInput
+    endpoint: endpoint,
+    data: IProjectChoicesInputData
   ): Observable<IProjectChoicesInput> {
+    const Idata = new FormData();
+    Idata.append("en_input_info", data.en_input_info);
+    Idata.append("ar_input_info", data.ar_input_info);
+    Idata.append("project_id", data.project_id.toString());
     return this.http.post<IProjectChoicesInput>(
       `${baseUrl}api/${endpoint}`,
       data
@@ -210,18 +215,22 @@ export class ProjectsService {
   }
 
   updateProjectChoicesInput(
-    endpoint: string,
+    endpoint: endpoint,
     id: number,
-    data: IProjectChoicesInput
+    data: IProjectChoicesInputData
   ): Observable<IProjectChoicesInput> {
+    const Idata = new FormData();
+    Idata.append("en_input_info", data.en_input_info);
+    Idata.append("ar_input_info", data.ar_input_info);
+    Idata.append("project_id", data.project_id.toString());
     return this.http.post<IProjectChoicesInput>(
       `${baseUrl}api/${endpoint}/${id}`,
-      data
+      Idata
     );
   }
 
   deleteProjectChoicesInput(
-    endpoint: string,
+    endpoint: endpoint,
     id: number
   ): Observable<IProjectChoicesInput> {
     return this.http.post<IProjectChoicesInput>(
@@ -231,7 +240,7 @@ export class ProjectsService {
   }
 
   activeProjectChoicesInput(
-    endpoint: string,
+    endpoint: endpoint,
     id: number
   ): Observable<IProjectChoicesInput> {
     return this.http.post<IProjectChoicesInput>(
@@ -239,5 +248,4 @@ export class ProjectsService {
       {}
     );
   }
-  /* Start Endpoints For Project choices Input */
 }

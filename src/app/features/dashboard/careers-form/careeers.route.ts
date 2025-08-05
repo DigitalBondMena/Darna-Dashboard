@@ -19,15 +19,6 @@ export const careersRoute: Route[] = [
           ).then((c) => c.CareersFormId),
         data: { mode: "view" },
       },
-
-      {
-        path: "edit/:id",
-        loadComponent: () =>
-          import(
-            "@app/features/dashboard/careers-form/careers-form-id/careers-form"
-          ).then((c) => c.CareersFormId),
-        data: { mode: "edit" },
-      },
     ],
   },
 ];

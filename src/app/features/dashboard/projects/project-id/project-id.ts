@@ -25,13 +25,18 @@ import { EditorModule } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
 import { ImageModule } from "primeng/image";
 import { InputTextModule } from "primeng/inputtext";
+import { SelectModule } from "primeng/select";
 import { TagModule } from "primeng/tag";
 import { TextareaModule } from "primeng/textarea";
 import { ToastModule } from "primeng/toast";
 import { TooltipModule } from "primeng/tooltip";
 
 import { baseUrl } from "@app/core/env";
-import { IProjectGallery, IProjectResponse } from "../model";
+import {
+  IProjectChoicesInputData,
+  IProjectGallery,
+  IProjectResponse,
+} from "../model";
 import { ProjectsService } from "../service/projects";
 
 interface FileUploadEvent {
@@ -45,6 +50,8 @@ interface FileUploadEvent {
 type GalleryUploadData = Omit<IProjectGallery, "main_image"> & {
   main_image: File;
 };
+
+type EndpointType = "project-form-first" | "project-form-second";
 
 @Component({
   selector: "app-project-id",
@@ -64,6 +71,7 @@ type GalleryUploadData = Omit<IProjectGallery, "main_image"> & {
     TagModule,
     ConfirmDialogModule,
     TooltipModule,
+    SelectModule,
   ],
   templateUrl: "./project-id.html",
   styleUrl: "./project-id.scss",
@@ -96,6 +104,25 @@ export class ProjectId implements OnInit {
   editingGalleryImage = signal<IProjectGallery | null>(null);
   selectedEditImage: File | null = null;
   galleryForm!: FormGroup;
+
+  // Project Choices management signals
+  projectChoicesFirst = signal<IProjectChoicesInputData[]>([]);
+  projectChoicesSecond = signal<IProjectChoicesInputData[]>([]);
+  isChoicesLoading = signal(false);
+  showChoicesDialog = signal(false);
+  showEditChoicesDialog = signal(false);
+  editingChoice = signal<IProjectChoicesInputData | null>(null);
+  currentChoicesType = signal<EndpointType>("project-form-first");
+  choicesForm!: FormGroup;
+
+  // Dropdown options for choices type
+  choicesTypeOptions = [
+    { label: "Form First Input", value: "project-form-first" as EndpointType },
+    {
+      label: "Form Second Input",
+      value: "project-form-second" as EndpointType,
+    },
+  ];
 
   // Image styling
   imageStyle = { "object-fit": "cover", "border-radius": "8px" };
@@ -147,6 +174,7 @@ export class ProjectId implements OnInit {
   ngOnInit() {
     this.initForm();
     this.initGalleryForm();
+    this.initChoicesForm();
     this.setupRouteHandling();
   }
 
@@ -238,8 +266,9 @@ export class ProjectId implements OnInit {
           ar_meta_description: this.project.ar_meta_description,
         });
 
-        // Load gallery images after project is loaded
+        // Load gallery images and project choices after project is loaded
         this.loadGalleryImages();
+        this.loadProjectChoices();
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -744,5 +773,257 @@ export class ProjectId implements OnInit {
     this.editingGalleryImage.set(null);
     this.selectedEditImage = null;
     this.galleryForm.reset();
+  }
+
+  // Project Choices Management Methods
+  initChoicesForm() {
+    this.choicesForm = this.fb.group({
+      en_input_info: ["", [Validators.required]],
+      ar_input_info: ["", [Validators.required]],
+      choices_type: ["project-form-first", [Validators.required]],
+    });
+  }
+
+  loadProjectChoices() {
+    const id = this.projectId();
+    if (!id) return;
+
+    this.isChoicesLoading.set(true);
+
+    // // Load both types of project choices
+    // const firstChoicesPromise = this.projectService
+    //   .getProjectChoicesInputById("project-form-first", id)
+    //   .toPromise();
+    // const secondChoicesPromise = this.projectService
+    //   .getProjectChoicesInputById("project-form-second", id)
+    //   .toPromise();
+
+    // Promise.all([firstChoicesPromise, secondChoicesPromise])
+    //   .then(([firstChoices, secondChoices]) => {
+    //     this.projectChoicesFirst.set(firstChoices?.data || []);
+    //     this.projectChoicesSecond.set(secondChoices?.data || []);
+    //     this.isChoicesLoading.set(false);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error loading project choices:", error);
+    //     this.messageService.add({
+    //       severity: "error",
+    //       summary: "Error",
+    //       detail: "Failed to load project choices",
+    //     });
+    //     this.projectChoicesFirst.set([]);
+    //     this.projectChoicesSecond.set([]);
+    //     this.isChoicesLoading.set(false);
+    //   });
+    this.projectChoicesFirst.set(this.project.project_form_first || []);
+    this.projectChoicesSecond.set(this.project.project_form_second || []);
+    this.isChoicesLoading.set(false);
+  }
+
+  openChoicesDialog(type: EndpointType) {
+    this.currentChoicesType.set(type);
+    this.choicesForm.patchValue({
+      choices_type: type,
+    });
+    this.showChoicesDialog.set(true);
+  }
+
+  addProjectChoice() {
+    if (!this.choicesForm.valid) {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: "Please fill all required fields",
+      });
+      return;
+    }
+
+    const formData = this.choicesForm.value;
+    const projectId = this.projectId();
+
+    if (!projectId) {
+      this.messageService.add({
+        severity: "error",
+        summary: "Error",
+        detail: "Project ID not found",
+      });
+      return;
+    }
+
+    this.isChoicesLoading.set(true);
+
+    const choiceData = {
+      id: this.projectId() || 0,
+      project_id: projectId.toString(),
+      en_input_info: formData.en_input_info,
+      ar_input_info: formData.ar_input_info,
+      active_status: this.project.active_status,
+    };
+
+    this.projectService
+      .addProjectChoicesInput(formData.choices_type, choiceData)
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Project choice added successfully",
+          });
+          this.showChoicesDialog.set(false);
+          this.choicesForm.reset();
+          this.loadProjectChoices();
+          this.loadProjectData();
+        },
+        error: (error) => {
+          console.error("Error adding project choice:", error);
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to add project choice",
+          });
+          this.isChoicesLoading.set(false);
+        },
+        complete: () => {
+          this.isChoicesLoading.set(false);
+        },
+      });
+  }
+
+  editProjectChoice(choice: IProjectChoicesInputData, type: EndpointType) {
+    this.editingChoice.set(choice);
+    this.currentChoicesType.set(type);
+    this.choicesForm.patchValue({
+      en_input_info: choice.en_input_info,
+      ar_input_info: choice.ar_input_info,
+      choices_type: type,
+    });
+    this.showEditChoicesDialog.set(true);
+  }
+
+  updateProjectChoice() {
+    const editingChoice = this.editingChoice();
+    if (!editingChoice || !this.choicesForm.valid) {
+      this.messageService.add({
+        severity: "warn",
+        summary: "Warning",
+        detail: "Please fill all required fields",
+      });
+      return;
+    }
+
+    this.isChoicesLoading.set(true);
+    const formData = this.choicesForm.value;
+
+    const updatedData = {
+      ...editingChoice,
+      en_input_info: formData.en_input_info,
+      ar_input_info: formData.ar_input_info,
+    };
+
+    this.projectService
+      .updateProjectChoicesInput(
+        formData.choices_type,
+        editingChoice.id,
+        updatedData
+      )
+      .subscribe({
+        next: () => {
+          this.messageService.add({
+            severity: "success",
+            summary: "Success",
+            detail: "Project choice updated successfully",
+          });
+          this.showEditChoicesDialog.set(false);
+          this.editingChoice.set(null);
+          this.choicesForm.reset();
+          this.loadProjectChoices();
+          this.loadProjectData();
+        },
+        error: (error) => {
+          console.error("Error updating project choice:", error);
+          this.messageService.add({
+            severity: "error",
+            summary: "Error",
+            detail: "Failed to update project choice",
+          });
+          this.isChoicesLoading.set(false);
+        },
+        complete: () => {
+          this.isChoicesLoading.set(false);
+        },
+      });
+  }
+
+  toggleProjectChoiceStatus(
+    choice: IProjectChoicesInputData,
+    type: EndpointType
+  ) {
+    const action = choice.active_status === "1" ? "disable" : "activate";
+    const actionMethod =
+      choice.active_status === "1"
+        ? this.projectService.deleteProjectChoicesInput(type, choice.id)
+        : this.projectService.activeProjectChoicesInput(type, choice.id);
+
+    this.confirmationService.confirm({
+      message: `Are you sure you want to ${action} this project choice?`,
+      header: `${action.charAt(0).toUpperCase() + action.slice(1)} Confirmation`,
+      icon: "pi pi-exclamation-triangle",
+      acceptButtonStyleClass:
+        action === "disable" ? "p-button-danger" : "p-button-success",
+      accept: () => {
+        this.isChoicesLoading.set(true);
+
+        actionMethod.subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: "success",
+              summary: "Success",
+              detail: `Project choice ${action}d successfully`,
+            });
+            this.loadProjectChoices();
+            this.loadProjectData();
+          },
+          error: (error) => {
+            console.error(`Error ${action}ing project choice:`, error);
+            this.messageService.add({
+              severity: "error",
+              summary: "Error",
+              detail: `Failed to ${action} project choice`,
+            });
+            this.isChoicesLoading.set(false);
+          },
+          complete: () => {
+            this.isChoicesLoading.set(false);
+          },
+        });
+      },
+    });
+  }
+
+  closeChoicesDialog() {
+    this.showChoicesDialog.set(false);
+    this.choicesForm.reset();
+  }
+
+  closeEditChoicesDialog() {
+    this.showEditChoicesDialog.set(false);
+    this.editingChoice.set(null);
+    this.choicesForm.reset();
+  }
+
+  // Computed getters for current choices based on type
+  getCurrentChoices() {
+    const type = this.currentChoicesType();
+    return type === "project-form-first"
+      ? this.projectChoicesFirst()
+      : this.projectChoicesSecond();
+  }
+
+  getAllChoicesFirst() {
+    return this.projectChoicesFirst();
+  }
+
+  getAllChoicesSecond() {
+    return this.projectChoicesSecond();
   }
 }

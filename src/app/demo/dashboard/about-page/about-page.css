@@ -1,0 +1,15 @@
+::ng-deep .p-fileupload-upload-button {
+  display: none !important;
+}
+
+::ng-deep .p-fileupload-file-badge {
+  display: none !important;
+}
+
+::ng-deep .ql-editor .ql-direction-rtl {
+  text-align: right !important;
+}
+
+.rtl-editor ::ng-deep .ql-editor {
+  text-align: right !important;
+}/*# sourceMappingURL=about-page.css.map */

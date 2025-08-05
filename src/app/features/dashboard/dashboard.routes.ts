@@ -160,4 +160,11 @@ export const dashboardRoutes: Routes = [
         "@app/features/dashboard/contact-us-form-id/contact-us-form.routes"
       ).then((c) => c.contactUsFormRoutes),
   },
+  {
+    path: "project-form",
+    loadChildren: () =>
+      import(
+        "@app/features/dashboard/project-form-id/res/project-form.routes"
+      ).then((c) => c.projectFormRoute),
+  },
 ];
