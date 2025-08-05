@@ -190,7 +190,6 @@
                 <p-editor
                   placeholder="Enter en mission"
                   formControlName="en_mission_text"
-                  [styleClass]="'rtl-editor'"
                   [style]="{ height: '320px', backgroundColor: 'white' }" />
               </div>
             </div>
@@ -211,6 +210,40 @@
                   [style]="{ height: '320px', backgroundColor: 'white' }" />
               </div>
             </div>
+
+            <div class="col-12 md:col-6">
+              <h4 class="font-bold mb-4">English content</h4>
+              <label
+                for="en_mission_text"
+                class="block text-900 font-medium mb-2">
+                Vision
+                <span class="text-red-500">*</span>
+              </label>
+              <div class="card">
+                <p-editor
+                  placeholder="Enter en vision"
+                  formControlName="en_vision_text"
+                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+              </div>
+            </div>
+
+            <div class="col-12 md:col-6">
+              <h4 class="font-bold mb-4">Arabic content</h4>
+              <label
+                for="ar_mission_text"
+                class="block text-900 font-medium mb-2">
+                Vision
+                <span class="text-red-500">*</span>
+              </label>
+              <div class="card">
+                <p-editor
+                  placeholder="Enter ar vision"
+                  formControlName="ar_vision_text"
+                  [styleClass]="'rtl-editor'"
+                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+              </div>
+            </div>
+
             <!-- Action Buttons -->
             <div class="col-12">
               <div class="flex justify-content-end gap-2 pt-3">
