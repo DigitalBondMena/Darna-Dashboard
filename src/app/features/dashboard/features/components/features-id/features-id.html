@@ -13,7 +13,6 @@
               <div class="field mb-3">
                 <label for="en_title" class="block text-900 font-medium mb-2">
                   Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -35,17 +34,16 @@
                 for="en_feature_text"
                 class="block text-900 font-medium mb-2">
                 description
-                <span class="text-red-500">*</span>
               </label>
               <div class="card">
-                <p-editor
-                  [styleClass]="'rtl-editor'"
+                <ngx-jodit
                   placeholder="Enter en slider description"
                   formControlName="en_feature_text"
-                  [readonly]="isViewMode()"
-                  [disabled]="isViewMode()"
-                  [ngClass]="{ 'editor-disabled': isViewMode() }"
-                  [style]="{ height: '320px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                  [options]="{
+                    readonly: isViewMode(),
+                    height: 300,
+                    direction: 'rtl'
+                  }" />
               </div>
             </div>
 
@@ -57,7 +55,6 @@
                   for="ar_feature_title"
                   class="block text-900 font-medium mb-2">
                   Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -78,17 +75,16 @@
                 for="ar_feature_text"
                 class="block text-900 font-medium mb-2">
                 description
-                <span class="text-red-500">*</span>
               </label>
               <div class="card">
-                <p-editor
-                  [styleClass]="'rtl-editor'"
+                <ngx-jodit
                   placeholder="Enter ar slider description"
                   formControlName="ar_feature_text"
-                  [readonly]="isViewMode()"
-                  [disabled]="isViewMode()"
-                  [ngClass]="{ 'editor-disabled': isViewMode() }"
-                  [style]="{ height: '320px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                  [options]="{
+                    readonly: isViewMode(),
+                    height: 300,
+                    direction: 'rtl'
+                  }" />
               </div>
             </div>
 

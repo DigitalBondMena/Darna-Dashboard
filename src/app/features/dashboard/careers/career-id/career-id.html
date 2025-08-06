@@ -13,7 +13,6 @@
               <div class="field mb-3">
                 <label for="en_name" class="block text-900 font-medium mb-2">
                   Name
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -35,7 +34,6 @@
               <div class="field mb-3">
                 <label for="en_type" class="block text-900 font-medium mb-2">
                   Type
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -59,7 +57,6 @@
                   for="en_location"
                   class="block text-900 font-medium mb-2">
                   Location
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -83,7 +80,6 @@
                   for="en_category_name"
                   class="block text-900 font-medium mb-2">
                   Category Name
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -105,7 +101,6 @@
               <div class="field mb-3">
                 <label for="en_title" class="block text-900 font-medium mb-2">
                   Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -129,16 +124,16 @@
                   for="en_description"
                   class="block text-900 font-medium mb-2">
                   Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
+                  <ngx-jodit
                     placeholder="Enter English description"
                     formControlName="en_description"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'ltr'
+                    }" />
                 </div>
               </div>
 
@@ -148,7 +143,6 @@
                   for="en_title_requirements"
                   class="block text-900 font-medium mb-2">
                   Requirements Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -172,16 +166,16 @@
                   for="en_description_requirements"
                   class="block text-900 font-medium mb-2">
                   Requirements Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
+                  <ngx-jodit
                     placeholder="Enter English requirements description"
                     formControlName="en_description_requirements"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'ltr'
+                    }" />
                 </div>
               </div>
 
@@ -191,7 +185,6 @@
                   for="en_title_responsibilities"
                   class="block text-900 font-medium mb-2">
                   Responsibilities Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -215,16 +208,16 @@
                   for="en_description_responsibilities"
                   class="block text-900 font-medium mb-2">
                   Responsibilities Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
+                  <ngx-jodit
                     placeholder="Enter English responsibilities description"
                     formControlName="en_description_responsibilities"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'ltr'
+                    }" />
                 </div>
               </div>
 
@@ -234,7 +227,6 @@
                   for="en_title_skills"
                   class="block text-900 font-medium mb-2">
                   Skills Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -258,16 +250,16 @@
                   for="en_description_skills"
                   class="block text-900 font-medium mb-2">
                   Skills Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
+                  <ngx-jodit
                     placeholder="Enter English skills description"
                     formControlName="en_description_skills"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'ltr'
+                    }" />
                 </div>
               </div>
 
@@ -277,7 +269,6 @@
                   for="en_meta_title"
                   class="block text-900 font-medium mb-2">
                   Meta Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -301,16 +292,16 @@
                   for="en_meta_description"
                   class="block text-900 font-medium mb-2">
                   Meta Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
+                  <ngx-jodit
                     placeholder="Enter English meta description"
                     formControlName="en_meta_description"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '150px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'ltr'
+                    }" />
                 </div>
               </div>
             </div>
@@ -323,7 +314,6 @@
               <div class="field mb-3">
                 <label for="ar_name" class="block text-900 font-medium mb-2">
                   Name
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -345,7 +335,6 @@
               <div class="field mb-3">
                 <label for="ar_type" class="block text-900 font-medium mb-2">
                   Type
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -369,7 +358,6 @@
                   for="ar_location"
                   class="block text-900 font-medium mb-2">
                   Location
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -393,7 +381,6 @@
                   for="ar_category_name"
                   class="block text-900 font-medium mb-2">
                   Category Name
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -415,7 +402,6 @@
               <div class="field mb-3">
                 <label for="ar_title" class="block text-900 font-medium mb-2">
                   Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -439,17 +425,16 @@
                   for="ar_description"
                   class="block text-900 font-medium mb-2">
                   Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
-                    [styleClass]="'rtl-editor'"
+                  <ngx-jodit
                     placeholder="Enter Arabic description"
                     formControlName="ar_description"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'rtl'
+                    }" />
                 </div>
               </div>
 
@@ -459,7 +444,6 @@
                   for="ar_title_requirements"
                   class="block text-900 font-medium mb-2">
                   Requirements Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -483,17 +467,16 @@
                   for="ar_description_requirements"
                   class="block text-900 font-medium mb-2">
                   Requirements Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
-                    [styleClass]="'rtl-editor'"
+                  <ngx-jodit
                     placeholder="Enter Arabic requirements description"
                     formControlName="ar_description_requirements"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'rtl'
+                    }" />
                 </div>
               </div>
 
@@ -503,7 +486,6 @@
                   for="ar_title_responsibilities"
                   class="block text-900 font-medium mb-2">
                   Responsibilities Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -527,17 +509,16 @@
                   for="ar_description_responsibilities"
                   class="block text-900 font-medium mb-2">
                   Responsibilities Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
-                    [styleClass]="'rtl-editor'"
+                  <ngx-jodit
                     placeholder="Enter Arabic responsibilities description"
                     formControlName="ar_description_responsibilities"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'rtl'
+                    }" />
                 </div>
               </div>
 
@@ -547,7 +528,6 @@
                   for="ar_title_skills"
                   class="block text-900 font-medium mb-2">
                   Skills Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -571,17 +551,16 @@
                   for="ar_description_skills"
                   class="block text-900 font-medium mb-2">
                   Skills Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
-                    [styleClass]="'rtl-editor'"
+                  <ngx-jodit
                     placeholder="Enter Arabic skills description"
                     formControlName="ar_description_skills"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '200px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'rtl'
+                    }" />
                 </div>
               </div>
 
@@ -591,7 +570,6 @@
                   for="ar_meta_title"
                   class="block text-900 font-medium mb-2">
                   Meta Title
-                  <span class="text-red-500">*</span>
                 </label>
                 <input
                   pInputText
@@ -615,17 +593,16 @@
                   for="ar_meta_description"
                   class="block text-900 font-medium mb-2">
                   Meta Description
-                  <span class="text-red-500">*</span>
                 </label>
                 <div class="card">
-                  <p-editor
-                    [styleClass]="'rtl-editor'"
+                  <ngx-jodit
                     placeholder="Enter Arabic meta description"
                     formControlName="ar_meta_description"
-                    [readonly]="isViewMode()"
-                    [disabled]="isViewMode()"
-                    [ngClass]="{ 'editor-disabled': isViewMode() }"
-                    [style]="{ height: '150px', backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }" />
+                    [options]="{
+                      readonly: isViewMode(),
+                      height: 300,
+                      direction: 'rtl'
+                    }" />
                 </div>
               </div>
             </div>

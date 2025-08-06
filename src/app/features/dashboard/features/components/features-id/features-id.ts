@@ -16,10 +16,10 @@ import {
 } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
+import { NgxJoditComponent } from "ngx-jodit";
 import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
-import { Editor } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
 import { InputTextModule } from "primeng/inputtext";
 import { ToastModule } from "primeng/toast";
@@ -35,7 +35,7 @@ import { Feature } from "../../services/feature";
     InputTextModule,
     CardModule,
     ToastModule,
-    Editor,
+    NgxJoditComponent,
     FormsModule,
     ReactiveFormsModule,
   ],

@@ -5,12 +5,14 @@ import { IBlogData } from "@app/features/dashboard/blogs/model/blog";
 import { BlogService } from "@app/features/dashboard/blogs/service/blog";
 import { TableSharedModule } from "@app/theme/shared/module/shared/table-shared.module";
 import { MessageService } from "primeng/api";
+import { InputTextModule } from "primeng/inputtext";
+import { PaginatorModule, PaginatorState } from "primeng/paginator";
 import { SelectModule } from "primeng/select";
 import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-blogs",
-  imports: [TableSharedModule, SelectModule],
+  imports: [TableSharedModule, SelectModule, InputTextModule, PaginatorModule],
   templateUrl: "./blogs.html",
   styleUrl: "./blogs.scss",
 })
@@ -20,6 +22,7 @@ export class Blogs implements OnInit {
 
   blogs!: IBlogData[];
   allBlogs!: IBlogData[]; // Store original data
+  filteredBlogs!: IBlogData[]; // Store filtered data for display
 
   baseUrl = baseUrl;
   blogService = inject(BlogService);
@@ -37,6 +40,33 @@ export class Blogs implements OnInit {
   // Selected status filter
   selectedStatusFilter: number | null = null;
 
+  // Search functionality
+  searchTerm: string = "";
+
+  // Pagination properties
+  first: number = 0;
+  rows: number = 10;
+  totalRecords: number = 0;
+  rowsPerPageOptions: number[] = [10, 50, 100, 200];
+
+  // Get pagination options with "All" option
+  get paginationOptions(): number[] {
+    if (this.rowsPerPageOptions.length === 0) {
+      // If no options specified, return empty array (no dropdown)
+      return [];
+    }
+
+    const options = [...this.rowsPerPageOptions];
+    // Only add "All" option if we have records and want to show it
+    if (
+      this.totalRecords > 0 &&
+      this.totalRecords > Math.max(...this.rowsPerPageOptions)
+    ) {
+      options.push(this.totalRecords);
+    }
+    return options;
+  }
+
   getMode() {
     const mode = this.route.snapshot.queryParamMap.get("mode");
     return mode;
@@ -51,6 +81,7 @@ export class Blogs implements OnInit {
     this.blogService.getBlogs().subscribe((data) => {
       this.allBlogs = data.data; // Store original data
       this.blogs = data.data;
+      this.applyFilters(); // Apply initial filters
       console.log(this.blogs[0]);
     });
   }
@@ -65,6 +96,59 @@ export class Blogs implements OnInit {
   // Check if a specific toggle is loading
   isToggleLoading(blogId: number): boolean {
     return this.loadingToggles.has(blogId);
+  }
+
+  // Apply all filters (search + status)
+  applyFilters() {
+    let filtered = [...this.allBlogs];
+
+    // Apply search filter
+    if (this.searchTerm.trim()) {
+      filtered = filtered.filter((blog) =>
+        blog.en_blog_title.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply status filter
+    if (
+      this.selectedStatusFilter !== null &&
+      this.selectedStatusFilter !== undefined
+    ) {
+      filtered = filtered.filter(
+        (blog) =>
+          Number(blog.active_status) === Number(this.selectedStatusFilter)
+      );
+    }
+
+    this.filteredBlogs = filtered;
+    this.totalRecords = filtered.length;
+    this.updateDisplayedBlogs();
+  }
+
+  // Update displayed blogs based on pagination
+  updateDisplayedBlogs() {
+    if (this.rows >= this.totalRecords || this.rows === -1) {
+      // Show all records when "All" is selected or rows >= totalRecords
+      this.blogs = [...this.filteredBlogs];
+    } else {
+      // Apply pagination
+      const startIndex = this.first;
+      const endIndex = this.first + this.rows;
+      this.blogs = this.filteredBlogs.slice(startIndex, endIndex);
+    }
+  }
+
+  // Handle search input
+  onSearch() {
+    this.first = 0; // Reset to first page
+    this.applyFilters();
+  }
+
+  // Handle pagination
+  onPageChange(event: PaginatorState) {
+    this.first = event.first ?? 0;
+    this.rows = event.rows ?? 10;
+    this.updateDisplayedBlogs();
   }
 
   onToggleChange(blog: IBlogData) {
@@ -114,6 +198,9 @@ export class Blogs implements OnInit {
             }
           }
 
+          // Reapply filters to update the display
+          this.applyFilters();
+
           // Show success notification
           this.messageService.add({
             severity: "success",
@@ -127,6 +214,10 @@ export class Blogs implements OnInit {
           if (allBlogIndex !== -1) {
             this.allBlogs[allBlogIndex].active_status = originalStatus;
           }
+
+          // Reapply filters to update the display
+          this.applyFilters();
+
           console.error("Toggle failed:", error);
 
           // Show error notification
@@ -146,15 +237,9 @@ export class Blogs implements OnInit {
 
   // Handle status filter change
   onStatusFilter(statusValue: number | null) {
-    if (statusValue === null || statusValue === undefined) {
-      // Show all blogs when filter is cleared
-      this.blogs = [...this.allBlogs];
-    } else {
-      // Filter blogs by status
-      this.blogs = this.allBlogs.filter(
-        (blog) => Number(blog.active_status) === Number(statusValue)
-      );
-    }
+    this.selectedStatusFilter = statusValue;
+    this.first = 0; // Reset to first page
+    this.applyFilters();
   }
 
   // Handle status change from dropdown
@@ -169,8 +254,8 @@ export class Blogs implements OnInit {
   private refreshData() {
     this.blogService.getBlogs().subscribe((data) => {
       this.allBlogs = data.data;
-      // Reapply current filter
-      this.onStatusFilter(this.selectedStatusFilter);
+      // Reapply current filters
+      this.applyFilters();
     });
   }
 

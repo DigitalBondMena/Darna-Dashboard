@@ -10,14 +10,14 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
 import { DetailsSharedModule } from "@app/theme/shared/module/shared/details-shared.module";
+import { NgxJoditComponent } from "ngx-jodit";
 import { MessageService } from "primeng/api";
-import { Editor } from "primeng/editor";
 import { ICareer } from "../model/career";
 import { CareersService } from "../services/careers";
 
 @Component({
   selector: "app-career-id",
-  imports: [DetailsSharedModule, Editor],
+  imports: [DetailsSharedModule, NgxJoditComponent],
   templateUrl: "./career-id.html",
   styleUrl: "./career-id.scss",
 })

@@ -5,12 +5,14 @@ import { IProjectResponse } from "@app/features/dashboard/projects/model";
 import { ProjectsService } from "@app/features/dashboard/projects/service/projects";
 import { TableSharedModule } from "@app/theme/shared/module/shared/table-shared.module";
 import { MessageService } from "primeng/api";
+import { InputTextModule } from "primeng/inputtext";
+import { PaginatorModule, PaginatorState } from "primeng/paginator";
 import { SelectModule } from "primeng/select";
 import { finalize } from "rxjs/operators";
 
 @Component({
   selector: "app-projects",
-  imports: [TableSharedModule, SelectModule],
+  imports: [TableSharedModule, SelectModule, InputTextModule, PaginatorModule],
   templateUrl: "./projects.html",
   styleUrl: "./projects.scss",
 })
@@ -20,6 +22,7 @@ export class Projects implements OnInit {
 
   projects!: IProjectResponse[];
   allProjects!: IProjectResponse[]; // Store original data
+  filteredProjects!: IProjectResponse[]; // Store filtered data for display
 
   baseUrl = baseUrl;
   projectService = inject(ProjectsService);
@@ -37,6 +40,33 @@ export class Projects implements OnInit {
   // Selected status filter
   selectedStatusFilter: number | null = null;
 
+  // Search functionality
+  searchTerm: string = "";
+
+  // Pagination properties
+  first: number = 0;
+  rows: number = 10;
+  totalRecords: number = 0;
+  rowsPerPageOptions: number[] = [10, 50, 100, 200];
+
+  // Get pagination options with "All" option
+  get paginationOptions(): number[] {
+    if (this.rowsPerPageOptions.length === 0) {
+      // If no options specified, return empty array (no dropdown)
+      return [];
+    }
+
+    const options = [...this.rowsPerPageOptions];
+    // Only add "All" option if we have records and want to show it
+    if (
+      this.totalRecords > 0 &&
+      this.totalRecords > Math.max(...this.rowsPerPageOptions)
+    ) {
+      options.push(this.totalRecords);
+    }
+    return options;
+  }
+
   getMode() {
     const mode = this.route.snapshot.queryParamMap.get("mode");
     return mode;
@@ -51,6 +81,7 @@ export class Projects implements OnInit {
     this.projectService.getProjects().subscribe((data) => {
       this.allProjects = data.data; // Store original data
       this.projects = data.data;
+      this.applyFilters(); // Apply initial filters
       console.log(this.projects[0]);
     });
   }
@@ -65,6 +96,61 @@ export class Projects implements OnInit {
   // Check if a specific toggle is loading
   isToggleLoading(projectId: number): boolean {
     return this.loadingToggles.has(projectId);
+  }
+
+  // Apply all filters (search + status)
+  applyFilters() {
+    let filtered = [...this.allProjects];
+
+    // Apply search filter
+    if (this.searchTerm.trim()) {
+      filtered = filtered.filter((project) =>
+        project.en_project_name
+          .toLowerCase()
+          .includes(this.searchTerm.toLowerCase())
+      );
+    }
+
+    // Apply status filter
+    if (
+      this.selectedStatusFilter !== null &&
+      this.selectedStatusFilter !== undefined
+    ) {
+      filtered = filtered.filter(
+        (project) =>
+          Number(project.active_status) === Number(this.selectedStatusFilter)
+      );
+    }
+
+    this.filteredProjects = filtered;
+    this.totalRecords = filtered.length;
+    this.updateDisplayedProjects();
+  }
+
+  // Update displayed projects based on pagination
+  updateDisplayedProjects() {
+    if (this.rows >= this.totalRecords || this.rows === -1) {
+      // Show all records when "All" is selected or rows >= totalRecords
+      this.projects = [...this.filteredProjects];
+    } else {
+      // Apply pagination
+      const startIndex = this.first;
+      const endIndex = this.first + this.rows;
+      this.projects = this.filteredProjects.slice(startIndex, endIndex);
+    }
+  }
+
+  // Handle search input
+  onSearch() {
+    this.first = 0; // Reset to first page
+    this.applyFilters();
+  }
+
+  // Handle pagination
+  onPageChange(event: PaginatorState) {
+    this.first = event.first ?? 0;
+    this.rows = event.rows ?? 10;
+    this.updateDisplayedProjects();
   }
 
   onToggleChange(project: IProjectResponse) {
@@ -118,6 +204,9 @@ export class Projects implements OnInit {
             }
           }
 
+          // Reapply filters to update the display
+          this.applyFilters();
+
           // Show success notification
           this.messageService.add({
             severity: "success",
@@ -131,6 +220,10 @@ export class Projects implements OnInit {
           if (allProjectIndex !== -1) {
             this.allProjects[allProjectIndex].active_status = originalStatus;
           }
+
+          // Reapply filters to update the display
+          this.applyFilters();
+
           console.error("Toggle failed:", error);
 
           // Show error notification
@@ -150,15 +243,9 @@ export class Projects implements OnInit {
 
   // Handle status filter change
   onStatusFilter(statusValue: number | null) {
-    if (statusValue === null || statusValue === undefined) {
-      // Show all projects when filter is cleared
-      this.projects = [...this.allProjects];
-    } else {
-      // Filter projects by status
-      this.projects = this.allProjects.filter(
-        (project) => Number(project.active_status) === Number(statusValue)
-      );
-    }
+    this.selectedStatusFilter = statusValue;
+    this.first = 0; // Reset to first page
+    this.applyFilters();
   }
 
   // Handle status change from dropdown
@@ -173,8 +260,8 @@ export class Projects implements OnInit {
   private refreshData() {
     this.projectService.getProjects().subscribe((data) => {
       this.allProjects = data.data;
-      // Reapply current filter
-      this.onStatusFilter(this.selectedStatusFilter);
+      // Reapply current filters
+      this.applyFilters();
     });
   }
 
