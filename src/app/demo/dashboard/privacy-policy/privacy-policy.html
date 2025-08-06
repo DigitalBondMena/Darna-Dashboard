@@ -33,10 +33,13 @@
                 description
               </label>
               <div class="card">
-                <p-editor
+                <ngx-jodit
                   placeholder="Enter en slider description"
                   formControlName="en_description"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'ltr'
+                  }" />
               </div>
             </div>
 
@@ -66,11 +69,13 @@
                 description
               </label>
               <div class="card">
-                <p-editor
-                  [styleClass]="'rtl-editor'"
+                <ngx-jodit
                   placeholder="Enter ar slider description"
                   formControlName="ar_description"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'rtl'
+                  }" />
               </div>
             </div>
             <!-- Action Buttons -->

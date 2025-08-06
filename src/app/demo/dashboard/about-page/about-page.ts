@@ -11,10 +11,10 @@ import { Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
 import { IAboutDataPage } from "@app/features/dashboard/about-us-page/models/about-us-page";
 import { AboutUServicePage } from "@app/features/dashboard/about-us-page/services/about-us-page";
+import { NgxJoditComponent } from "ngx-jodit";
 import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
-import { Editor } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
 import { InputTextModule } from "primeng/inputtext";
 import { ToastModule } from "primeng/toast";
@@ -27,7 +27,7 @@ import { ToastModule } from "primeng/toast";
     InputTextModule,
     CardModule,
     ToastModule,
-    Editor,
+    NgxJoditComponent,
     FormsModule,
     ReactiveFormsModule,
   ],

@@ -33,10 +33,13 @@
                 description
               </label>
               <div class="card">
-                <p-editor
+                <ngx-jodit
                   placeholder="Enter en slider description"
                   formControlName="en_main_text"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'ltr'
+                  }" />
               </div>
               <!-- Alt Image Field -->
               <div class="field mb-3">
@@ -87,11 +90,13 @@
                 description
               </label>
               <div class="card">
-                <p-editor
+                <ngx-jodit
                   placeholder="Enter ar slider description"
                   formControlName="ar_main_text"
-                  [styleClass]="'rtl-editor'"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'rtl'
+                  }" />
               </div>
               <!-- Alt Image Field -->
               <div class="field mb-3">
@@ -179,10 +184,13 @@
                 Mission
               </label>
               <div class="card">
-                <p-editor
+                <ngx-jodit
                   placeholder="Enter en mission"
                   formControlName="en_mission_text"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'ltr'
+                  }" />
               </div>
             </div>
 
@@ -194,11 +202,13 @@
                 Mission
               </label>
               <div class="card">
-                <p-editor
+                <ngx-jodit
                   placeholder="Enter ar mission"
                   formControlName="ar_mission_text"
-                  [styleClass]="'rtl-editor'"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'rtl'
+                  }" />
               </div>
             </div>
 
@@ -210,10 +220,13 @@
                 Vision
               </label>
               <div class="card">
-                <p-editor
+                <ngx-jodit
                   placeholder="Enter en vision"
                   formControlName="en_vision_text"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'ltr'
+                  }" />
               </div>
             </div>
 
@@ -225,11 +238,13 @@
                 Vision
               </label>
               <div class="card">
-                <p-editor
+                <ngx-jodit
                   placeholder="Enter ar vision"
                   formControlName="ar_vision_text"
-                  [styleClass]="'rtl-editor'"
-                  [style]="{ height: '320px', backgroundColor: 'white' }" />
+                  [options]="{
+                    height: 300,
+                    direction: 'rtl'
+                  }" />
               </div>
             </div>
 
