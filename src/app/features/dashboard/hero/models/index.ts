@@ -18,4 +18,5 @@ export interface IData {
   ar_alt_image: string;
   main_image: string;
   active_status: string;
+  project_id: string;
 }

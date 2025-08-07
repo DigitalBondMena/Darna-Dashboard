@@ -10,6 +10,7 @@ import {
   IProjectDetails,
   IProjectGallery,
   IProjectGalleryResponse,
+  IProjectListName,
   IProjectResponse,
 } from "../model";
 type endpoint = "project-form-second" | "project-form-first";
@@ -126,6 +127,12 @@ export class ProjectsService {
         formData
       );
     }
+  }
+
+  getProjectListName(): Observable<IProjectListName> {
+    return this.http.get<IProjectListName>(
+      `${baseUrl}api/projects/getprojects`
+    );
   }
 
   /* Start Endpoints For Project Gallery */

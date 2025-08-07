@@ -18,12 +18,15 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
 import { IData } from "@app/features/dashboard/hero/models";
 import { HeroService } from "@app/features/dashboard/hero/services/hero";
+import { IProjectListName } from "@app/features/dashboard/projects/model";
+import { ProjectsService } from "@app/features/dashboard/projects/service/projects";
 import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
 import { Editor } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
 import { InputTextModule } from "primeng/inputtext";
+import { Select } from "primeng/select";
 import { ToastModule } from "primeng/toast";
 
 @Component({
@@ -38,6 +41,7 @@ import { ToastModule } from "primeng/toast";
     Editor,
     FormsModule,
     ReactiveFormsModule,
+    Select,
   ],
   templateUrl: "./hero-details.html",
   styleUrl: "./hero-details.scss",
@@ -45,6 +49,8 @@ import { ToastModule } from "primeng/toast";
 })
 export class HeroDetails implements OnInit {
   private heroService = inject(HeroService);
+
+  private projectsService = inject(ProjectsService);
 
   private fb = inject(FormBuilder);
 
@@ -63,6 +69,8 @@ export class HeroDetails implements OnInit {
   isLoading = signal(false);
 
   slider!: IData;
+
+  projectListName = signal<IProjectListName[]>([]);
 
   heroForm!: FormGroup;
 
@@ -120,6 +128,7 @@ export class HeroDetails implements OnInit {
   ngOnInit() {
     this.initForm();
     this.setupRouteHandling();
+    this.getProjectListName();
   }
 
   private setupRouteHandling() {
@@ -148,6 +157,7 @@ export class HeroDetails implements OnInit {
       en_description: ["", [Validators.required, Validators.minLength(3)]],
       ar_description: ["", [Validators.required, Validators.minLength(3)]],
       active_status: ["1", Validators.required],
+      project_id: ["", Validators.required],
       // Note: main_image is handled separately as a file
     });
   }
@@ -166,6 +176,7 @@ export class HeroDetails implements OnInit {
           ar_alt_image: data.data.ar_alt_image,
           en_description: data.data.en_description,
           active_status: data.data.active_status,
+          project_id: data.data.project_id,
         });
         console.log(this.slider);
         this.isLoading.set(false);
@@ -179,6 +190,12 @@ export class HeroDetails implements OnInit {
         });
         this.isLoading.set(false);
       },
+    });
+  }
+
+  getProjectListName() {
+    this.projectsService.getProjectListName().subscribe((data) => {
+      this.projectListName.set(data.projects);
     });
   }
 
@@ -219,13 +236,10 @@ export class HeroDetails implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.heroForm.value);
-    console.log(this.heroForm.controls);
     if (this.heroForm.invalid || this.isViewMode()) return;
-
+    console.log(this.heroForm.value);
     this.isLoading.set(true);
     const formData = this.heroForm.value;
-
     if (this.isCreateMode()) {
       this.createHero(formData);
     } else if (this.isEditMode()) {

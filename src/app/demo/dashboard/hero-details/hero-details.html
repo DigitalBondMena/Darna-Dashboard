@@ -56,6 +56,7 @@
                   placeholder="Enter en image alt text"
                   class="w-full"
                   [class.ng-invalid]="heroForm.get('en_alt_image')?.invalid && heroForm.get('en_alt_image')?.touched" />
+
                 <small
                   class="p-error block"
                   *ngIf="heroForm.get('en_alt_image')?.invalid && heroForm.get('en_alt_image')?.touched && !isViewMode()">
@@ -124,6 +125,19 @@
               </div>
             </div>
 
+            <div class="col-12">
+              <label for="project_id" class="block text-900 font-medium mb-2">
+                Project Name
+              </label>
+              <p-select
+                [options]="projectListName()"
+                formControlName="project_id"
+                optionLabel="project_name"
+                optionValue="id"
+                placeholder="Select Project"
+                style="width: 100%" />
+            </div>
+
             <!-- Image Upload Field - Hidden in View Mode -->
             <div class="field col-12" *ngIf="!isViewMode()">
               <label class="block text-900 font-medium mb-2">
@@ -152,11 +166,11 @@
               </p-fileupload>
 
               <!-- Image validation message for create mode -->
-              <small
-                class="p-error block"
-                *ngIf="isCreateMode() && !selectedFile">
+              @if (isCreateMode() && !selectedFile) {
+              <small class="p-error block">
                 Image is required for creating a new slider.
               </small>
+              }
             </div>
 
             <!-- Current Image Display -->

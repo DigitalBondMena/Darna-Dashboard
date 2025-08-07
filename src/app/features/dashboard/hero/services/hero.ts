@@ -30,6 +30,7 @@ export class HeroService {
     formData.append("ar_description", data.ar_description);
     formData.append("en_alt_image", data.en_alt_image);
     formData.append("ar_alt_image", data.ar_alt_image);
+    formData.append("project_id", data.project_id);
 
     // Handle file upload or existing image
     if (imageFile) {
@@ -53,7 +54,7 @@ export class HeroService {
     formData.append("ar_description", data.ar_description);
     formData.append("en_alt_image", data.en_alt_image);
     formData.append("ar_alt_image", data.ar_alt_image);
-
+    formData.append("project_id", data.project_id);
     // Handle file upload
     if (imageFile) {
       formData.append("main_image", imageFile);

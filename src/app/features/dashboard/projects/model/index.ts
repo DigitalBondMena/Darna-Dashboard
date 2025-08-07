@@ -66,3 +66,13 @@ export interface IProjectChoicesInputData {
   ar_input_info: string;
   active_status: string;
 }
+
+export interface IProjectListName {
+  projects: IProjectListName[];
+}
+
+export interface IProjectListName {
+  project_name: string;
+  slug?: string;
+  id: number;
+}
