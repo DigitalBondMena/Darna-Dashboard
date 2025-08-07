@@ -21,6 +21,10 @@
         Phone
         <p-sortIcon field="phone"></p-sortIcon>
       </th>
+      <th pSortableColumn="phone">
+        Date
+        <p-sortIcon field="phone"></p-sortIcon>
+      </th>
 
       <th>View</th>
       <th style="max-width: 50px" pSortableColumn="is_read">
@@ -46,27 +50,13 @@
       <td>{{ career.name }}</td>
       <td>{{ career.email }}</td>
       <td>{{ career.phone }}</td>
+      <td>{{ career.project_date | date: "dd/MM/yyyy" }}</td>
       <td>
         <a [routerLink]="['view', career.id]">
           <i class="pi pi-eye" style="color: #673ab7"></i>
         </a>
       </td>
-      <td>
-        <div class="flex align-items-center gap-2">
-          <p-toggleswitch
-            [ngModel]="returnStatus(career.is_read)"
-            (ngModelChange)="onToggleChange(career)"
-            [disabled]="isToggleLoading(career.id)" />
-
-          <!-- Loading indicator -->
-          @if (isToggleLoading(career.id)) {
-          <i
-            class="pi pi-spin pi-spinner"
-            style="color: #673ab7; font-size: 0.8rem">
-          </i>
-          }
-        </div>
-      </td>
+      <td>{{ career.is_read === "1" ? "Read" : "Unread" }}</td>
     </tr>
   </ng-template>
 

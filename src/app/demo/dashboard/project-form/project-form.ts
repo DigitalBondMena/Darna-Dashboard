@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
@@ -9,7 +10,7 @@ import { SelectModule } from "primeng/select";
 
 @Component({
   selector: "app-project-form",
-  imports: [TableSharedModule, SelectModule],
+  imports: [TableSharedModule, SelectModule, DatePipe],
   templateUrl: "./project-form.html",
   styleUrl: "./project-form.scss",
 })

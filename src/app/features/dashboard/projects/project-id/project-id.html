@@ -538,47 +538,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Form Info Fields -->
-              <div class="grid">
-                <div class="col-12 md:col-6">
-                  <div class="field mb-3">
-                    <label
-                      for="en_form_first_input_info"
-                      class="block text-900 font-medium mb-2">
-                      English Form First Input Info
-                    </label>
-                    <textarea
-                      pTextarea
-                      id="en_form_first_input_info"
-                      formControlName="en_form_first_input_info"
-                      placeholder="Enter English form first input info"
-                      [readonly]="isViewMode()"
-                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
-                      style="width: 100%">
-                    </textarea>
-                  </div>
-                </div>
-
-                <div class="col-12 md:col-6">
-                  <div class="field mb-3">
-                    <label
-                      for="ar_form_first_input_info"
-                      class="block text-900 font-medium mb-2">
-                      Arabic Form First Input Info
-                    </label>
-                    <textarea
-                      pTextarea
-                      id="ar_form_first_input_info"
-                      formControlName="ar_form_first_input_info"
-                      placeholder="Enter Arabic form first input info"
-                      [readonly]="isViewMode()"
-                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
-                      style="width: 100%">
-                    </textarea>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <!-- Project Gallery -->
@@ -681,7 +640,88 @@
                 </div>
               </p-card>
             </div>
+            <div class="col-12">
+              <!-- Form Info Fields -->
+              <div class="grid">
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="en_form_first_input_info"
+                      class="block text-900 font-medium mb-2">
+                      English Form First Input Info
+                    </label>
+                    <textarea
+                      pTextarea
+                      id="en_form_first_input_info"
+                      formControlName="en_form_first_input_info"
+                      placeholder="Enter English form first input info"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                      style="width: 100%">
+                    </textarea>
+                  </div>
+                </div>
 
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="ar_form_first_input_info"
+                      class="block text-900 font-medium mb-2">
+                      Arabic Form First Input Info
+                    </label>
+                    <textarea
+                      pTextarea
+                      id="ar_form_first_input_info"
+                      formControlName="ar_form_first_input_info"
+                      placeholder="Enter Arabic form first input info"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                      style="width: 100%">
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+              <!-- Form Info Fields -->
+              <div class="grid">
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="en_form_first_input_info"
+                      class="block text-900 font-medium mb-2">
+                      English Form Second Input Info
+                    </label>
+                    <textarea
+                      pTextarea
+                      id="en_form_second_input_info"
+                      formControlName="en_form_second_input_info"
+                      placeholder="Enter English form second input info"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                      style="width: 100%">
+                    </textarea>
+                  </div>
+                </div>
+
+                <div class="col-12 md:col-6">
+                  <div class="field mb-3">
+                    <label
+                      for="ar_form_first_input_info"
+                      class="block text-900 font-medium mb-2">
+                      Arabic Form Second Input Info
+                    </label>
+                    <textarea
+                      pTextarea
+                      id="ar_form_second_input_info"
+                      formControlName="ar_form_second_input_info"
+                      placeholder="Enter Arabic form second input info"
+                      [readonly]="isViewMode()"
+                      [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white', height: '100px' }"
+                      style="width: 100%">
+                    </textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- Project Choices Management -->
             <div class="col-12" *ngIf="!isCreateMode()">
               <p-card

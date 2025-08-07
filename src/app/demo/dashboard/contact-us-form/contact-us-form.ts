@@ -1,3 +1,4 @@
+import { DatePipe } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { baseUrl } from "@app/core/env";
@@ -8,7 +9,7 @@ import { SelectModule } from "primeng/select";
 
 @Component({
   selector: "app-contact-us-form",
-  imports: [TableSharedModule, SelectModule],
+  imports: [TableSharedModule, SelectModule, DatePipe],
   templateUrl: "./contact-us-form.html",
   styleUrl: "./contact-us-form.scss",
 })
