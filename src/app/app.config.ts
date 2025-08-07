@@ -5,7 +5,11 @@ import {
 } from "@angular/common/http";
 import { ApplicationConfig } from "@angular/core";
 import { provideAnimationsAsync } from "@angular/platform-browser/animations/async";
-import { provideRouter } from "@angular/router";
+import {
+  provideRouter,
+  withHashLocation,
+  withInMemoryScrolling,
+} from "@angular/router";
 import Material from "@primeuix/themes/material";
 import { providePrimeNG } from "primeng/config";
 
@@ -52,7 +56,11 @@ const routes: Routes = [
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withInMemoryScrolling({ scrollPositionRestoration: "enabled" }),
+      withHashLocation()
+    ),
     provideAnimationsAsync(),
     provideHttpClient(withFetch(), withInterceptors([loaderInterceptor])),
     MessageService,

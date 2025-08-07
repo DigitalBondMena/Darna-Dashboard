@@ -12,5 +12,5 @@ export interface IDataTestimonials {
   ar_job: string;
   en_text: string;
   ar_text: string;
-  active_status: boolean;
+  active_status: string;
 }

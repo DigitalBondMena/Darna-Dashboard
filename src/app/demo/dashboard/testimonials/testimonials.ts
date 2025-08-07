@@ -87,11 +87,15 @@ export class Testimonials implements OnInit {
 
     // Optimistically update the UI
     const originalStatus = testimonial.active_status;
-    const newStatus = Number(testimonial.active_status) === 1 ? false : true;
+    const newStatus = Number(testimonial.active_status) === 1 ? "0" : "1";
     testimonial.active_status = newStatus;
 
-    this.featureService
-      .activeTestimonials(testimonial.id)
+    const apiCall =
+      Number(originalStatus) === 1
+        ? this.featureService.disableTestimonials(testimonial.id)
+        : this.featureService.activeTestimonials(testimonial.id);
+
+    apiCall
       .pipe(
         finalize(() => {
           // Remove loading state when done
@@ -100,7 +104,7 @@ export class Testimonials implements OnInit {
       )
       .subscribe({
         next: (response) => {
-          // Update with server response if available
+          // Update with server response
           if (response.data && response.data.length > 0) {
             const updatedTestimonial = response.data.find(
               (t) => t.id === testimonial.id
@@ -114,7 +118,7 @@ export class Testimonials implements OnInit {
           this.messageService.add({
             severity: "success",
             summary: "Success",
-            detail: `Testimonial ${newStatus ? "activated" : "deactivated"} successfully`,
+            detail: `Hero slider ${Number(newStatus) === 1 ? "activated" : "deactivated"} successfully`,
           });
         },
         error: (error) => {
@@ -126,7 +130,7 @@ export class Testimonials implements OnInit {
           this.messageService.add({
             severity: "error",
             summary: "Error",
-            detail: "Failed to update testimonial status",
+            detail: "Failed to update hero slider status",
           });
         },
       });

@@ -1,15 +1,15 @@
 import { Routes } from "@angular/router";
 
 export const dashboardRoutes: Routes = [
+  // {
+  //   path: "",
+  //   loadComponent: () =>
+  //     import("@demo/dashboard/default/default.component").then(
+  //       (c) => c.DefaultComponent
+  //     ),
+  // },
   {
     path: "",
-    loadComponent: () =>
-      import("@demo/dashboard/default/default.component").then(
-        (c) => c.DefaultComponent
-      ),
-  },
-  {
-    path: "hero",
     children: [
       {
         path: "",

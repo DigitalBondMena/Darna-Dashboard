@@ -16,25 +16,6 @@ export interface NavigationItem {
 }
 
 export const NavigationItems: NavigationItem[] = [
-  // 1. DASHBOARD - Analytics & Overview
-  {
-    id: "dashboard",
-    title: "Dashboard",
-    type: "group",
-    icon: "icon-navigation",
-    children: [
-      {
-        id: "analytics",
-        title: "Analytics & Overview",
-        type: "item",
-        classes: "nav-item",
-        url: "dashboard",
-        icon: "ti ti-dashboard",
-      },
-    ],
-  },
-
-  // 2. WEBSITE MANAGEMENT - Main website content sections
   {
     id: "website-management",
     title: "Website Management",
@@ -53,7 +34,7 @@ export const NavigationItems: NavigationItem[] = [
             title: "Hero Section",
             type: "item",
             classes: "nav-item",
-            url: "dashboard/hero",
+            url: "dashboard",
             icon: "ti ti-layout-dashboard",
           },
           {
