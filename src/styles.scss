@@ -49,3 +49,8 @@ File: style.css
 button {
   border-radius: 20px !important;
 }
+
+ul[aria-label="Option List"] {
+  margin-bottom: 0;
+  padding-left: 0;
+}
