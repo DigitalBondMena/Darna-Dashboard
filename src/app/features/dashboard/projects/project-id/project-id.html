@@ -770,11 +770,15 @@
                               <div class="mb-3">
                                 <div class="mb-2">
                                   <strong>English:</strong> {{
-                                  choice.en_input_info }}
+                                  choice.en_input_info }} | {{
+                                  projectForm.get('en_form_first_input_info')?.value
+                                  }}
                                 </div>
                                 <div class="mb-2">
                                   <strong>Arabic:</strong> {{
-                                  choice.ar_input_info }}
+                                  choice.ar_input_info }} | {{
+                                  projectForm.get('ar_form_first_input_info')?.value
+                                  }}
                                 </div>
                               </div>
 
@@ -839,11 +843,15 @@
                               <div class="mb-3">
                                 <div class="mb-2">
                                   <strong>English:</strong> {{
-                                  choice.en_input_info }}
+                                  choice.en_input_info }} | {{
+                                  projectForm.get('en_form_second_input_info')?.value
+                                  }}
                                 </div>
                                 <div class="mb-2">
                                   <strong>Arabic:</strong> {{
-                                  choice.ar_input_info }}
+                                  choice.ar_input_info }} | {{
+                                  projectForm.get('ar_form_second_input_info')?.value
+                                  }}
                                 </div>
                               </div>
 
