@@ -20,6 +20,7 @@ import { IData } from "@app/features/dashboard/hero/models";
 import { HeroService } from "@app/features/dashboard/hero/services/hero";
 import { IProjectListName } from "@app/features/dashboard/projects/model";
 import { ProjectsService } from "@app/features/dashboard/projects/service/projects";
+import { NgxJoditComponent } from "ngx-jodit";
 import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
@@ -42,6 +43,7 @@ import { ToastModule } from "primeng/toast";
     FormsModule,
     ReactiveFormsModule,
     Select,
+    NgxJoditComponent,
   ],
   templateUrl: "./hero-details.html",
   styleUrl: "./hero-details.scss",
