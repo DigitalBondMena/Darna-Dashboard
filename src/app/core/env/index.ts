@@ -1,1 +1,1 @@
-export const baseUrl = "https://digitalbondmena.com/darnaapi/";
+export const baseUrl = "https://api.darna-drc.com/";
