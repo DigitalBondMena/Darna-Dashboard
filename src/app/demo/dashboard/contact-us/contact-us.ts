@@ -60,7 +60,12 @@ export class ContactUs implements OnInit {
 
   getContactUs() {
     this.contactUsService.getContactUs().subscribe((data) => {
-      this.contactForm.patchValue(data.data);
+      const cleaned = Object.fromEntries(
+      Object.entries(data.data).filter(([_, v]) => v !== "null")
+    );    
+console.log(cleaned);
+
+    this.contactForm.patchValue(cleaned);
       this.contactUs = data.data;
     });
   }
@@ -108,7 +113,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       facebook_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -116,7 +121,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       instagram_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -124,7 +129,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       linkedin_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -132,7 +137,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       twitter_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -140,7 +145,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       youtube_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -148,7 +153,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       snapchat_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -156,7 +161,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       telegram_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -164,7 +169,7 @@ export class ContactUs implements OnInit {
         ],
       ],
       tiktok_link: [
-        null,
+        '',
         [
           Validators.pattern(
             /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_.~#?&//=]*)$/
@@ -201,7 +206,7 @@ export class ContactUs implements OnInit {
             });
           }
         },
-        error: (error) => {
+        error: () => {
           this.isLoading.set(false);
           this.messageService.add({
             severity: "error",

@@ -54,3 +54,7 @@ ul[aria-label="Option List"] {
   margin-bottom: 0;
   padding-left: 0;
 }
+.jodit-wysiwyg p,.ql-editor p {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
