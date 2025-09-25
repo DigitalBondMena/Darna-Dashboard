@@ -1,0 +1,131 @@
+<div class="grid">
+  <div class="col-12">
+    <p-card [header]="pageTitle()" styleClass="shadow-2">
+      <div class="p-fluid">
+        <form [formGroup]="careerForm" (ngSubmit)="onSubmit()">
+          <!-- Form Content -->
+          <div class=" mt-4">
+            <!-- change user (Left Side) -->
+            <div class="row ">
+              <!-- Name Field -->
+              <div class="field mb-3 col-6">
+                <label for="name" class="block text-900 font-medium mb-2">
+                  Name
+                </label>
+                <input
+                  pInputText
+                  id="name"
+                  formControlName="name"
+                  placeholder="Enter name"
+                  [readonly]="isViewMode() ||isEditMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="careerForm.get('name')?.invalid && careerForm.get('name')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="careerForm.get('name')?.invalid && careerForm.get('name')?.touched && !isViewMode()">
+                  Name is required and must be at least 3 characters long.
+                </small>
+              </div>
+              <!-- Email Field -->
+              <div class="field mb-3 col-6">
+                <label for="email" class="block text-900 font-medium mb-2">
+                  Username
+                </label>
+                <input
+                  pInputText
+                  id="email"
+                  formControlName="email"
+                  placeholder="Enter username"
+                  [readonly]="isViewMode() ||isEditMode()"
+                  [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                  style="width: 100%"
+                  [class.ng-invalid]="careerForm.get('email')?.invalid && careerForm.get('email')?.touched" />
+                <small
+                  class="p-error block"
+                  *ngIf="careerForm.get('email')?.invalid && careerForm.get('email')?.touched && !isViewMode()">
+                  username is required
+                </small>
+              </div>
+              <!-- Password Field -->
+               @if(!isViewMode()){
+
+                 <div class="field mb-3 col-6">
+                   <label for="password" class="block text-900 font-medium mb-2">
+                     Password
+                   </label>
+                   <input
+                     pInputText
+                     id="password"
+                     formControlName="password"
+                     type="password"
+                     placeholder="Enter password"
+                     [readonly]="isViewMode()"
+                     [style]="{ backgroundColor: isViewMode() ? '#f0f0f0' : 'white' }"
+                     style="width: 100%"
+                     [class.ng-invalid]="careerForm.get('password')?.invalid && careerForm.get('password')?.touched" />
+                   <small
+                     class="p-error block"
+                     *ngIf="careerForm.get('password')?.invalid && careerForm.get('password')?.touched && !isViewMode()">
+                     password is required and must be at least 8 characters long.
+                   </small>
+                 </div>
+               }
+               <!-- action button -->
+               <div class="col-12">
+              <div class="flex justify-content-end gap-2 pt-3">
+                <!-- Create Mode Buttons -->
+                <ng-container *ngIf="isCreateMode()">
+                  <p-button
+                    label="Create Career"
+                    icon="pi pi-plus"
+                    severity="primary"
+                    type="submit"
+                    [disabled]="careerForm.invalid || isLoading()"
+                    [loading]="isLoading()">
+                  </p-button>
+                </ng-container>
+
+                <!-- Edit Mode Buttons -->
+                <ng-container *ngIf="isEditMode()">
+                  <p-button
+                    label="Update Career"
+                    icon="pi pi-check"
+                    severity="primary"
+                    type="submit"
+                    [disabled]="!this.careerForm.valid && !isViewMode()"
+                    [loading]="isLoading()">
+                  </p-button>
+                </ng-container>
+
+                <!-- View Mode Buttons -->
+                <ng-container *ngIf="isViewMode()">
+                  <p-button
+                    label="Back"
+                    icon="pi pi-arrow-left"
+                    severity="secondary"
+                    type="button"
+                    (click)="onCancel()">
+                  </p-button>
+                  <p-button
+                    label="Edit"
+                    icon="pi pi-pencil"
+                    severity="primary"
+                    type="button"
+                    (click)="onEditcareer()">
+                  </p-button>
+                </ng-container>
+              </div>
+            </div>
+            </div>
+
+            
+          </div>
+        </form>
+      </div>
+    </p-card>
+  </div>
+</div>
+
+<!-- Toast Messages -->
+<p-toast></p-toast>

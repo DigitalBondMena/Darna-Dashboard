@@ -63,6 +63,7 @@ export const NavigationItems: NavigationItem[] = [
           },
         ],
       },
+     
       {
         id: "about-section",
         title: "About Us Section",
@@ -70,6 +71,14 @@ export const NavigationItems: NavigationItem[] = [
         classes: "nav-item",
         url: "dashboard/about-us",
         icon: "ti ti-info-circle",
+      },
+      {
+        id: "users-management-section",
+        title: "Users Management",
+        type: "item",
+        classes: "nav-item",
+        url: "dashboard/users-management",
+        icon: "ti ti-users",
       },
     ],
   },

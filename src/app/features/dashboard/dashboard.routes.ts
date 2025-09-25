@@ -110,6 +110,13 @@ export const dashboardRoutes: Routes = [
         (c) => c.careersRoutes
       ),
   },
+  {
+    path: "users-management",
+    loadChildren: () =>
+      import("@app/features/dashboard/users-management/users-management-id.routes").then(
+        (c) => c.usersManagementRoutes
+      ),
+  },
 
   {
     path: "blogs",
