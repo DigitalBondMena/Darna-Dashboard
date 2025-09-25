@@ -12,14 +12,13 @@ import { baseUrl } from "@app/core/env";
 import { DetailsSharedModule } from "@app/theme/shared/module/shared/details-shared.module";
 import { NgxJoditComponent } from "ngx-jodit";
 import { MessageService } from "primeng/api";
-import { Editor } from "primeng/editor";
 import { TextareaModule } from "primeng/textarea";
 import { IBlogData } from "../model/blog";
 import { BlogService } from "../service/blog";
 
 @Component({
   selector: "app-blog-id",
-  imports: [DetailsSharedModule, Editor, TextareaModule, NgxJoditComponent],
+  imports: [DetailsSharedModule, TextareaModule, NgxJoditComponent],
   templateUrl: "./blog-id.html",
   styleUrl: "./blog-id.scss",
 })

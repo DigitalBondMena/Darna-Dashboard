@@ -4,12 +4,11 @@ import { RouterModule } from "@angular/router";
 
 // project import
 
-import { NavLeftComponent } from "../nav-bar/nav-left/nav-left.component";
 import { NavContentComponent } from "./nav-content/nav-content.component";
 
 @Component({
   selector: "app-navigation",
-  imports: [NavContentComponent, RouterModule, NavLeftComponent],
+  imports: [NavContentComponent, RouterModule],
   templateUrl: "./navigation.component.html",
   styleUrl: "./navigation.component.scss",
 })

@@ -11,13 +11,12 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { baseUrl } from "@app/core/env";
 import { DetailsSharedModule } from "@app/theme/shared/module/shared/details-shared.module";
 import { MessageService } from "primeng/api";
-import { Editor } from "primeng/editor";
 import { ICounterData } from "../models";
 import { CounterService } from "../service/counter";
 
 @Component({
   selector: "app-counter-id",
-  imports: [DetailsSharedModule, Editor],
+  imports: [DetailsSharedModule],
   templateUrl: "./counter-id.html",
   styleUrl: "./counter-id.scss",
 })

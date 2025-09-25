@@ -24,7 +24,6 @@ import { NgxJoditComponent } from "ngx-jodit";
 import { MessageService } from "primeng/api";
 import { ButtonModule } from "primeng/button";
 import { CardModule } from "primeng/card";
-import { Editor } from "primeng/editor";
 import { FileUploadModule } from "primeng/fileupload";
 import { InputTextModule } from "primeng/inputtext";
 import { Select } from "primeng/select";
@@ -39,7 +38,6 @@ import { ToastModule } from "primeng/toast";
     InputTextModule,
     CardModule,
     ToastModule,
-    Editor,
     FormsModule,
     ReactiveFormsModule,
     Select,
